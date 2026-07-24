@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keshava Pandi A S // AI Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* --- Base Styles & Fonts --- */
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background-color: #0A0A0A;
+            color: #C5C6C7;
+            overflow-x: hidden;
+        }
+        .font-display {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* --- Animated Background --- */
+        #particle-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.2;
+        }
+
+        /* --- Glassmorphism & Borders --- */
+        .glass-pane {
+            background: rgba(10, 10, 10, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(56, 189, 248, 0.2); /* sky-400/20 */
+        }
+        .glow-border {
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.2), 0 0 5px rgba(56, 189, 248, 0.1) inset;
+        }
+        
+        /* --- Section Titles & Highlighters --- */
+        .section-title {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 100%;
+            background-color: #0EA5E9; /* sky-500 */
+            box-shadow: 0 0 8px #0EA5E9;
+        }
+
+        /* --- Interactive Elements & Hovers --- */
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #0EA5E9;
+            text-shadow: 0 0 8px rgba(14, 165, 233, 0.5);
+        }
+        .project-card {
+            border: 1px solid transparent;
+            transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .project-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: #0EA5E9;
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.15);
+        }
+        .project-card:hover:before {
+            left: 100%;
+        }
+        .skill-item {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .skill-item:hover {
+            background-color: #0EA5E9;
+            color: #0A0A0A;
+            font-weight: 700;
+        }
+        .form-input {
+            background-color: rgba(23, 37, 51, 0.5); /* slate-800/50 */
+            border: 1px solid #334155; /* slate-700 */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #0EA5E9; /* sky-500 */
+            box-shadow: 0 0 10px rgba(14, 165, 233, 0.3);
+        }
+
+        /* --- Typing Cursor for Hero Section --- */
+        .typing-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.8rem;
+            background-color: #38BDF8; /* sky-400 */
+            animation: blink 1s infinite;
+            margin-left: 0.25rem;
+            vertical-align: bottom;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body class="text-base md:text-lg">
+
+    <canvas id="particle-bg"></canvas>
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-pane">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#home" class="font-display text-2xl font-bold text-white tracking-wider">KP:/</a>
+            <nav class="hidden md:flex items-center space-x-12">
+                <a href="#about" class="nav-link text-slate-300">01.about</a>
+                <a href="#projects" class="nav-link text-slate-300">02.projects</a>
+                <a href="#skills" class="nav-link text-slate-300">03.skills</a>
+                <a href="#contact" class="nav-link text-slate-300">04.contact</a>
+            </nav>
+            <a href="./Resume Two pages.pdf" download="Keshava_Pandi_Resume.pdf" id="download-resume" class="hidden md:inline-block border border-sky-500 text-sky-500 px-4 py-2 rounded-md hover:bg-sky-500 hover:text-black transition-all duration-300 font-medium">
+                Resume
+            </a>
+            <button id="mobile-menu-button" class="md:hidden text-white">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden glass-pane text-center py-4">
+            <a href="#about" class="block py-2">01.about</a>
+            <a href="#projects" class="block py-2">02.projects</a>
+            <a href="#skills" class="block py-2">03.skills</a>
+            <a href="#contact" class="block py-2">04.contact</a>
+            <a href="./Resume Two pages.pdf" download="Keshava_Pandi_Resume.pdf" id="download-resume-mobile" class="inline-block mt-4 border border-sky-500 text-sky-500 px-4 py-2 rounded-md">Resume</a>
+        </div>
+    </header>
+
+    <!-- Vertical Social Links -->
+    <aside class="hidden lg:flex fixed bottom-0 left-8 z-10 flex-col items-center space-y-6">
+        <a href="https://github.com/KESHAVAPANDI" target="_blank" class="text-slate-400 hover:text-sky-400 hover:scale-110 transition-all"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+        <a href="https://www.linkedin.com/in/keshava-pandi-a-s-a30108377/" target="_blank" class="text-slate-400 hover:text-sky-400 hover:scale-110 transition-all"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+        <a href="https://leetcode.com/u/KESHAVA_PANDI_A_S/" target="_blank" class="text-slate-400 hover:text-sky-400 hover:scale-110 transition-all"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 5.844a1.374 1.374 0 0 0-.438.961V21.6a1.4 1.4 0 0 0 1.4 1.4h12a1.4 1.4 0 0 0 1.4-1.4V1.4A1.4 1.4 0 0 0 20.083 0Zm-2.077 14.424-1.132 1.133a.37.37 0 0 1-.524 0l-1.132-1.133a.37.37 0 0 1 0-.524l1.132-1.132a.37.37 0 0 1 .524 0l1.132 1.132a.37.37 0 0 1 0 .524Zm4.155 0-1.133 1.133a.37.37 0 0 1-.524 0l-1.132-1.133a.37.37 0 0 1 0-.524l1.132-1.132a.37.37 0 0 1 .524 0l1.133 1.132a.37.37 0 0 1 0 .524Z"/></svg></a>
+        <div class="h-24 w-px bg-slate-600"></div>
+    </aside>
+
+    <main class="container mx-auto px-6 lg:pl-32 lg:pr-8">
+
+        <!-- Hero Section -->
+        <section id="home" class="min-h-screen flex flex-col justify-center items-start">
+            <p class="text-sky-400 mb-4">Hi, my name is</p>
+            <h1 class="font-display text-4xl sm:text-6xl md:text-7xl font-bold text-slate-100">Keshava Pandi A S.</h1>
+            <h2 class="font-display text-3xl sm:text-5xl md:text-6xl font-bold text-slate-400 mt-2">
+                <span id="typing-text"></span><span class="typing-cursor"></span>
+            </h2>
+            <p class="max-w-xl mt-6 text-slate-300">
+                I'm an aspiring AI developer with a passion for building intelligent systems and creative solutions. I specialize in model deployment, full-stack development, and data-driven problem-solving.
+            </p>
+            <a href="#projects" class="mt-8 border-2 border-sky-400 text-sky-400 px-8 py-3 rounded-md text-xl hover:bg-sky-400/10 transition-colors duration-300">
+                View My Work
+            </a>
+        </section>
+
+        <!-- About Me Section -->
+        <section id="about" class="py-24">
+            <h2 class="section-title font-display text-3xl font-bold text-white mb-12">About Me</h2>
+            <div class="flex flex-col md:flex-row gap-12 items-center">
+                <div class="md:w-3/5 space-y-4 text-slate-300 leading-relaxed">
+                    <p>Hello! I'm Keshava, a student and developer driven by a passion for creating impactful, technology-driven solutions. My journey into the world of AI and development started with a curiosity for how complex problems can be solved with code and data.</p>
+                    <p>I thrive on challenges and am skilled in the entire development lifecycle, from conceptualization and wireframing to model training, validation, and deployment. I'm proficient in languages like Java, Python, and C, and enjoy bringing ideas to life on the web with modern front-end technologies.</p>
+                    <p>My goal is to blend technical expertise with creative thinking to build applications that are not only functional but also intuitive and user-friendly.</p>
+                </div>
+                <div class="md:w-2/5 flex justify-center items-center">
+                    <div class="relative w-64 h-64 md:w-72 md:h-72 group">
+                        <div class="absolute -inset-0.5 bg-gradient-to-r from-sky-500 to-cyan-500 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+                        <img src="https://placehold.co/300x300/0A0A0A/38BDF8?text=KP" alt="Keshava Pandi" class="relative w-full h-full object-cover rounded-lg">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-24">
+            <h2 class="section-title font-display text-3xl font-bold text-white mb-12">Projects</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Project cards will be injected here by JS -->
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-24">
+            <h2 class="section-title font-display text-3xl font-bold text-white mb-12">Skills & Certifications</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="glass-pane p-6 rounded-lg glow-border">
+                    <h3 class="font-display text-xl text-sky-400 mb-4">Core Competencies</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="skill-item bg-slate-800 px-3 py-1 rounded-md">Java</span>
+                        <span class="skill-item bg-slate-800 px-3 py-1 rounded-md">Python</span>
+                        <span class="skill-item bg-slate-800 px-3 py-1 rounded-md">C Programming</span>
+                        <span class="skill-item bg-slate-800 px-3 py-1 rounded-md">Computer Vision</span>
+                        <span class="skill-item bg-slate-800 px-3 py-1 rounded-md">Data Structures</span>
+                        <span class="skill-item bg-slate-800 px-3 py-1 rounded-md">Algorithms</span>
+                        <span class="skill-item bg-slate-800 px-3 py-1 rounded-md">HTML/CSS/JS</span>
+                        <span class="skill-item bg-slate-800 px-3 py-1 rounded-md">Model Deployment</span>
+                        <span class="skill-item bg-slate-800 px-3 py-1 rounded-md">Problem Solving</span>
+                        <span class="skill-item bg-slate-800 px-3 py-1 rounded-md">Wireframing</span>
+                    </div>
+                </div>
+                <div class="glass-pane p-6 rounded-lg glow-border">
+                    <h3 class="font-display text-xl text-sky-400 mb-4">Certifications</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-start"><span class="text-sky-500 mr-2 mt-1">&#9679;</span> Google Foundations of Cyber Security</li>
+                        <li class="flex items-start"><span class="text-sky-500 mr-2 mt-1">&#9679;</span> NVIDIA Fundamentals of Deep Learning</li>
+                        <li class="flex items-start"><span class="text-sky-500 mr-2 mt-1">&#9679;</span> NVIDIA Building Real-Time Video AI Applications</li>
+                        <li class="flex items-start"><span class="text-sky-500 mr-2 mt-1">&#9679;</span> NVIDIA Introduction to Transformer-Based NLP</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-24 text-center">
+            <div class="mx-auto">
+                <h2 class="font-display text-2xl text-sky-400">04. What's Next?</h2>
+                <h3 class="font-display text-5xl font-bold text-white mt-4">Get In Touch</h3>
+                
+                <div id="contact-initial-content" class="transition-opacity duration-500">
+                    <p class="max-w-3xl mx-auto mt-6 text-slate-300">
+                        I'm actively seeking new opportunities and challenges. Whether you have a project in mind, a question, or just want to connect, my inbox is always open. I'll do my best to get back to you!
+                    </p>
+                    <button id="show-contact-form-btn" class="mt-10 inline-block border-2 border-sky-400 text-sky-400 text-xl px-10 py-4 rounded-md hover:bg-sky-400/10 transition-colors duration-300">
+                        Say Hello
+                    </button>
+                    <p class="max-w-3xl mx-auto mt-6 text-slate-300">
+                        <br> Or Contact Me Directly:<br><br>
+                        keshavapandi@gmail.com | +91 81483 70243
+                    </p>
+                </div>
+
+                <form id="contact-form" action="https://formspree.io/f/mjkorbvb" method="POST" class="hidden max-w-3xl mx-auto mt-8 text-left glass-pane glow-border p-8 rounded-lg transition-opacity duration-500 opacity-0">
+                    <div class="mb-4">
+                        <label for="name" class="block text-slate-300 mb-2">Name</label>
+                        <input type="text" id="name" name="name" required class="w-full p-3 rounded-md form-input text-white">
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-slate-300 mb-2">Email</label>
+                        <input type="email" id="email" name="email" required class="w-full p-3 rounded-md form-input text-white">
+                    </div>
+                    <div class="mb-6">
+                        <label for="message" class="block text-slate-300 mb-2">Message</label>
+                        <textarea id="message" name="message" rows="5" required class="w-full p-3 rounded-md form-input text-white"></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="w-full border-2 border-sky-400 text-sky-400 text-xl px-10 py-3 rounded-md hover:bg-sky-400 hover:text-black transition-all duration-300">
+                            Send Message
+                        </button>
+                    </div>
+                </form>
+                <!-- Thank you message container -->
+                <div id="thank-you-message" class="hidden max-w-3xl mx-auto mt-8 text-center glass-pane glow-border p-8 rounded-lg transition-opacity duration-500 opacity-0">
+                    <h3 class="font-display text-2xl text-sky-400 mb-4">Message Sent!</h3>
+                    <p class="text-slate-300">Thank you for reaching out! I'll get back to you as soon as possible.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="container mx-auto px-6 lg:pl-32 lg:pr-8 text-center py-6 text-slate-400 text-sm">
+        <!-- Social Links for Mobile -->
+        <div class="lg:hidden flex justify-center space-x-6 mb-4">
+            <a href="https://github.com/KESHAVAPANDI" target="_blank" class="text-slate-400 hover:text-sky-400"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+            <a href="https://www.linkedin.com/in/keshava-pandi-a-s-a30108377/" target="_blank" class="text-slate-400 hover:text-sky-400"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+            <a href="https://leetcode.com/u/KESHAVA_PANDI_A_S/" target="_blank" class="text-slate-400 hover:text-sky-400"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 5.844a1.374 1.374 0 0 0-.438.961V21.6a1.4 1.4 0 0 0 1.4 1.4h12a1.4 1.4 0 0 0 1.4-1.4V1.4A1.4 1.4 0 0 0 20.083 0Zm-2.077 14.424-1.132 1.133a.37.37 0 0 1-.524 0l-1.132-1.133a.37.37 0 0 1 0-.524l1.132-1.132a.37.37 0 0 1 .524 0l1.132 1.132a.37.37 0 0 1 0 .524Zm4.155 0-1.133 1.133a.37.37 0 0 1-.524 0l-1.132-1.133a.37.37 0 0 1 0-.524l1.132-1.132a.37.37 0 0 1 .524 0l1.133 1.132a.37.37 0 0 1 0 .524Z"/></svg></a>
+        </div>
+        <p>Designed & Built by Keshava Pandi A S</p>
+        <p class="mt-1">&copy; 2025</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- Sleek Particle Background Effect ---
+            const canvas = document.getElementById('particle-bg');
+            const ctx = canvas.getContext('2d');
+            let particlesArray;
+
+            function setupCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            setupCanvas();
+            
+            class Particle {
+                constructor(x, y, directionX, directionY, size, color) {
+                    this.x = x;
+                    this.y = y;
+                    this.directionX = directionX;
+                    this.directionY = directionY;
+                    this.size = size;
+                    this.color = color;
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                }
+                update() {
+                    if (this.x > canvas.width || this.x < 0) {
+                        this.directionX = -this.directionX;
+                    }
+                    if (this.y > canvas.height || this.y < 0) {
+                        this.directionY = -this.directionY;
+                    }
+                    this.x += this.directionX;
+                    this.y += this.directionY;
+                    this.draw();
+                }
+            }
+
+            function initParticles() {
+                particlesArray = [];
+                let numberOfParticles = (canvas.height * canvas.width) / 9000;
+                for (let i = 0; i < numberOfParticles; i++) {
+                    let size = (Math.random() * 2) + 1;
+                    let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                    let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                    let directionX = (Math.random() * .4) - .2;
+                    let directionY = (Math.random() * .4) - .2;
+                    let color = 'rgba(56, 189, 248, 0.5)';
+                    particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+                }
+            }
+
+            function connectParticles() {
+                let maxDistance = 100;
+                for (let a = 0; a < particlesArray.length; a++) {
+                    for (let b = a; b < particlesArray.length; b++) {
+                        let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
+                                     + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                        if (distance < (maxDistance * maxDistance)) {
+                            let opacity = 1 - (distance / (maxDistance * maxDistance));
+                            ctx.strokeStyle = `rgba(14, 165, 233, ${opacity})`;
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                            ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function animateParticles() {
+                requestAnimationFrame(animateParticles);
+                ctx.clearRect(0, 0, innerWidth, innerHeight);
+                for (let i = 0; i < particlesArray.length; i++) {
+                    particlesArray[i].update();
+                }
+                connectParticles();
+            }
+
+            initParticles();
+            animateParticles();
+
+            window.addEventListener('resize', () => {
+                setupCanvas();
+                initParticles();
+            });
+
+            // --- Mobile Menu Toggle ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+            });
+
+            // --- Typing Effect ---
+            const typingTextElement = document.getElementById('typing-text');
+            const phrases = ["I engineer AI-driven solutions.", "I develop full-stack applications.", "I transform data into insights."];
+            let phraseIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+
+            function type() {
+                const currentPhrase = phrases[phraseIndex];
+                if (isDeleting) {
+                    typingTextElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    typingTextElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+
+                let typeSpeed = 150;
+                if (isDeleting) {
+                    typeSpeed /= 2;
+                }
+
+                if (!isDeleting && charIndex === currentPhrase.length) {
+                    typeSpeed = 2000; // Pause at end
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    phraseIndex = (phraseIndex + 1) % phrases.length;
+                    typeSpeed = 500; // Pause before new phrase
+                }
+                
+                setTimeout(type, typeSpeed);
+            }
+            type();
+
+            // --- Project Data & Injection ---
+            const projects = [
+                { title: "Hostel Management System", tech: "HTML, CSS, Js, PHP, MySQL", desc: "Automates hostel operations like gatepass/food token bookings, accommodation, and complaint registration." },
+                { title: "Transformo Docs", tech: "Flask, OCR, Tkinter", desc: "A document processing module with OCR for accurate text extraction, conversion, merging, and splitting." },
+                { title: "Text to Image Generation", tech: "Stable Diffusion, LCM-LORA", desc: "Efficient, localized inference system that reduces computation time for high-quality image generation." },
+                { title: "RBG AI - OCR Preprocessing", tech: "Python, OpenCV", desc: "An AI module that enhances cheque images by removing noise to improve text extraction accuracy." },
+                { title: "OXYHER E-Commerce", tech: "HTML, CSS, JavaScript, NodeJS, MongoDB", desc: "A dedicated e-commerce platform for women's intimate hygiene products, focusing on a discreet user experience." }
+            ];
+            const projectContainer = document.querySelector('#projects .grid');
+            projectContainer.innerHTML = projects.map(p => `
+                <div class="project-card glass-pane p-6 rounded-lg flex flex-col">
+                    <div class="flex-grow">
+                        <h3 class="font-display text-xl font-bold text-white mb-2">${p.title}</h3>
+                        <p class="text-slate-400 mb-4">${p.desc}</p>
+                    </div>
+                    <p class="text-sm text-sky-400 font-medium">${p.tech}</p>
+                </div>
+            `).join('');
+
+            // --- Contact Form Logic ---
+            const contactInitialContent = document.getElementById('contact-initial-content');
+            const showContactFormBtn = document.getElementById('show-contact-form-btn');
+            const contactForm = document.getElementById('contact-form');
+            const thankYouMessage = document.getElementById('thank-you-message');
+
+            showContactFormBtn.addEventListener('click', () => {
+                contactInitialContent.style.opacity = '0';
+                setTimeout(() => {
+                    contactInitialContent.classList.add('hidden');
+                    contactForm.classList.remove('hidden');
+                    setTimeout(() => contactForm.style.opacity = '1', 50);
+                }, 500);
+            });
+
+            contactForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the default redirect
+
+                const formData = new FormData(contactForm);
+                
+                fetch(contactForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        // Success! Show the thank you message
+                        contactForm.style.opacity = '0';
+                        setTimeout(() => {
+                            contactForm.classList.add('hidden');
+                            thankYouMessage.classList.remove('hidden');
+                            setTimeout(() => thankYouMessage.style.opacity = '1', 50);
+                        }, 500);
+                        contactForm.reset(); // Clear the form fields
+                    } else {
+                        // Handle server errors
+                        response.json().then(data => {
+                            if (Object.hasOwn(data, 'errors')) {
+                                alert(data["errors"].map(error => error["message"]).join(", "));
+                            } else {
+                                alert('Oops! There was a problem submitting your form');
+                            }
+                        })
+                    }
+                }).catch(error => {
+                    // Handle network errors
+                    alert('Oops! There was a problem submitting your form');
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
