@@ -261,7 +261,7 @@
 }
 
 /* ==========================================================================
-   ABOUT SECTION LAYOUT (UPPER: TEXT + PHOTO, LOWER: 3 HORIZONTAL CARDS)
+   ABOUT SECTION LAYOUT (UPPER: TEXT + VERTICALLY CENTERED PHOTO, LOWER: 3 HORIZONTAL CARDS)
    ========================================================================== */
 
 .about-content-wrapper {
@@ -270,33 +270,36 @@
   gap: 2.75rem;
 }
 
-/* Upper Portion: Text + Photo Grid */
+/* Upper Portion: Text + Photo Grid with Perfect Vertical Alignment */
 .about-main-grid {
   display: grid;
   grid-template-columns: 1.25fr 0.75fr;
-  gap: 3rem;
-  align-items: center;
+  gap: 3.5rem;
+  align-items: center; /* Exactly centers the photo vertically with the left text column */
 }
 
 .about-text-col {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 1.15rem;
   font-size: 1.02rem;
   line-height: 1.75;
   color: var(--text-secondary);
 }
 
-/* Portrait Photo Card */
+/* Portrait Photo Card Wrapper */
 .about-photo-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
+  align-self: center;
+  width: 100%;
 }
 
 .about-photo-card {
   width: 100%;
-  max-width: 320px;
+  max-width: 310px;
   height: 380px;
   background: var(--bg-card);
   border: 1px solid var(--border-medium);
@@ -377,7 +380,7 @@
   border: 1px solid var(--border-subtle);
 }
 
-/* Lower Portion: 3 Horizontal Capability Cards */
+/* Lower Portion: 3 Horizontal Capability Cards across Desktop */
 .about-capabilities-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -537,6 +540,10 @@
   .about-main-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
+  }
+
+  .about-photo-wrapper {
+    margin: 0 auto;
   }
 
   .about-capabilities-grid {
