@@ -1,512 +1,562 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Keshava Pandi A S // AI Developer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <style>
-        /* --- Base Styles & Fonts --- */
-        body {
-            font-family: 'Roboto Mono', monospace;
-            background-color: #0A0A0A;
-            color: #C5C6C7;
-            overflow-x: hidden;
-        }
-        .font-display {
-            font-family: 'Orbitron', sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  
+  <!-- Primary SEO Meta Tags -->
+  <title>Keshava Pandi A S — AI Developer & Software Engineer</title>
+  <meta name="title" content="Keshava Pandi A S — AI Developer & Software Engineer">
+  <meta name="description" content="Personal portfolio and technical case-study showcase of Keshava Pandi A S, an AI developer specializing in deep learning model deployment, computer vision pipelines, and full-stack software development.">
+  <meta name="keywords" content="Keshava Pandi, Keshava Pandi A S, AI Developer, Machine Learning, Computer Vision, Model Deployment, Python, OpenCV, PyTorch, Deep Learning, Full Stack, Portfolio">
+  <meta name="author" content="Keshava Pandi A S">
+  <meta name="theme-color" content="#07090E">
 
-        /* --- Animated Background --- */
-        #particle-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.2;
-        }
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://keshavapandi-portfolio-site.netlify.app/">
+  <meta property="og:title" content="Keshava Pandi A S — AI Developer & Software Engineer">
+  <meta property="og:description" content="Explore AI projects, computer vision pipelines, machine learning systems, and full-stack software engineered by Keshava Pandi A S.">
+  
+  <!-- Favicon Monogram -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2307090E'/><text x='50%' y='62%' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='48' fill='%2300F0FF'>KP</text></svg>">
 
-        /* --- Glassmorphism & Borders --- */
-        .glass-pane {
-            background: rgba(10, 10, 10, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(56, 189, 248, 0.2); /* sky-400/20 */
-        }
-        .glow-border {
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.2), 0 0 5px rgba(56, 189, 248, 0.1) inset;
-        }
-        
-        /* --- Section Titles & Highlighters --- */
-        .section-title {
-            position: relative;
-            padding-left: 1.5rem;
-        }
-        .section-title::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 4px;
-            height: 100%;
-            background-color: #0EA5E9; /* sky-500 */
-            box-shadow: 0 0 8px #0EA5E9;
-        }
-
-        /* --- Interactive Elements & Hovers --- */
-        .nav-link {
-            position: relative;
-            transition: color 0.3s ease;
-        }
-        .nav-link:hover {
-            color: #0EA5E9;
-            text-shadow: 0 0 8px rgba(14, 165, 233, 0.5);
-        }
-        .project-card {
-            border: 1px solid transparent;
-            transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .project-card:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-        .project-card:hover {
-            transform: translateY(-8px);
-            border-color: #0EA5E9;
-            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.15);
-        }
-        .project-card:hover:before {
-            left: 100%;
-        }
-        .skill-item {
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        .skill-item:hover {
-            background-color: #0EA5E9;
-            color: #0A0A0A;
-            font-weight: 700;
-        }
-        .form-input {
-            background-color: rgba(23, 37, 51, 0.5); /* slate-800/50 */
-            border: 1px solid #334155; /* slate-700 */
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        .form-input:focus {
-            outline: none;
-            border-color: #0EA5E9; /* sky-500 */
-            box-shadow: 0 0 10px rgba(14, 165, 233, 0.3);
-        }
-
-        /* --- Typing Cursor for Hero Section --- */
-        .typing-cursor {
-            display: inline-block;
-            width: 10px;
-            height: 1.8rem;
-            background-color: #38BDF8; /* sky-400 */
-            animation: blink 1s infinite;
-            margin-left: 0.25rem;
-            vertical-align: bottom;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-    </style>
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/projects.css">
+  <link rel="stylesheet" href="css/case-study-modal.css">
+  <link rel="stylesheet" href="css/workflow-diagrams.css">
+  <link rel="stylesheet" href="css/certificates.css">
+  <link rel="stylesheet" href="css/skills.css">
+  <link rel="stylesheet" href="css/contact.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
 </head>
-<body class="text-base md:text-lg">
+<body>
 
-    <canvas id="particle-bg"></canvas>
+  <!-- Ambient Particle & Grid Mesh Canvas -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
-    <!-- Header -->
-    <header class="fixed top-0 left-0 right-0 z-50 glass-pane">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#home" class="font-display text-2xl font-bold text-white tracking-wider">KP:/</a>
-            <nav class="hidden md:flex items-center space-x-12">
-                <a href="#about" class="nav-link text-slate-300">01.about</a>
-                <a href="#projects" class="nav-link text-slate-300">02.projects</a>
-                <a href="#skills" class="nav-link text-slate-300">03.skills</a>
-                <a href="#contact" class="nav-link text-slate-300">04.contact</a>
-            </nav>
-            <a href="./Resume Two pages.pdf" download="Keshava_Pandi_Resume.pdf" id="download-resume" class="hidden md:inline-block border border-sky-500 text-sky-500 px-4 py-2 rounded-md hover:bg-sky-500 hover:text-black transition-all duration-300 font-medium">
-                Resume
-            </a>
-            <button id="mobile-menu-button" class="md:hidden text-white">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-            </button>
-        </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden glass-pane text-center py-4">
-            <a href="#about" class="block py-2">01.about</a>
-            <a href="#projects" class="block py-2">02.projects</a>
-            <a href="#skills" class="block py-2">03.skills</a>
-            <a href="#contact" class="block py-2">04.contact</a>
-            <a href="./Resume Two pages.pdf" download="Keshava_Pandi_Resume.pdf" id="download-resume-mobile" class="inline-block mt-4 border border-sky-500 text-sky-500 px-4 py-2 rounded-md">Resume</a>
-        </div>
-    </header>
+  <!-- Sticky Site Header -->
+  <header class="site-header" id="site-header">
+    <div class="container header-container">
+      <a href="#home" class="site-logo" aria-label="Keshava Pandi Home">
+        <div class="logo-badge">KP</div>
+        <div class="logo-text">Keshava<span>Pandi</span></div>
+      </a>
 
-    <!-- Vertical Social Links -->
-    <aside class="hidden lg:flex fixed bottom-0 left-8 z-10 flex-col items-center space-y-6">
-        <a href="https://github.com/KESHAVAPANDI" target="_blank" class="text-slate-400 hover:text-sky-400 hover:scale-110 transition-all"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
-        <a href="https://www.linkedin.com/in/keshava-pandi-a-s-a30108377/" target="_blank" class="text-slate-400 hover:text-sky-400 hover:scale-110 transition-all"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
-        <a href="https://leetcode.com/u/KESHAVA_PANDI_A_S/" target="_blank" class="text-slate-400 hover:text-sky-400 hover:scale-110 transition-all"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 5.844a1.374 1.374 0 0 0-.438.961V21.6a1.4 1.4 0 0 0 1.4 1.4h12a1.4 1.4 0 0 0 1.4-1.4V1.4A1.4 1.4 0 0 0 20.083 0Zm-2.077 14.424-1.132 1.133a.37.37 0 0 1-.524 0l-1.132-1.133a.37.37 0 0 1 0-.524l1.132-1.132a.37.37 0 0 1 .524 0l1.132 1.132a.37.37 0 0 1 0 .524Zm4.155 0-1.133 1.133a.37.37 0 0 1-.524 0l-1.132-1.133a.37.37 0 0 1 0-.524l1.132-1.132a.37.37 0 0 1 .524 0l1.133 1.132a.37.37 0 0 1 0 .524Z"/></svg></a>
-        <div class="h-24 w-px bg-slate-600"></div>
-    </aside>
+      <!-- Desktop Navigation -->
+      <nav aria-label="Main Navigation">
+        <ul class="nav-menu">
+          <li><a href="#about" class="nav-link"><span class="nav-index">01.</span>About</a></li>
+          <li><a href="#projects" class="nav-link"><span class="nav-index">02.</span>Projects</a></li>
+          <li><a href="#skills" class="nav-link"><span class="nav-index">03.</span>Skills</a></li>
+          <li><a href="#certifications" class="nav-link"><span class="nav-index">04.</span>Certifications</a></li>
+          <li><a href="#achievements" class="nav-link"><span class="nav-index">05.</span>Achievements</a></li>
+          <li><a href="#contact" class="nav-link"><span class="nav-index">06.</span>Contact</a></li>
+        </ul>
+      </nav>
 
-    <main class="container mx-auto px-6 lg:pl-32 lg:pr-8">
+      <div class="header-actions">
+        <a href="./resume two pages.pdf" download="Keshava_Pandi_Resume.pdf" class="btn btn-ghost btn-sm" id="download-resume">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Resume
+        </a>
+        <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle mobile menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
 
-        <!-- Hero Section -->
-        <section id="home" class="min-h-screen flex flex-col justify-center items-start">
-            <p class="text-sky-400 mb-4">Hi, my name is</p>
-            <h1 class="font-display text-4xl sm:text-6xl md:text-7xl font-bold text-slate-100">Keshava Pandi A S.</h1>
-            <h2 class="font-display text-3xl sm:text-5xl md:text-6xl font-bold text-slate-400 mt-2">
-                <span id="typing-text"></span><span class="typing-cursor"></span>
-            </h2>
-            <p class="max-w-xl mt-6 text-slate-300">
-                I'm an aspiring AI developer with a passion for building intelligent systems and creative solutions. I specialize in model deployment, full-stack development, and data-driven problem-solving.
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-drawer" id="mobile-drawer" aria-label="Mobile Navigation">
+      <ul class="mobile-nav-list">
+        <li><a href="#about" class="mobile-nav-link">01. About</a></li>
+        <li><a href="#projects" class="mobile-nav-link">02. Projects</a></li>
+        <li><a href="#skills" class="mobile-nav-link">03. Skills</a></li>
+        <li><a href="#certifications" class="mobile-nav-link">04. Certifications</a></li>
+        <li><a href="#achievements" class="mobile-nav-link">05. Achievements</a></li>
+        <li><a href="#contact" class="mobile-nav-link">06. Contact</a></li>
+      </ul>
+      <div style="margin-top: 2rem;">
+        <a href="./resume two pages.pdf" download="Keshava_Pandi_Resume.pdf" class="btn btn-primary" style="width: 100%;">
+          Download Resume (PDF)
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Fixed Left Social Rail (Desktop) -->
+  <aside class="social-rail" aria-label="Social Media Links">
+    <a href="https://github.com/KESHAVAPANDI" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub Profile">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/keshava-pandi-a-s-a30108377/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn Profile">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+    </a>
+    <a href="https://leetcode.com/u/KESHAVAPANDI_A_S/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LeetCode Profile">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 5.844a1.374 1.374 0 0 0-.438.961V21.6a1.4 1.4 0 0 0 1.4 1.4h12a1.4 1.4 0 0 0 1.4-1.4V1.4A1.4 1.4 0 0 0 20.083 0Zm-2.077 14.424-1.132 1.133a.37.37 0 0 1-.524 0l-1.132-1.133a.37.37 0 0 1 0-.524l1.132-1.132a.37.37 0 0 1 .524 0l1.132 1.132a.37.37 0 0 1 0 .524Zm4.155 0-1.133 1.133a.37.37 0 0 1-.524 0l-1.132-1.133a.37.37 0 0 1 0-.524l1.132-1.132a.37.37 0 0 1 .524 0l1.133 1.132a.37.37 0 0 1 0 .524Z"/></svg>
+    </a>
+  </aside>
+
+  <!-- Main Content Flow -->
+  <main class="page-wrapper" id="main-content">
+
+    <!-- ==========================================
+         HERO SECTION
+         ========================================== -->
+    <section class="hero-section" id="home">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-content">
+            <div class="status-pill">
+              <span class="status-dot"></span>
+              <span>Available for AI & Engineering Opportunities</span>
+            </div>
+
+            <p class="hero-greeting">Hi, I am</p>
+            <h1 class="hero-title">Keshava Pandi A S</h1>
+            
+            <div class="hero-role-wrapper">
+              <span class="typewriter-text" id="hero-typewriter">AI Developer</span>
+            </div>
+
+            <p class="hero-desc">
+              I engineer intelligent systems, deep learning pipelines, and robust full-stack applications. Focused on model deployment, computer vision, and building data-driven solutions from concept to production.
             </p>
-            <a href="#projects" class="mt-8 border-2 border-sky-400 text-sky-400 px-8 py-3 rounded-md text-xl hover:bg-sky-400/10 transition-colors duration-300">
-                View My Work
-            </a>
-        </section>
 
-        <!-- About Me Section -->
-        <section id="about" class="py-24">
-            <h2 class="section-title font-display text-3xl font-bold text-white mb-12">About Me</h2>
-            <div class="flex flex-col md:flex-row gap-12 items-center">
-                <div class="md:w-3/5 space-y-4 text-slate-300 leading-relaxed">
-                    <p>Hello! I'm Keshava, a student and developer driven by a passion for creating impactful, technology-driven solutions. My journey into the world of AI and development started with a curiosity for how complex problems can be solved with code and data.</p>
-                    <p>I thrive on challenges and am skilled in the entire development lifecycle, from conceptualization and wireframing to model training, validation, and deployment. I'm proficient in languages like Java, Python, and C, and enjoy bringing ideas to life on the web with modern front-end technologies.</p>
-                    <p>My goal is to blend technical expertise with creative thinking to build applications that are not only functional but also intuitive and user-friendly.</p>
-                </div>
-                <div class="md:w-2/5 flex justify-center items-center">
-                    <div class="relative w-64 h-64 md:w-72 md:h-72 group">
-                        <div class="absolute -inset-0.5 bg-gradient-to-r from-sky-500 to-cyan-500 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
-                        <img src="https://placehold.co/300x300/0A0A0A/38BDF8?text=KP" alt="Keshava Pandi" class="relative w-full h-full object-cover rounded-lg">
-                    </div>
-                </div>
+            <div class="hero-actions">
+              <a href="#projects" class="btn btn-primary">
+                Explore Projects
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </a>
+              <a href="https://github.com/KESHAVAPANDI" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                GitHub Profile
+              </a>
             </div>
-        </section>
+          </div>
 
-        <!-- Projects Section -->
-        <section id="projects" class="py-24">
-            <h2 class="section-title font-display text-3xl font-bold text-white mb-12">Projects</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Project cards will be injected here by JS -->
+          <!-- Hero Visual: Dynamic Terminal Profile -->
+          <div class="hero-visual">
+            <div class="hero-code-card">
+              <div class="code-header">
+                <div class="code-dots">
+                  <span class="code-dot dot-red"></span>
+                  <span class="code-dot dot-yellow"></span>
+                  <span class="code-dot dot-green"></span>
+                </div>
+                <span class="code-tab-title">keshava.config.json</span>
+                <span style="font-size:0.75rem; color:var(--accent-sky); font-family:var(--font-mono);">AI / SWE</span>
+              </div>
+              <div class="code-body">
+                <p><span class="code-keyword">const</span> <span class="code-prop">developer</span> = {</p>
+                <p style="padding-left: 1.25rem;"><span class="code-prop">name:</span> <span class="code-str">"Keshava Pandi A S"</span>,</p>
+                <p style="padding-left: 1.25rem;"><span class="code-prop">focus:</span> [<span class="code-str">"AI/ML"</span>, <span class="code-str">"Computer Vision"</span>, <span class="code-str">"Full-Stack"</span>],</p>
+                <p style="padding-left: 1.25rem;"><span class="code-prop">coreStack:</span> [<span class="code-str">"Python"</span>, <span class="code-str">"Java"</span>, <span class="code-str">"OpenCV"</span>, <span class="code-str">"FastAPI"</span>],</p>
+                <p style="padding-left: 1.25rem;"><span class="code-prop">certifications:</span> <span class="code-num">4</span>, <span class="code-comment">// NVIDIA DLI + Google</span></p>
+                <p style="padding-left: 1.25rem;"><span class="code-prop">deploymentReady:</span> <span class="code-bool">true</span>,</p>
+                <p style="padding-left: 1.25rem;"><span class="code-prop">openForWork:</span> <span class="code-bool">true</span></p>
+                <p>};</p>
+              </div>
             </div>
-        </section>
-
-        <!-- Skills Section -->
-        <section id="skills" class="py-24">
-            <h2 class="section-title font-display text-3xl font-bold text-white mb-12">Skills & Certifications</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="glass-pane p-6 rounded-lg glow-border">
-                    <h3 class="font-display text-xl text-sky-400 mb-4">Core Competencies</h3>
-                    <div class="flex flex-wrap gap-3">
-                        <span class="skill-item bg-slate-800 px-3 py-1 rounded-md">Java</span>
-                        <span class="skill-item bg-slate-800 px-3 py-1 rounded-md">Python</span>
-                        <span class="skill-item bg-slate-800 px-3 py-1 rounded-md">C Programming</span>
-                        <span class="skill-item bg-slate-800 px-3 py-1 rounded-md">Computer Vision</span>
-                        <span class="skill-item bg-slate-800 px-3 py-1 rounded-md">Data Structures</span>
-                        <span class="skill-item bg-slate-800 px-3 py-1 rounded-md">Algorithms</span>
-                        <span class="skill-item bg-slate-800 px-3 py-1 rounded-md">HTML/CSS/JS</span>
-                        <span class="skill-item bg-slate-800 px-3 py-1 rounded-md">Model Deployment</span>
-                        <span class="skill-item bg-slate-800 px-3 py-1 rounded-md">Problem Solving</span>
-                        <span class="skill-item bg-slate-800 px-3 py-1 rounded-md">Wireframing</span>
-                    </div>
-                </div>
-                <div class="glass-pane p-6 rounded-lg glow-border">
-                    <h3 class="font-display text-xl text-sky-400 mb-4">Certifications</h3>
-                    <ul class="space-y-2">
-                        <li class="flex items-start"><span class="text-sky-500 mr-2 mt-1">&#9679;</span> Google Foundations of Cyber Security</li>
-                        <li class="flex items-start"><span class="text-sky-500 mr-2 mt-1">&#9679;</span> NVIDIA Fundamentals of Deep Learning</li>
-                        <li class="flex items-start"><span class="text-sky-500 mr-2 mt-1">&#9679;</span> NVIDIA Building Real-Time Video AI Applications</li>
-                        <li class="flex items-start"><span class="text-sky-500 mr-2 mt-1">&#9679;</span> NVIDIA Introduction to Transformer-Based NLP</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="py-24 text-center">
-            <div class="mx-auto">
-                <h2 class="font-display text-2xl text-sky-400">04. What's Next?</h2>
-                <h3 class="font-display text-5xl font-bold text-white mt-4">Get In Touch</h3>
-                
-                <div id="contact-initial-content" class="transition-opacity duration-500">
-                    <p class="max-w-3xl mx-auto mt-6 text-slate-300">
-                        I'm actively seeking new opportunities and challenges. Whether you have a project in mind, a question, or just want to connect, my inbox is always open. I'll do my best to get back to you!
-                    </p>
-                    <button id="show-contact-form-btn" class="mt-10 inline-block border-2 border-sky-400 text-sky-400 text-xl px-10 py-4 rounded-md hover:bg-sky-400/10 transition-colors duration-300">
-                        Say Hello
-                    </button>
-                    <p class="max-w-3xl mx-auto mt-6 text-slate-300">
-                        <br> Or Contact Me Directly:<br><br>
-                        keshavapandi@gmail.com | +91 81483 70243
-                    </p>
-                </div>
-
-                <form id="contact-form" action="https://formspree.io/f/mjkorbvb" method="POST" class="hidden max-w-3xl mx-auto mt-8 text-left glass-pane glow-border p-8 rounded-lg transition-opacity duration-500 opacity-0">
-                    <div class="mb-4">
-                        <label for="name" class="block text-slate-300 mb-2">Name</label>
-                        <input type="text" id="name" name="name" required class="w-full p-3 rounded-md form-input text-white">
-                    </div>
-                    <div class="mb-4">
-                        <label for="email" class="block text-slate-300 mb-2">Email</label>
-                        <input type="email" id="email" name="email" required class="w-full p-3 rounded-md form-input text-white">
-                    </div>
-                    <div class="mb-6">
-                        <label for="message" class="block text-slate-300 mb-2">Message</label>
-                        <textarea id="message" name="message" rows="5" required class="w-full p-3 rounded-md form-input text-white"></textarea>
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" class="w-full border-2 border-sky-400 text-sky-400 text-xl px-10 py-3 rounded-md hover:bg-sky-400 hover:text-black transition-all duration-300">
-                            Send Message
-                        </button>
-                    </div>
-                </form>
-                <!-- Thank you message container -->
-                <div id="thank-you-message" class="hidden max-w-3xl mx-auto mt-8 text-center glass-pane glow-border p-8 rounded-lg transition-opacity duration-500 opacity-0">
-                    <h3 class="font-display text-2xl text-sky-400 mb-4">Message Sent!</h3>
-                    <p class="text-slate-300">Thank you for reaching out! I'll get back to you as soon as possible.</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="container mx-auto px-6 lg:pl-32 lg:pr-8 text-center py-6 text-slate-400 text-sm">
-        <!-- Social Links for Mobile -->
-        <div class="lg:hidden flex justify-center space-x-6 mb-4">
-            <a href="https://github.com/KESHAVAPANDI" target="_blank" class="text-slate-400 hover:text-sky-400"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
-            <a href="https://www.linkedin.com/in/keshava-pandi-a-s-a30108377/" target="_blank" class="text-slate-400 hover:text-sky-400"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
-            <a href="https://leetcode.com/u/KESHAVA_PANDI_A_S/" target="_blank" class="text-slate-400 hover:text-sky-400"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 5.844a1.374 1.374 0 0 0-.438.961V21.6a1.4 1.4 0 0 0 1.4 1.4h12a1.4 1.4 0 0 0 1.4-1.4V1.4A1.4 1.4 0 0 0 20.083 0Zm-2.077 14.424-1.132 1.133a.37.37 0 0 1-.524 0l-1.132-1.133a.37.37 0 0 1 0-.524l1.132-1.132a.37.37 0 0 1 .524 0l1.132 1.132a.37.37 0 0 1 0 .524Zm4.155 0-1.133 1.133a.37.37 0 0 1-.524 0l-1.132-1.133a.37.37 0 0 1 0-.524l1.132-1.132a.37.37 0 0 1 .524 0l1.133 1.132a.37.37 0 0 1 0 .524Z"/></svg></a>
+          </div>
         </div>
-        <p>Designed & Built by Keshava Pandi A S</p>
-        <p class="mt-1">&copy; 2025</p>
-    </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            
-            // --- Sleek Particle Background Effect ---
-            const canvas = document.getElementById('particle-bg');
-            const ctx = canvas.getContext('2d');
-            let particlesArray;
+        <!-- Metrics Strip -->
+        <div class="hero-metrics reveal-on-scroll">
+          <div class="metric-item">
+            <span class="metric-number text-gradient">AI & CV</span>
+            <span class="metric-label">Primary Technical Focus</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-number text-gradient">4 Accreditations</span>
+            <span class="metric-label">NVIDIA DLI & Google Certified</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-number text-gradient">Full Lifecycle</span>
+            <span class="metric-label">Wireframe to Model Deployment</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-number text-gradient">9+ Projects</span>
+            <span class="metric-label">AI & Software Engineering</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            function setupCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            setupCanvas();
-            
-            class Particle {
-                constructor(x, y, directionX, directionY, size, color) {
-                    this.x = x;
-                    this.y = y;
-                    this.directionX = directionX;
-                    this.directionY = directionY;
-                    this.size = size;
-                    this.color = color;
-                }
-                draw() {
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-                    ctx.fillStyle = this.color;
-                    ctx.fill();
-                }
-                update() {
-                    if (this.x > canvas.width || this.x < 0) {
-                        this.directionX = -this.directionX;
-                    }
-                    if (this.y > canvas.height || this.y < 0) {
-                        this.directionY = -this.directionY;
-                    }
-                    this.x += this.directionX;
-                    this.y += this.directionY;
-                    this.draw();
-                }
-            }
 
-            function initParticles() {
-                particlesArray = [];
-                let numberOfParticles = (canvas.height * canvas.width) / 9000;
-                for (let i = 0; i < numberOfParticles; i++) {
-                    let size = (Math.random() * 2) + 1;
-                    let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
-                    let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
-                    let directionX = (Math.random() * .4) - .2;
-                    let directionY = (Math.random() * .4) - .2;
-                    let color = 'rgba(56, 189, 248, 0.5)';
-                    particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
-                }
-            }
+    <!-- ==========================================
+         ABOUT SECTION
+         ========================================== -->
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-header reveal-on-scroll">
+          <div class="section-eyebrow">
+            <span class="dot"></span>
+            01. Background & Philosophy
+          </div>
+          <h2 class="section-title">About Me</h2>
+          <p class="section-subtitle">
+            Merging deep technical understanding with practical software engineering to build intuitive, high-impact systems.
+          </p>
+        </div>
 
-            function connectParticles() {
-                let maxDistance = 100;
-                for (let a = 0; a < particlesArray.length; a++) {
-                    for (let b = a; b < particlesArray.length; b++) {
-                        let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
-                                     + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
-                        if (distance < (maxDistance * maxDistance)) {
-                            let opacity = 1 - (distance / (maxDistance * maxDistance));
-                            ctx.strokeStyle = `rgba(14, 165, 233, ${opacity})`;
-                            ctx.lineWidth = 1;
-                            ctx.beginPath();
-                            ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-                            ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-                            ctx.stroke();
-                        }
-                    }
-                }
-            }
+        <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3.5rem; align-items: start;" class="reveal-on-scroll">
+          <div style="display: flex; flex-direction: column; gap: 1.25rem; font-size: 1.05rem; line-height: 1.75; color: var(--text-secondary);">
+            <p>
+              Hello! I'm <strong style="color: var(--text-primary);">Keshava Pandi A S</strong>, a developer driven by the challenge of transforming complex computational concepts into usable, reliable software. My focus spans <strong style="color: var(--accent-sky);">Artificial Intelligence</strong>, <strong style="color: var(--accent-sky);">Computer Vision</strong>, and <strong style="color: var(--accent-sky);">Modern Web Engineering</strong>.
+            </p>
+            <p>
+              I thrive on navigating the full software development lifecycle: from initial problem definition and UI/UX wireframing, to dataset preprocessing, model training, validation, API creation, and production deployment.
+            </p>
+            <p>
+              Whether engineering computer vision filters for image thresholding in bank documents, implementing accelerated latent diffusion generation, or architecting full-stack web applications, I prioritize code quality, architecture clarity, and user experience.
+            </p>
+          </div>
 
-            function animateParticles() {
-                requestAnimationFrame(animateParticles);
-                ctx.clearRect(0, 0, innerWidth, innerHeight);
-                for (let i = 0; i < particlesArray.length; i++) {
-                    particlesArray[i].update();
-                }
-                connectParticles();
-            }
+          <!-- Value Pillars -->
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div class="glass-panel" style="padding: 1.35rem;">
+              <h3 style="font-size: 1.05rem; margin-bottom: 0.4rem; color: var(--accent-cyan); display: flex; align-items: center; gap: 0.5rem;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+                End-to-End Engineering
+              </h3>
+              <p style="font-size: 0.88rem; color: var(--text-muted);">From low-level algorithms and neural model training to frontend client interfaces and REST API layers.</p>
+            </div>
 
-            initParticles();
-            animateParticles();
+            <div class="glass-panel" style="padding: 1.35rem;">
+              <h3 style="font-size: 1.05rem; margin-bottom: 0.4rem; color: var(--accent-indigo); display: flex; align-items: center; gap: 0.5rem;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+                AI & Model Deployment
+              </h3>
+              <p style="font-size: 0.88rem; color: var(--text-muted);">Practical hands-on experience in OpenCV, PyTorch, Transformers, Stable Diffusion, and real-time inference optimization.</p>
+            </div>
 
-            window.addEventListener('resize', () => {
-                setupCanvas();
-                initParticles();
-            });
+            <div class="glass-panel" style="padding: 1.35rem;">
+              <h3 style="font-size: 1.05rem; margin-bottom: 0.4rem; color: var(--accent-emerald); display: flex; align-items: center; gap: 0.5rem;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                Solid Algorithmic Core
+              </h3>
+              <p style="font-size: 0.88rem; color: var(--text-muted);">Rigorous problem solving foundation in Java, Python, and C with data structure mastery.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            // --- Mobile Menu Toggle ---
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-            mobileMenu.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
-            });
 
-            // --- Typing Effect ---
-            const typingTextElement = document.getElementById('typing-text');
-            const phrases = ["I engineer AI-driven solutions.", "I develop full-stack applications.", "I transform data into insights."];
-            let phraseIndex = 0;
-            let charIndex = 0;
-            let isDeleting = false;
+    <!-- ==========================================
+         PROJECTS SECTION (DUAL-SECTION: AI vs OTHER)
+         ========================================== -->
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-header reveal-on-scroll">
+          <div class="section-eyebrow">
+            <span class="dot"></span>
+            02. Engineering Portfolio
+          </div>
+          <h2 class="section-title">Featured Projects & Case Studies</h2>
+          <p class="section-subtitle">
+            Explore interactive case studies detailing architecture decisions, pipeline workflows, problem statements, and implementation mechanics.
+          </p>
+        </div>
 
-            function type() {
-                const currentPhrase = phrases[phraseIndex];
-                if (isDeleting) {
-                    typingTextElement.textContent = currentPhrase.substring(0, charIndex - 1);
-                    charIndex--;
-                } else {
-                    typingTextElement.textContent = currentPhrase.substring(0, charIndex + 1);
-                    charIndex++;
-                }
-
-                let typeSpeed = 150;
-                if (isDeleting) {
-                    typeSpeed /= 2;
-                }
-
-                if (!isDeleting && charIndex === currentPhrase.length) {
-                    typeSpeed = 2000; // Pause at end
-                    isDeleting = true;
-                } else if (isDeleting && charIndex === 0) {
-                    isDeleting = false;
-                    phraseIndex = (phraseIndex + 1) % phrases.length;
-                    typeSpeed = 500; // Pause before new phrase
-                }
-                
-                setTimeout(type, typeSpeed);
-            }
-            type();
-
-            // --- Project Data & Injection ---
-            const projects = [
-                { title: "Hostel Management System", tech: "HTML, CSS, Js, PHP, MySQL", desc: "Automates hostel operations like gatepass/food token bookings, accommodation, and complaint registration." },
-                { title: "Transformo Docs", tech: "Flask, OCR, Tkinter", desc: "A document processing module with OCR for accurate text extraction, conversion, merging, and splitting." },
-                { title: "Text to Image Generation", tech: "Stable Diffusion, LCM-LORA", desc: "Efficient, localized inference system that reduces computation time for high-quality image generation." },
-                { title: "RBG AI - OCR Preprocessing", tech: "Python, OpenCV", desc: "An AI module that enhances cheque images by removing noise to improve text extraction accuracy." },
-                { title: "OXYHER E-Commerce", tech: "HTML, CSS, JavaScript, NodeJS, MongoDB", desc: "A dedicated e-commerce platform for women's intimate hygiene products, focusing on a discreet user experience." }
-            ];
-            const projectContainer = document.querySelector('#projects .grid');
-            projectContainer.innerHTML = projects.map(p => `
-                <div class="project-card glass-pane p-6 rounded-lg flex flex-col">
-                    <div class="flex-grow">
-                        <h3 class="font-display text-xl font-bold text-white mb-2">${p.title}</h3>
-                        <p class="text-slate-400 mb-4">${p.desc}</p>
-                    </div>
-                    <p class="text-sm text-sky-400 font-medium">${p.tech}</p>
+        <div class="projects-container">
+          
+          <!-- SUBSECTION 1: AI PROJECTS (PRIMARY PROMINENCE) -->
+          <div class="projects-category-block reveal-on-scroll">
+            <div class="category-header">
+              <div class="category-title-group">
+                <div class="category-icon-badge" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"></path>
+                  </svg>
                 </div>
-            `).join('');
+                <div>
+                  <h3 class="category-title">AI & Machine Learning Projects</h3>
+                  <p style="font-size: 0.85rem; color: var(--text-muted);">Computer vision, neural inference, generative AI, speech processing & knowledge graphs</p>
+                </div>
+              </div>
+              <span class="category-count-pill" id="ai-projects-count">5 Projects</span>
+            </div>
 
-            // --- Contact Form Logic ---
-            const contactInitialContent = document.getElementById('contact-initial-content');
-            const showContactFormBtn = document.getElementById('show-contact-form-btn');
-            const contactForm = document.getElementById('contact-form');
-            const thankYouMessage = document.getElementById('thank-you-message');
+            <!-- Dynamic AI Cards Injection Container -->
+            <div class="projects-grid" id="ai-projects-grid">
+              <!-- Injected by js/components/projectCards.js -->
+            </div>
+          </div>
 
-            showContactFormBtn.addEventListener('click', () => {
-                contactInitialContent.style.opacity = '0';
-                setTimeout(() => {
-                    contactInitialContent.classList.add('hidden');
-                    contactForm.classList.remove('hidden');
-                    setTimeout(() => contactForm.style.opacity = '1', 50);
-                }, 500);
-            });
 
-            contactForm.addEventListener('submit', function(event) {
-                event.preventDefault(); // Prevent the default redirect
+          <!-- SUBSECTION 2: OTHER PROJECTS (SOFTWARE & WEB) -->
+          <div class="projects-category-block reveal-on-scroll">
+            <div class="category-header">
+              <div class="category-title-group">
+                <div class="category-icon-badge other-icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="16 18 22 12 16 6"></polyline>
+                    <polyline points="8 6 2 12 8 18"></polyline>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="category-title">Software & Web Development</h3>
+                  <p style="font-size: 0.85rem; color: var(--text-muted);">Full-stack web applications, REST backend services & management automation</p>
+                </div>
+              </div>
+              <span class="category-count-pill" id="other-projects-count">4 Projects</span>
+            </div>
 
-                const formData = new FormData(contactForm);
-                
-                fetch(contactForm.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                }).then(response => {
-                    if (response.ok) {
-                        // Success! Show the thank you message
-                        contactForm.style.opacity = '0';
-                        setTimeout(() => {
-                            contactForm.classList.add('hidden');
-                            thankYouMessage.classList.remove('hidden');
-                            setTimeout(() => thankYouMessage.style.opacity = '1', 50);
-                        }, 500);
-                        contactForm.reset(); // Clear the form fields
-                    } else {
-                        // Handle server errors
-                        response.json().then(data => {
-                            if (Object.hasOwn(data, 'errors')) {
-                                alert(data["errors"].map(error => error["message"]).join(", "));
-                            } else {
-                                alert('Oops! There was a problem submitting your form');
-                            }
-                        })
-                    }
-                }).catch(error => {
-                    // Handle network errors
-                    alert('Oops! There was a problem submitting your form');
-                });
-            });
-        });
-    </script>
+            <!-- Dynamic Other Projects Cards Injection Container -->
+            <div class="projects-grid" id="other-projects-grid">
+              <!-- Injected by js/components/projectCards.js -->
+            </div>
+          </div>
 
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ==========================================
+         SKILLS SECTION
+         ========================================== -->
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section-header reveal-on-scroll">
+          <div class="section-eyebrow">
+            <span class="dot"></span>
+            03. Technical Competencies
+          </div>
+          <h2 class="section-title">Skills & Technologies</h2>
+          <p class="section-subtitle">
+            Categorized technical capabilities and tools utilized across production systems and projects.
+          </p>
+        </div>
+
+        <div class="skills-wrapper reveal-on-scroll">
+          <!-- Filter Tabs -->
+          <div class="skills-tabs" id="skills-tabs">
+            <!-- Injected by js/main.js -->
+          </div>
+
+          <!-- Skill Cards Grid -->
+          <div class="skills-categories-grid" id="skills-categories-container">
+            <!-- Injected by js/main.js -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ==========================================
+         CERTIFICATIONS SECTION
+         ========================================== -->
+    <section class="section" id="certifications">
+      <div class="container">
+        <div class="section-header reveal-on-scroll">
+          <div class="section-eyebrow">
+            <span class="dot"></span>
+            04. Industry Accreditations
+          </div>
+          <h2 class="section-title">Certifications</h2>
+          <p class="section-subtitle">
+            Formal technical certifications completed through NVIDIA Deep Learning Institute and Google.
+          </p>
+        </div>
+
+        <!-- Certificates Grid -->
+        <div class="certificates-grid reveal-on-scroll" id="certificates-grid">
+          <!-- Injected by js/components/mediaViewer.js -->
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ==========================================
+         ACHIEVEMENTS SECTION
+         ========================================== -->
+    <section class="section" id="achievements">
+      <div class="container">
+        <div class="section-header reveal-on-scroll">
+          <div class="section-eyebrow">
+            <span class="dot"></span>
+            05. Milestones & Progress
+          </div>
+          <h2 class="section-title">Achievements</h2>
+          <p class="section-subtitle">
+            Technical milestones, problem-solving journey, and engineering accomplishments.
+          </p>
+        </div>
+
+        <!-- Achievements Grid -->
+        <div class="achievements-grid reveal-on-scroll" id="achievements-grid">
+          <!-- Injected by js/components/mediaViewer.js -->
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ==========================================
+         CONTACT SECTION
+         ========================================== -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="section-header reveal-on-scroll">
+          <div class="section-eyebrow">
+            <span class="dot"></span>
+            06. Connect & Collaborate
+          </div>
+          <h2 class="section-title">Get In Touch</h2>
+          <p class="section-subtitle">
+            I am actively seeking new engineering opportunities, research collaborations, and impactful technical roles.
+          </p>
+        </div>
+
+        <div class="contact-grid reveal-on-scroll">
+          <!-- Direct Contact Cards -->
+          <div class="contact-info-col">
+            <p class="contact-lead-text">
+              Have an open role, an exciting AI initiative, or a technical inquiry? Send a direct message through the form or connect across my public developer channels.
+            </p>
+
+            <div class="direct-contact-list">
+              <a href="mailto:keshavapandi@gmail.com" class="contact-card-item">
+                <div class="contact-card-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                </div>
+                <div class="contact-card-text">
+                  <span class="contact-card-label">Email Address</span>
+                  <span class="contact-card-value">keshavapandi@gmail.com</span>
+                </div>
+              </a>
+
+              <a href="tel:+918148370243" class="contact-card-item">
+                <div class="contact-card-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                </div>
+                <div class="contact-card-text">
+                  <span class="contact-card-label">Direct Phone</span>
+                  <span class="contact-card-value">+91 81483 70243</span>
+                </div>
+              </a>
+
+              <a href="https://www.linkedin.com/in/keshava-pandi-a-s-a30108377/" target="_blank" rel="noopener noreferrer" class="contact-card-item">
+                <div class="contact-card-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </div>
+                <div class="contact-card-text">
+                  <span class="contact-card-label">LinkedIn Profile</span>
+                  <span class="contact-card-value">in/keshava-pandi-a-s</span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Formspree AJAX Form -->
+          <div class="contact-form-container">
+            <form class="contact-form" id="contact-form" action="https://formspree.io/f/mjkorbvb" method="POST">
+              <div class="form-group">
+                <label for="name" class="form-label">Your Name</label>
+                <input type="text" id="name" name="name" required class="form-input" placeholder="e.g. Alex Morgan" autocomplete="name">
+              </div>
+
+              <div class="form-group">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" id="email" name="email" required class="form-input" placeholder="alex@company.com" autocomplete="email">
+              </div>
+
+              <div class="form-group">
+                <label for="message" class="form-label">Message / Project Inquiry</label>
+                <textarea id="message" name="message" required class="form-textarea" placeholder="Hello Keshava, we'd like to discuss..."></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary" id="form-submit-btn" style="width: 100%; padding: 0.95rem;">
+                Transmit Message
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+              </button>
+            </form>
+
+            <div id="form-status-box" class="form-status-box" role="status" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ==========================================
+       SITE FOOTER
+       ========================================== -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-socials">
+        <a href="https://github.com/KESHAVAPANDI" target="_blank" rel="noopener noreferrer" class="btn-icon" aria-label="GitHub Profile">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/keshava-pandi-a-s-a30108377/" target="_blank" rel="noopener noreferrer" class="btn-icon" aria-label="LinkedIn Profile">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+        </a>
+        <a href="https://leetcode.com/u/KESHAVAPANDI_A_S/" target="_blank" rel="noopener noreferrer" class="btn-icon" aria-label="LeetCode Profile">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 5.844a1.374 1.374 0 0 0-.438.961V21.6a1.4 1.4 0 0 0 1.4 1.4h12a1.4 1.4 0 0 0 1.4-1.4V1.4A1.4 1.4 0 0 0 20.083 0Zm-2.077 14.424-1.132 1.133a.37.37 0 0 1-.524 0l-1.132-1.133a.37.37 0 0 1 0-.524l1.132-1.132a.37.37 0 0 1 .524 0l1.132 1.132a.37.37 0 0 1 0 .524Zm4.155 0-1.133 1.133a.37.37 0 0 1-.524 0l-1.132-1.133a.37.37 0 0 1 0-.524l1.132-1.132a.37.37 0 0 1 .524 0l1.133 1.132a.37.37 0 0 1 0 .524Z"/></svg>
+        </a>
+      </div>
+      <div class="footer-copy">
+        <p>Architected & Developed by <strong>Keshava Pandi A S</strong></p>
+        <p>&copy; 2025–2026 &bull; Designed for performance, accessibility & modularity</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ==========================================
+       MODAL 1: INTERACTIVE CASE STUDY VIEWER
+       ========================================== -->
+  <div class="modal-backdrop" id="case-study-modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="case-study-modal" id="case-study-modal-container">
+      <!-- Dynamic Case Study Content Injected by js/components/caseStudyViewer.js -->
+    </div>
+  </div>
+
+
+  <!-- ==========================================
+       MODAL 2: MEDIA & CERTIFICATES LIGHTBOX
+       ========================================== -->
+  <div class="lightbox-modal" id="media-lightbox-modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="lightbox-header">
+      <div>
+        <h3 class="lightbox-title" id="lightbox-title">Certificate Inspection</h3>
+        <span class="lightbox-counter" id="lightbox-counter">1 / 1</span>
+      </div>
+      <button class="modal-close-btn" id="lightbox-close" aria-label="Close lightbox">✕</button>
+    </div>
+    <div class="lightbox-content" id="lightbox-content">
+      <!-- Lightbox Media or Placeholder Injected by js/components/mediaViewer.js -->
+    </div>
+    <button class="lightbox-nav-arrow prev" id="lightbox-prev" aria-label="Previous image">‹</button>
+    <button class="lightbox-nav-arrow next" id="lightbox-next" aria-label="Next image">›</button>
+  </div>
+
+
+  <!-- ==========================================
+       SCRIPTS (ORDERED MODULAR DEPENDENCIES)
+       ========================================== -->
+  <script src="js/data/projects.js"></script>
+  <script src="js/data/certificates.js"></script>
+  <script src="js/data/achievements.js"></script>
+  <script src="js/data/skills.js"></script>
+  <script src="js/components/backgroundCanvas.js"></script>
+  <script src="js/components/workflowRenderer.js"></script>
+  <script src="js/components/caseStudyViewer.js"></script>
+  <script src="js/components/mediaViewer.js"></script>
+  <script src="js/components/projectCards.js"></script>
+  <script src="js/components/contactForm.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>

@@ -1,0 +1,152 @@
+/* ==========================================================================
+   RESPONSIVE DESIGN SYSTEM
+   Breakpoints: 1440px (Desktop), 1280px (Laptop), 1024px (Tablet Land), 
+                768px (Tablet Port), 480px / 390px (Mobile)
+   ========================================================================== */
+
+/* Laptop / Medium Screens (<= 1200px) */
+@media (max-width: 1200px) {
+  .hero-grid {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 2.5rem;
+  }
+
+  .social-rail {
+    display: none;
+  }
+}
+
+/* Tablets (<= 992px) */
+@media (max-width: 992px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .hero-visual {
+    max-width: 540px;
+  }
+
+  .hero-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .case-study-details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .case-study-card.full-width {
+    grid-column: span 1;
+  }
+}
+
+/* Mobile & Small Tablets (<= 768px) */
+@media (max-width: 768px) {
+  :root {
+    --header-height: 64px;
+  }
+
+  .nav-menu,
+  .header-actions .btn {
+    display: none;
+  }
+
+  .mobile-toggle {
+    display: flex;
+  }
+
+  .section {
+    padding: 4.5rem 0;
+  }
+
+  .section-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-title {
+    font-size: 2.6rem;
+  }
+
+  .hero-role-wrapper {
+    font-size: 1.5rem;
+    min-height: 2.2rem;
+  }
+
+  .projects-grid,
+  .certificates-grid,
+  .achievements-grid,
+  .skills-categories-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-backdrop {
+    padding: 0.5rem;
+  }
+
+  .case-study-modal {
+    max-height: 96vh;
+    border-radius: var(--radius-lg);
+  }
+
+  .modal-header {
+    padding: 1.15rem 1.25rem;
+  }
+
+  .modal-title {
+    font-size: 1.35rem;
+  }
+
+  .modal-body {
+    padding: 1.25rem;
+    gap: 1.75rem;
+  }
+
+  .video-frame-container {
+    aspect-ratio: 16 / 9;
+  }
+
+  .gallery-viewport {
+    height: 240px;
+  }
+
+  .lightbox-header {
+    padding: 1rem 1.25rem;
+  }
+
+  .lightbox-nav-arrow.prev { left: 0.5rem; }
+  .lightbox-nav-arrow.next { right: 0.5rem; }
+}
+
+/* Small Mobile (<= 480px / 390px) */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.2rem;
+  }
+
+  .hero-metrics {
+    grid-template-columns: 1fr;
+    padding: 1.25rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+  }
+
+  .contact-form-container {
+    padding: 1.5rem 1.15rem;
+  }
+
+  .project-card-body {
+    padding: 1.25rem;
+  }
+}
