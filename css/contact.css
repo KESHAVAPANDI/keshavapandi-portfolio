@@ -41,18 +41,18 @@
 }
 
 .contact-card-item:hover {
-  border-color: var(--border-accent);
+  border-color: var(--border-medium);
   background: var(--bg-card-hover);
   transform: translateX(4px);
-  box-shadow: 0 4px 15px rgba(56, 189, 248, 0.15);
+  box-shadow: var(--shadow-sm);
 }
 
 .contact-card-icon {
   width: 44px;
   height: 44px;
   border-radius: var(--radius-sm);
-  background: rgba(56, 189, 248, 0.1);
-  border: 1px solid rgba(56, 189, 248, 0.25);
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid var(--border-accent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -83,10 +83,10 @@
 /* Contact Form Box */
 .contact-form-container {
   background: var(--bg-card);
-  border: 1px solid var(--border-medium);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
   padding: 2.25rem;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
   position: relative;
 }
 
@@ -113,7 +113,7 @@
 .form-textarea {
   width: 100%;
   padding: 0.85rem 1.15rem;
-  background: rgba(8, 12, 20, 0.7);
+  background: var(--bg-input);
   border: 1px solid var(--border-medium);
   border-radius: var(--radius-sm);
   color: var(--text-primary);
@@ -126,8 +126,7 @@
 .form-input:focus,
 .form-textarea:focus {
   border-color: var(--accent-cyan);
-  box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.18);
-  background: rgba(13, 19, 31, 0.9);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
 }
 
 .form-textarea {
@@ -147,14 +146,14 @@
 
 .form-status-box.is-success {
   display: block;
-  background: rgba(16, 185, 129, 0.12);
-  border: 1px solid rgba(16, 185, 129, 0.4);
-  color: #A7F3D0;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: var(--accent-emerald);
 }
 
 .form-status-box.is-error {
   display: block;
-  background: rgba(239, 68, 68, 0.12);
-  border: 1px solid rgba(239, 68, 68, 0.4);
-  color: #FECACA;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #EF4444;
 }

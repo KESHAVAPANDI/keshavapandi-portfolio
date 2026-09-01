@@ -1,7 +1,7 @@
 /**
- * AMBIENT BACKGROUND PARTICLE & MESH CANVAS
+ * AMBIENT BACKGROUND PARTICLE & CONSTELLATION MESH CANVAS
  * High-performance, lightweight ambient node background.
- * Theme-aware: dynamically adapts particle hues for Dark & Light modes.
+ * Theme-aware: clearly visible yet non-distracting in both Dark and Light modes.
  */
 
 function initBackgroundCanvas() {
@@ -11,6 +11,7 @@ function initBackgroundCanvas() {
   const ctx = canvas.getContext('2d');
   let width, height;
   let particles = [];
+  let animationFrameId = null;
 
   // Check prefers-reduced-motion
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -31,14 +32,15 @@ function initBackgroundCanvas() {
   class Particle {
     constructor() {
       this.reset();
+      this.colorType = Math.random() > 0.35 ? 1 : 2; // 1 = Cyan/Sky, 2 = Indigo/Purple
     }
 
     reset() {
       this.x = Math.random() * width;
       this.y = Math.random() * height;
-      this.vx = (Math.random() - 0.5) * 0.3;
-      this.vy = (Math.random() - 0.5) * 0.3;
-      this.radius = Math.random() * 1.5 + 0.6;
+      this.vx = (Math.random() - 0.5) * 0.35;
+      this.vy = (Math.random() - 0.5) * 0.35;
+      this.radius = Math.random() * 1.2 + 1.1;
     }
 
     update() {
@@ -51,9 +53,19 @@ function initBackgroundCanvas() {
 
     draw() {
       const light = isLightMode();
-      const color = light 
-        ? 'rgba(2, 132, 199, 0.35)' 
-        : 'rgba(56, 189, 248, 0.4)';
+      let color;
+      
+      if (light) {
+        // Light Mode: clearly visible cool slate-blue/cyan tones
+        color = this.colorType === 1 
+          ? 'rgba(2, 132, 199, 0.65)' 
+          : 'rgba(79, 70, 229, 0.55)';
+      } else {
+        // Dark Mode: refined cyber cyan & indigo constellation nodes
+        color = this.colorType === 1 
+          ? 'rgba(0, 240, 255, 0.70)' 
+          : 'rgba(129, 140, 248, 0.60)';
+      }
 
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
@@ -62,13 +74,14 @@ function initBackgroundCanvas() {
     }
   }
 
-  const count = Math.min(Math.floor((width * height) / 20000), 45);
-  for (let i = 0; i < count; i++) {
+  const particleCount = Math.min(Math.floor((width * height) / 16000), 55);
+  particles = [];
+  for (let i = 0; i < particleCount; i++) {
     particles.push(new Particle());
   }
 
   function connect() {
-    const maxDist = 100;
+    const maxDist = 125;
     const maxDistSq = maxDist * maxDist;
     const light = isLightMode();
 
@@ -80,12 +93,21 @@ function initBackgroundCanvas() {
 
         if (distSq < maxDistSq) {
           const factor = (1 - distSq / maxDistSq);
-          const opacity = light ? factor * 0.12 : factor * 0.18;
-          const strokeColor = light ? `rgba(2, 132, 199, ${opacity})` : `rgba(56, 189, 248, ${opacity})`;
+          
+          let strokeColor;
+          if (light) {
+            // Light mode connecting lines
+            const alpha = factor * 0.24;
+            strokeColor = `rgba(3, 105, 161, ${alpha})`;
+          } else {
+            // Dark mode connecting lines
+            const alpha = factor * 0.28;
+            strokeColor = `rgba(56, 189, 248, ${alpha})`;
+          }
 
           ctx.beginPath();
           ctx.strokeStyle = strokeColor;
-          ctx.lineWidth = 0.75;
+          ctx.lineWidth = light ? 0.95 : 0.85;
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
           ctx.stroke();
@@ -94,16 +116,24 @@ function initBackgroundCanvas() {
     }
   }
 
-  let animationFrameId;
   function animate() {
     ctx.clearRect(0, 0, width, height);
-    for (let p of particles) {
-      p.update();
-      p.draw();
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update();
+      particles[i].draw();
     }
     connect();
     animationFrameId = requestAnimationFrame(animate);
   }
+
+  // Handle document visibility to preserve battery/CPU
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    } else {
+      animate();
+    }
+  });
 
   animate();
 }
