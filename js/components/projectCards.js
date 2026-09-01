@@ -1,6 +1,7 @@
 /**
  * PROJECT CARDS RENDERER
  * Populates AI Projects and Other Projects grids from projectsData.
+ * Highlights internship badges and verified repositories.
  */
 
 function renderProjectCards(caseStudyViewerInstance) {
@@ -48,6 +49,7 @@ function renderProjectCards(caseStudyViewerInstance) {
         <div class="project-card-body">
           <div class="card-meta-top">
             <span class="tag-badge ${p.type === 'ai' ? 'tag-ai' : 'tag-web'}">${p.category}</span>
+            ${p.isInternship ? `<span class="tag-badge tag-internship">INTERNSHIP</span>` : ''}
           </div>
           <h3 class="project-card-title">${p.title}</h3>
           <p class="project-card-desc">${p.description}</p>

@@ -10,7 +10,7 @@ const achievementsData = [
     organization: "LeetCode & Technical Platforms",
     date: "Active",
     description: "Consistent practice and problem solving across data structures, graph traversals, dynamic programming, and algorithmic optimization.",
-    link: "https://leetcode.com/u/KESHAVAPANDI_A_S/",
+    link: "https://leetcode.com/u/KESHAVA_PANDI_A_S/",
     images: [],
     highlights: ["Strong foundation in Java, Python, and C", "Graph algorithms & matrix transformations", "Optimized space and time complexity solutions"]
   },

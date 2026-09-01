@@ -2,7 +2,7 @@
  * INTERACTIVE CASE STUDY VIEWER
  * Animated modal dialog featuring 16:9 video container,
  * screenshot gallery with keyboard controls, structured case study,
- * dynamic architecture flowchart, and verified repository links.
+ * dynamic architecture flowchart, internship badges, and verified repository links.
  */
 
 class CaseStudyViewer {
@@ -201,6 +201,7 @@ class CaseStudyViewer {
         <div class="modal-title-group">
           <div class="modal-category-row">
             <span class="tag-badge ${p.type === 'ai' ? 'tag-ai' : 'tag-web'}">${p.category}</span>
+            ${p.isInternship ? `<span class="tag-badge tag-internship">INTERNSHIP PROJECT ${p.organization ? `· ${p.organization}` : ''}</span>` : ''}
           </div>
           <h2 class="modal-title">${p.title}</h2>
         </div>
@@ -267,11 +268,18 @@ class CaseStudyViewer {
 
           <div class="case-study-card">
             <h4 class="case-study-card-title">
-              <span class="dot"></span> Technology Stack
+              <span class="dot"></span> Technology Stack & Context
             </h4>
             <div class="card-tech-stack" style="margin-top: 0.5rem;">
               ${techBadges}
             </div>
+
+            ${p.isInternship && p.organization ? `
+              <div style="margin-top: 1rem; padding: 0.75rem; background: var(--bg-tertiary); border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-amber); font-weight: 600; text-transform: uppercase;">Affiliated Organization</span>
+                <p style="font-size: 0.9rem; font-weight: 600; color: var(--text-primary); margin-top: 0.2rem;">${p.organization} (${p.period || 'Verified Internship'})</p>
+              </div>
+            ` : ''}
 
             ${p.outcome ? `
               <h4 class="case-study-card-title" style="margin-top: 1.25rem;">

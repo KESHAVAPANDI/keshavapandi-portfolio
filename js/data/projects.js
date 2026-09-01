@@ -1,30 +1,68 @@
 /**
  * PROJECTS DATA REPOSITORY
- * Single source of truth for all projects, case studies, and architecture workflows.
- * Each project uses its dedicated repository URL. If no dedicated repo exists, github is null.
+ * Authoritative source of truth for all projects, case studies, and architecture workflows.
+ * Reconciled with the latest resume and GitHub verified repositories.
  */
 
 const projectsData = [
   // ==========================================
-  // 1. AI PROJECTS (PRIMARY FOCUS)
+  // 1. AI & MACHINE LEARNING PROJECTS (PRIMARY FOCUS)
   // ==========================================
   {
-    id: "rbg-ocr",
-    title: "RBG AI - OCR Preprocessing",
+    id: "ai-quality-inspection",
+    title: "AI-Based Quality Inspection & Defect Identification",
     type: "ai",
-    category: "Computer Vision & AI Preprocessing",
+    category: "Computer Vision & Quality Automation",
     tagType: "cv",
-    description: "An AI computer vision module that cleans and enhances bank cheque images and document scans, eliminating background artifacts to optimize downstream OCR character recognition.",
+    isInternship: true,
+    organization: "Orange Automation and AI Solutions",
+    period: "2025 – 2026",
+    description: "An AI-based industrial inspection system that verifies terminal block assemblies by detecting components against expected BOMs, featuring automated rail measurement and a unified QML interface.",
+    technologies: ["Python", "OpenCV", "YOLO / PyTorch", "QML", "Computer Vision", "Industrial AI"],
+    thumbnail: null,
+    video: null,
+    screenshots: [],
+    github: null,
+    demo: null,
+    overview: "Developed at Orange Automation and AI Solutions, this automated quality inspection system verifies terminal block assemblies in manufacturing environments. It detects assembled components, cross-references them against the expected Bill of Materials (BOM), and performs precise rail dimensional measurements to identify defects before shipment.",
+    problem: "Manual inspection of complex terminal block assemblies on high-speed industrial lines is prone to human error, missed component mismatches, and inconsistent dimensional checks.",
+    solution: "Engineered an automated multi-stage computer vision inspection pipeline combined with calibrated rail dimensional measurement, all integrated into a unified operator dashboard in QML.",
+    howItWorks: "High-resolution camera sensors capture assembly images, object detection models locate and classify terminal blocks against BOM specifications, dimensional measurement modules verify rail alignment, and pass/fail verdicts are rendered in real-time.",
+    features: [
+      "Automated BOM component verification and mismatch detection",
+      "Calibrated rail measurement module for dimensional precision checks",
+      "Unified operator dashboard interface built with QML",
+      "Real-time assembly defect classification and alerting pipeline"
+    ],
+    workflow: [
+      { step: "01", title: "Assembly Ingestion", desc: "High-resolution camera capture of terminal block assembly" },
+      { step: "02", title: "Component Detection", desc: "Neural vision models isolate blocks, terminals, and markers" },
+      { step: "03", title: "BOM Matching", desc: "Cross-referencing detected parts against expected BOM specs" },
+      { step: "04", title: "Rail Measurement", desc: "Dimensional verification via calibrated optical measurement" },
+      { step: "05", title: "Quality Verdict", desc: "Real-time Pass/Fail metrics displayed on QML interface" }
+    ],
+    outcome: "Streamlined industrial assembly inspection and eliminated manual verification errors on high-throughput assembly lines."
+  },
+  {
+    id: "rbg-ocr",
+    title: "OCR Processing System",
+    type: "ai",
+    category: "Computer Vision & OCR Preprocessing",
+    tagType: "cv",
+    isInternship: true,
+    organization: "RBG AI",
+    period: "2024 – 2025",
+    description: "An AI computer vision module that cleans and enhances bank cheque images by removing grid lines, symbols, and noise, preserving only meaningful text to improve OCR accuracy.",
     technologies: ["Python", "OpenCV", "NumPy", "Computer Vision", "Adaptive Thresholding"],
     thumbnail: null,
     video: null,
     screenshots: [],
     github: "https://github.com/KESHAVAPANDI/Internship",
     demo: null,
-    overview: "Document processing pipelines frequently fail when processing real-world financial documents, receipts, and bank cheques due to varying lighting, security background patterns, watermarks, and noise. RBG AI provides an automated computer vision preprocessing pipeline specifically engineered to strip noise and isolate critical text contours before passing images to OCR engines.",
-    problem: "Raw bank cheques contain complex security background patterns, stamps, and signatures that create heavy OCR character misinterpretation and low recognition confidence scores.",
-    solution: "Engineered a robust multi-stage OpenCV preprocessing filter combining adaptive Gaussian thresholding, morphological noise removal, contrast normalization, and contour segmentation to output clean binarized text masks.",
-    howItWorks: "The pipeline ingests raw image feeds, converts color space to grayscale, applies median blur to suppress high-frequency speckle noise, executes Otsu and adaptive thresholding to separate foreground text from textured backgrounds, and aligns detected text bounding boxes.",
+    overview: "Developed during an internship at RBG AI, this module preprocesses financial documents and bank cheques by stripping noise, grid lines, security background patterns, and stamps to preserve crisp text contours for downstream OCR engines.",
+    problem: "Raw cheques contain complex security background patterns, watermarks, stamps, and noise that severely degrade OCR character recognition accuracy and confidence scores.",
+    solution: "Engineered an automated OpenCV preprocessing filter combining adaptive Gaussian thresholding, morphological noise removal, contrast normalization, and contour segmentation to output clean binarized text masks.",
+    howItWorks: "The pipeline ingests raw image feeds, converts color space to grayscale, applies median blur to suppress high-frequency noise, executes Otsu and adaptive thresholding to separate foreground text from textured backgrounds, and aligns detected text bounding boxes.",
     features: [
       "Automated background pattern stripping and watermark suppression",
       "Adaptive Gaussian thresholding for handling non-uniform illumination",
@@ -47,22 +85,24 @@ const projectsData = [
     type: "ai",
     category: "Generative AI & Latent Diffusion",
     tagType: "ai",
-    description: "An optimized, localized text-to-image synthesis system leveraging Latent Consistency Models (LCM-LoRA) for high-speed, high-fidelity neural image synthesis.",
+    isInternship: false,
+    period: "2024 – 2025",
+    description: "An optimized text-to-image generation system built with Stable Diffusion and LCM-LoRA, designed for low-latency neural image synthesis on limited GPU resources.",
     technologies: ["Stable Diffusion", "LCM-LoRA", "PyTorch", "Diffusers", "Python", "CUDA"],
     thumbnail: null,
     video: null,
     screenshots: [],
-    github: null, // No dedicated repository
+    github: null,
     demo: null,
     overview: "Standard diffusion models require 25 to 50 denoising iterations, demanding significant compute time. This project implements an accelerated local inference pipeline using Latent Consistency Models and Low-Rank Adaptation (LCM-LoRA) to generate high-resolution visual assets in as few as 4-8 inference steps.",
     problem: "Standard text-to-image diffusion models exhibit high compute latency on local hardware, making interactive creative prototyping sluggish.",
-    solution: "Integrated LCM-LoRA adapters into a PyTorch Stable Diffusion pipeline, enabling single-step to few-step latent trajectory prediction without sacrificing aesthetic coherence.",
+    solution: "Integrated LCM-LoRA adapters into a PyTorch Stable Diffusion pipeline, enabling few-step latent trajectory prediction with high memory efficiency.",
     howItWorks: "Text prompts are tokenized and encoded via the CLIP text model. The latent space is seeded with Gaussian noise, and the LCM-LoRA UNet model predicts the final latent representation in 4–8 steps before the VAE decoder renders the RGB canvas.",
     features: [
       "Sub-second to few-step high-resolution image synthesis",
       "LoRA adapter integration for modular style tuning",
-      "Prompt weighting and negative prompt guidance controls",
-      "Memory-efficient cross-attention optimizations for local GPU execution"
+      "Memory-efficient cross-attention optimizations for limited GPU resources",
+      "Prompt weighting and negative prompt guidance controls"
     ],
     workflow: [
       { step: "01", title: "Prompt Tokenization", desc: "CLIP text encoder extracts contextual embeddings" },
@@ -71,7 +111,41 @@ const projectsData = [
       { step: "04", title: "VAE Decoding", desc: "Latent tensor decoded into high-resolution RGB image" },
       { step: "05", title: "Output Rendering", desc: "Final synthesized image rendered with metadata tags" }
     ],
-    outcome: "Achieved substantial reduction in inference computation time while maintaining sharp visual quality."
+    outcome: "Achieved substantial reduction in inference computation time while maintaining sharp visual quality on consumer hardware."
+  },
+  {
+    id: "transformo-docs",
+    title: "Transformo Docs - Document Processing Pipeline",
+    type: "ai",
+    category: "Document AI & Automation",
+    tagType: "ai",
+    isInternship: false,
+    period: "2023 – 2024",
+    description: "A modular document processing system with OCR integration, automated preprocessing (noise removal, filtering, enhancement), and document conversion, merging, and splitting workflows.",
+    technologies: ["Python", "Flask", "Tesseract OCR", "OpenCV", "PDF Processing"],
+    thumbnail: null,
+    video: null,
+    screenshots: [],
+    github: null,
+    demo: null,
+    overview: "Transformo Docs is a modular document processing and transformation system designed to automate end-to-end document workflows. It combines optical character recognition with pre-processing enhancement filters and multi-format document manipulation tools.",
+    problem: "Handling diverse scanned document formats, unsearchable PDFs, and batch operations often requires multiple disconnected tools.",
+    solution: "Developed an extensible pipeline integrating OCR text recognition with automated conversion, splitting, and merging routines.",
+    howItWorks: "Uploaded files are routed through format analyzers. Scanned documents undergo noise removal and contrast enhancement before OCR character recognition extracts editable text streams.",
+    features: [
+      "OCR-driven optical text extraction from images and scanned documents",
+      "Automated document preprocessing pipeline (noise filtering, enhancement)",
+      "Batch PDF merging, splitting, and format conversion workflows",
+      "Modular Python architecture structured for extensibility"
+    ],
+    workflow: [
+      { step: "01", title: "Document Upload", desc: "Ingestion of PDFs, images, or scanned document files" },
+      { step: "02", title: "Format Analysis", desc: "Determining document structure and raster scan characteristics" },
+      { step: "03", title: "Preprocessing & OCR", desc: "Noise filtering, contrast enhancement, and OCR extraction" },
+      { step: "04", title: "Transformation Engine", desc: "Executing merge, split, or format conversion routines" },
+      { step: "05", title: "Export Result", desc: "Delivering searchable, transformed document artifact" }
+    ],
+    outcome: "Eliminated repetitive manual document conversion and accelerated digitized text extraction."
   },
   {
     id: "speaker-id",
@@ -79,19 +153,20 @@ const projectsData = [
     type: "ai",
     category: "Audio AI & Biometric Recognition",
     tagType: "ai",
-    description: "A machine learning voice biometric system that extracts acoustic Mel-frequency spectral signatures to authenticate and classify speaker identity.",
+    isInternship: false,
+    description: "A machine learning voice biometric system that extracts acoustic Mel-frequency spectral signatures (MFCCs) to authenticate and classify speaker identity.",
     technologies: ["Python", "Librosa", "Scikit-learn", "Audio DSP", "NumPy", "MFCC"],
     thumbnail: null,
     video: null,
     screenshots: [],
     github: "https://github.com/KESHAVAPANDI/Speaker-Identification-System",
     demo: null,
-    overview: "Voice biometrics provide a non-intrusive, natural modality for user authentication. This system implements digital audio signal processing routines to extract vocal tract characteristics (MFCCs, spectral roll-off, chroma) and trains classification models to identify registered individuals from short audio samples.",
+    overview: "Voice biometrics provide a non-intrusive modality for user authentication. This system implements digital audio signal processing routines to extract vocal tract characteristics (MFCCs, spectral roll-off, chroma) and trains classification models to identify registered individuals from short audio samples.",
     problem: "Accurately identifying individuals from voice recordings across varying microphone qualities and background acoustic environments.",
     solution: "Constructed an end-to-end signal processing pipeline utilizing Mel-Frequency Cepstral Coefficients (MFCCs) and statistical distance metrics to generate speaker identity embeddings.",
-    howItWorks: "Raw audio wave streams undergo pre-emphasis, framing, Hamming windowing, and Fast Fourier Transform (FFT) before being mapped onto the Mel filter bank. Statistical feature vectors are compared against enrolled speaker profiles via classification algorithms.",
+    howItWorks: "Raw audio wave streams undergo pre-emphasis, framing, Hamming windowing, and Fast Fourier Transform (FFT) before being mapped onto the Mel filter bank. Feature vectors are compared against enrolled profiles via classification algorithms.",
     features: [
-      "Acoustic feature extraction (13-40 MFCC coefficients, delta, and delta-delta)",
+      "Acoustic feature extraction (MFCC coefficients, delta, and delta-delta)",
       "Audio preprocessing including silence trimming and amplitude normalization",
       "Enrolled speaker profile database with biometric distance scoring",
       "Real-time sample classification and identity verification"
@@ -103,7 +178,7 @@ const projectsData = [
       { step: "04", title: "Embedding Match", desc: "Statistical classifier compares vector against enrolled profiles" },
       { step: "05", title: "Identity Verdict", desc: "Authentication verdict and confidence score output" }
     ],
-    outcome: "Established reliable biometric voice authentication and speaker classification on multi-speaker audio datasets."
+    outcome: "Established reliable biometric voice authentication and speaker classification on multi-speaker datasets."
   },
   {
     id: "bioactivity-ai",
@@ -111,6 +186,7 @@ const projectsData = [
     type: "ai",
     category: "AI Knowledge Graphs & Bioinformatics",
     tagType: "ai",
+    isInternship: false,
     description: "An intelligent biomedical knowledge network mapping chemical compound bioactivities, molecular structures, and biological target interactions.",
     technologies: ["TypeScript", "Python", "Knowledge Graphs", "REST APIs", "Data Modeling"],
     thumbnail: null,
@@ -137,49 +213,19 @@ const projectsData = [
     ],
     outcome: "Structured complex bio-molecular relationship data into an intuitive, queryable intelligence platform."
   },
-  {
-    id: "transformo-docs",
-    title: "Transformo Docs",
-    type: "ai",
-    category: "Document AI & Automation Suite",
-    tagType: "ai",
-    description: "An intelligent document transformation system integrating OCR text extraction, document merging, conversion, and splitting capabilities.",
-    technologies: ["Python", "Flask", "Tesseract OCR", "Tkinter", "PDF Processing"],
-    thumbnail: null,
-    video: null,
-    screenshots: [],
-    github: null, // No dedicated repository
-    demo: null,
-    overview: "Transformo Docs is a dual-interface (Web API + GUI) document processing utility designed to streamline document workflows. It combines optical character recognition for digitizing scanned documents with robust document manipulation utilities.",
-    problem: "Handling diverse document formats, extracting text from unsearchable PDFs, and batch document manipulation often requires disjointed tools.",
-    solution: "Created an integrated document processing hub combining OCR text recognition with automated conversion, splitting, and merging routines.",
-    howItWorks: "Uploaded documents are routed through format handlers. For scanned PDFs and images, the OCR module detects text regions and generates searchable text streams, while the document engine performs file operations.",
-    features: [
-      "OCR-driven optical text extraction from images and scanned documents",
-      "Batch PDF merging, splitting, and page-level reorganization",
-      "Format conversion between images, PDFs, and editable text files",
-      "Lightweight Flask backend with desktop GUI support"
-    ],
-    workflow: [
-      { step: "01", title: "Document Upload", desc: "Ingestion of PDFs, images, or scanned document files" },
-      { step: "02", title: "Format Analysis", desc: "Determining whether file is digital text or raster scan" },
-      { step: "03", title: "OCR Processing", desc: "Character recognition and spatial text extraction" },
-      { step: "04", title: "Transformation Engine", desc: "Executing merge, split, or format conversion routines" },
-      { step: "05", title: "Export Result", desc: "Delivering searchable, transformed document artifact" }
-    ],
-    outcome: "Provided a unified document transformation tool eliminating repetitive manual document reformatting."
-  },
 
   // ==========================================
   // 2. OTHER PROJECTS (SOFTWARE & WEB DEVELOPMENT)
   // ==========================================
   {
     id: "oxyher-ecommerce",
-    title: "OXYHER E-Commerce",
+    title: "E-Commerce Platform (OXYHER)",
     type: "other",
     category: "Full-Stack Web & E-Commerce",
     tagType: "web",
-    description: "A full-stack e-commerce web platform for women's intimate hygiene and wellness products, built with privacy-first user workflows and dynamic catalog management.",
+    isInternship: false,
+    period: "2024 – 2025",
+    description: "A full-stack e-commerce platform offering intimate hygiene products tailored for women, built with privacy-first user workflows and dynamic catalog management.",
     technologies: ["Node.js", "Express", "MongoDB", "JavaScript", "HTML5", "CSS3"],
     thumbnail: null,
     video: null,
@@ -211,14 +257,16 @@ const projectsData = [
     type: "other",
     category: "Management Systems & Web Automation",
     tagType: "web",
-    description: "A comprehensive hostel administration web portal automating room allocations, digital gate pass issuance, meal token reservations, and student grievance tracking.",
+    isInternship: false,
+    period: "2023 – 2024",
+    description: "A comprehensive hostel administration system automating room allocations, digital gatepass issuance, meal token reservations, and student grievance tracking.",
     technologies: ["PHP", "MySQL", "JavaScript", "HTML5", "CSS3"],
     thumbnail: null,
     video: null,
     screenshots: [],
-    github: null, // No dedicated repository
+    github: null,
     demo: null,
-    overview: "Institutional hostels encounter operational overhead managing physical logbooks for gate passes, room occupancy, meal tokens, and complaints. This system replaces paper records with a unified, role-based web application.",
+    overview: "Built as a Hackathon Project (2023 - 2024), this system replaces manual paper logbooks for gatepasses, room occupancy, meal tokens, and complaints with a unified web application.",
     problem: "Manual paper-based hostel logs lead to misplaced gate passes, inefficient complaint resolution, and uncoordinated room tracking.",
     solution: "Designed a centralized relational database and PHP web application with separate student and administrator role interfaces.",
     howItWorks: "Students submit gate pass requests or meal token bookings through their dashboard. Administrators approve or monitor passes in real-time, with all records tracked in MySQL.",
@@ -243,6 +291,7 @@ const projectsData = [
     type: "other",
     category: "Modern Web Application",
     tagType: "web",
+    isInternship: false,
     description: "A responsive pet matching and adoption web platform connecting prospective pet owners with animal shelters and pet listings.",
     technologies: ["TypeScript", "Next.js", "React", "CSS3", "Vercel"],
     thumbnail: null,
@@ -274,6 +323,7 @@ const projectsData = [
     type: "other",
     category: "High-Performance Backend & APIs",
     tagType: "web",
+    isInternship: false,
     description: "An asynchronous, high-throughput backend API service built with Python and FastAPI, featuring automatic OpenAPI documentation and Pydantic validation.",
     technologies: ["Python", "FastAPI", "Pydantic", "Uvicorn", "RESTful APIs"],
     thumbnail: null,
