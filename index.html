@@ -61,7 +61,7 @@
       </nav>
 
       <div class="header-actions">
-        <!-- Theme Toggle Button -->
+        <!-- Single Intentional Theme Toggle Button -->
         <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle Dark / Light Theme" title="Toggle Theme">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
         </button>
@@ -70,7 +70,9 @@
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
           Resume
         </a>
-        <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle mobile menu" aria-expanded="false">
+        
+        <!-- Mobile Hamburger / Close Toggle Button -->
+        <button class="mobile-toggle" id="mobile-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-drawer">
           <span></span>
           <span></span>
           <span></span>
@@ -78,29 +80,41 @@
       </div>
     </div>
 
-    <!-- Mobile Navigation Drawer -->
-    <div class="mobile-drawer" id="mobile-drawer" aria-label="Mobile Navigation">
-      <ul class="mobile-nav-list">
-        <li><a href="#about" class="mobile-nav-link">01. About</a></li>
-        <li><a href="#projects" class="mobile-nav-link">02. Projects</a></li>
-        <li><a href="#skills" class="mobile-nav-link">03. Skills</a></li>
-        <li><a href="#certifications" class="mobile-nav-link">04. Certifications</a></li>
-        <li><a href="#achievements" class="mobile-nav-link">05. Achievements</a></li>
-        <li><a href="#contact" class="mobile-nav-link">06. Contact</a></li>
-      </ul>
-      <div class="mobile-drawer-actions">
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-          <span style="font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-secondary);">Toggle Theme</span>
-          <button class="theme-toggle-btn" id="mobile-theme-toggle" aria-label="Toggle Dark / Light Theme" title="Toggle Theme">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-          </button>
+    <!-- Mobile Navigation Dropdown Menu (Directly below navbar) -->
+    <div class="mobile-drawer" id="mobile-drawer" aria-label="Mobile Navigation" aria-hidden="true">
+      <nav class="mobile-nav-container">
+        <ul class="mobile-nav-list">
+          <li class="mobile-nav-item">
+            <a href="#about" class="mobile-nav-link"><span class="nav-index">01.</span> About</a>
+          </li>
+          <li class="mobile-nav-item">
+            <a href="#projects" class="mobile-nav-link"><span class="nav-index">02.</span> Projects</a>
+          </li>
+          <li class="mobile-nav-item">
+            <a href="#skills" class="mobile-nav-link"><span class="nav-index">03.</span> Skills</a>
+          </li>
+          <li class="mobile-nav-item">
+            <a href="#certifications" class="mobile-nav-link"><span class="nav-index">04.</span> Certifications</a>
+          </li>
+          <li class="mobile-nav-item">
+            <a href="#achievements" class="mobile-nav-link"><span class="nav-index">05.</span> Achievements</a>
+          </li>
+          <li class="mobile-nav-item">
+            <a href="#contact" class="mobile-nav-link"><span class="nav-index">06.</span> Contact</a>
+          </li>
+        </ul>
+        <div class="mobile-drawer-footer">
+          <a href="./assets/resume/Keshava-Pandi-AS-Resume.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-mobile-resume">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            View Updated Resume (PDF)
+          </a>
         </div>
-        <a href="./assets/resume/Keshava-Pandi-AS-Resume.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width: 100%;">
-          View Updated Resume (PDF)
-        </a>
-      </div>
+      </nav>
     </div>
   </header>
+
+  <!-- Mobile Backdrop Overlay -->
+  <div class="mobile-backdrop" id="mobile-backdrop" aria-hidden="true"></div>
 
   <!-- Fixed Left Social Rail (Desktop) -->
   <aside class="social-rail" aria-label="Social Media Links">
@@ -204,7 +218,7 @@
 
 
     <!-- ==========================================
-         ABOUT SECTION (REDESIGNED: UPPER TEXT + PHOTO, LOWER 3 HORIZONTAL CARDS)
+         ABOUT SECTION (UPPER TEXT + VERTICALLY CENTERED PHOTO, LOWER 3 HORIZONTAL CARDS)
          ========================================== -->
     <section class="section" id="about">
       <div class="container">
