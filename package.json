@@ -1,0 +1,20 @@
+{
+  "name": "keshavapandi-portfolio",
+  "version": "2.0.0",
+  "description": "Personal portfolio and technical showcase of Keshava Pandi A S",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "serve": "node server.js",
+    "build": "node -e \"console.log('Static build ready. Published directory: .')\""
+  },
+  "keywords": [
+    "portfolio",
+    "ai-engineer",
+    "developer",
+    "computer-vision"
+  ],
+  "author": "Keshava Pandi A S <keshavapandi@gmail.com>",
+  "license": "MIT"
+}
