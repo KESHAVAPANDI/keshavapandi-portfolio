@@ -1,8 +1,12 @@
 /**
- * DUAL-THEME AMBIENT BACKGROUND CANVAS
- * - Dark Mode: Technical Cyber Constellation & Particle Mesh Network
- * - Light Mode: Soft Technical Aurora, Fluid Gradient Orbs & Subtle Flowing Mesh
- * High-performance, zero dependencies, battery-conscious.
+ * DUAL-THEME AMBIENT CONSTELLATION & PARTICLE NETWORK CANVAS
+ * Authoritative, high-performance background animation for Keshava Pandi's portfolio.
+ * Active, visibly moving nodes and dynamic connecting lines in BOTH Dark and Light modes.
+ *
+ * - Dark Mode: Deep cyber cyan & indigo glowing constellation network.
+ * - Light Mode: Crisp technical slate-blue & indigo network with soft ambient aurora glow.
+ *
+ * Handles High-DPI (Retina), dynamic resizing, visibility throttling, and prefers-reduced-motion.
  */
 
 function initBackgroundCanvas() {
@@ -10,199 +14,221 @@ function initBackgroundCanvas() {
   if (!canvas) return;
 
   const ctx = canvas.getContext('2d');
-  let width, height;
+  let width = 0;
+  let height = 0;
+  let dpr = window.devicePixelRatio || 1;
+  let particles = [];
   let animationFrameId = null;
 
   // Check prefers-reduced-motion
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function resize() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-  }
+    dpr = window.devicePixelRatio || 1;
+    width = window.innerWidth;
+    height = window.innerHeight;
 
-  window.addEventListener('resize', resize, { passive: true });
-  resize();
+    canvas.width = Math.floor(width * dpr);
+    canvas.height = Math.floor(height * dpr);
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.scale(dpr, dpr);
+
+    initParticles();
+  }
 
   function isLightMode() {
     return document.documentElement.getAttribute('data-theme') === 'light';
   }
 
-  // ==========================================
-  // 1. DARK MODE: CONSTELLATION NETWORK
-  // ==========================================
-  class DarkParticle {
+  class Particle {
     constructor() {
-      this.reset();
-      this.colorType = Math.random() > 0.35 ? 1 : 2;
+      this.reset(true);
+      this.colorType = Math.random() > 0.4 ? 1 : 2; // 1 = Cyan/Sky, 2 = Indigo/Violet
+      this.pulseSpeed = 0.02 + Math.random() * 0.02;
+      this.pulseAngle = Math.random() * Math.PI * 2;
     }
 
-    reset() {
+    reset(initial = false) {
       this.x = Math.random() * width;
-      this.y = Math.random() * height;
-      this.vx = (Math.random() - 0.5) * 0.35;
-      this.vy = (Math.random() - 0.5) * 0.35;
-      this.radius = Math.random() * 1.2 + 1.1;
+      this.y = initial ? Math.random() * height : (Math.random() > 0.5 ? -10 : height + 10);
+      
+      // Steady, elegant floating velocity
+      const speed = 0.25 + Math.random() * 0.35;
+      const angle = Math.random() * Math.PI * 2;
+      this.vx = Math.cos(angle) * speed;
+      this.vy = Math.sin(angle) * speed;
+
+      this.baseRadius = 1.4 + Math.random() * 1.5;
+      this.radius = this.baseRadius;
     }
 
     update() {
       this.x += this.vx;
       this.y += this.vy;
 
-      if (this.x < 0 || this.x > width) this.vx = -this.vx;
-      if (this.y < 0 || this.y > height) this.vy = -this.vy;
+      // Subtle breathing radius
+      this.pulseAngle += this.pulseSpeed;
+      this.radius = this.baseRadius + Math.sin(this.pulseAngle) * 0.3;
+
+      // Wrap around edges smoothly
+      const margin = 20;
+      if (this.x < -margin) this.x = width + margin;
+      if (this.x > width + margin) this.x = -margin;
+      if (this.y < -margin) this.y = height + margin;
+      if (this.y > height + margin) this.y = -margin;
     }
 
     draw() {
-      const color = this.colorType === 1 
-        ? 'rgba(0, 240, 255, 0.70)' 
-        : 'rgba(129, 140, 248, 0.60)';
+      const light = isLightMode();
+      let fillColor, glowColor;
+
+      if (light) {
+        // Light Mode: clearly visible rich sky-blue and indigo nodes
+        if (this.colorType === 1) {
+          fillColor = 'rgba(2, 132, 199, 0.85)'; // Sky Blue
+          glowColor = 'rgba(2, 132, 199, 0.25)';
+        } else {
+          fillColor = 'rgba(79, 70, 229, 0.80)'; // Indigo
+          glowColor = 'rgba(79, 70, 229, 0.20)';
+        }
+      } else {
+        // Dark Mode: glowing cyber cyan and radiant indigo nodes
+        if (this.colorType === 1) {
+          fillColor = 'rgba(0, 240, 255, 0.90)'; // Cyber Cyan
+          glowColor = 'rgba(0, 240, 255, 0.35)';
+        } else {
+          fillColor = 'rgba(129, 140, 248, 0.85)'; // Luminous Indigo
+          glowColor = 'rgba(99, 102, 241, 0.30)';
+        }
+      }
 
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.fillStyle = color;
+      ctx.fillStyle = fillColor;
       ctx.fill();
+
+      // Subtle halo around larger nodes
+      if (this.baseRadius > 2.0) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius * 2.2, 0, Math.PI * 2);
+        ctx.fillStyle = glowColor;
+        ctx.fill();
+      }
     }
   }
 
-  const darkParticleCount = Math.min(Math.floor((width * height) / 16000), 55);
-  const darkParticles = [];
-  for (let i = 0; i < darkParticleCount; i++) {
-    darkParticles.push(new DarkParticle());
+  function initParticles() {
+    // Density calculation: guaranteed visibility across all viewports
+    const baseCount = Math.floor((width * height) / 15000);
+    const particleCount = Math.max(28, Math.min(baseCount, 65));
+
+    particles = [];
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
   }
 
-  function renderDarkMode() {
-    for (let p of darkParticles) {
-      if (!prefersReducedMotion) p.update();
-      p.draw();
-    }
+  // Soft Ambient Aurora for Light Mode
+  let auroraAngle = 0;
+  function drawLightAuroraBackground() {
+    auroraAngle += 0.002;
+    const cx1 = width * 0.25 + Math.sin(auroraAngle) * 60;
+    const cy1 = height * 0.30 + Math.cos(auroraAngle * 0.8) * 50;
+    const r1 = Math.max(width, height) * 0.45;
 
-    const maxDist = 125;
+    const g1 = ctx.createRadialGradient(cx1, cy1, 0, cx1, cy1, r1);
+    g1.addColorStop(0, 'rgba(2, 132, 199, 0.06)');
+    g1.addColorStop(0.7, 'rgba(56, 189, 248, 0.02)');
+    g1.addColorStop(1, 'rgba(248, 250, 252, 0)');
+
+    ctx.fillStyle = g1;
+    ctx.fillRect(0, 0, width, height);
+
+    const cx2 = width * 0.80 + Math.cos(auroraAngle * 0.7) * 70;
+    const cy2 = height * 0.75 + Math.sin(auroraAngle * 0.9) * 60;
+    const r2 = Math.max(width, height) * 0.40;
+
+    const g2 = ctx.createRadialGradient(cx2, cy2, 0, cx2, cy2, r2);
+    g2.addColorStop(0, 'rgba(99, 102, 241, 0.05)');
+    g2.addColorStop(0.7, 'rgba(129, 140, 248, 0.015)');
+    g2.addColorStop(1, 'rgba(248, 250, 252, 0)');
+
+    ctx.fillStyle = g2;
+    ctx.fillRect(0, 0, width, height);
+  }
+
+  function connectParticles() {
+    const maxDist = width < 768 ? 105 : 135;
     const maxDistSq = maxDist * maxDist;
+    const light = isLightMode();
 
-    for (let i = 0; i < darkParticles.length; i++) {
-      for (let j = i + 1; j < darkParticles.length; j++) {
-        const dx = darkParticles[i].x - darkParticles[j].x;
-        const dy = darkParticles[i].y - darkParticles[j].y;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
         const distSq = dx * dx + dy * dy;
 
         if (distSq < maxDistSq) {
-          const factor = (1 - distSq / maxDistSq);
-          const alpha = factor * 0.28;
+          const factor = 1 - distSq / maxDistSq;
+
+          let strokeColor, lineWidth;
+          if (light) {
+            // Light Mode: clean slate/sky connecting lines with solid visibility
+            const alpha = factor * 0.32;
+            strokeColor = `rgba(3, 105, 161, ${alpha})`;
+            lineWidth = 0.95;
+          } else {
+            // Dark Mode: glowing cyan/sky connecting lines
+            const alpha = factor * 0.35;
+            strokeColor = `rgba(56, 189, 248, ${alpha})`;
+            lineWidth = 0.85;
+          }
+
           ctx.beginPath();
-          ctx.strokeStyle = `rgba(56, 189, 248, ${alpha})`;
-          ctx.lineWidth = 0.85;
-          ctx.moveTo(darkParticles[i].x, darkParticles[i].y);
-          ctx.lineTo(darkParticles[j].x, darkParticles[j].y);
+          ctx.strokeStyle = strokeColor;
+          ctx.lineWidth = lineWidth;
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
           ctx.stroke();
         }
       }
     }
   }
 
-  // ==========================================
-  // 2. LIGHT MODE: SOFT TECHNICAL AURORA & FLUID ORBS
-  // ==========================================
-  class LightAuroraOrb {
-    constructor(xRatio, yRatio, radiusRatio, colorStart, colorEnd, speedX, speedY) {
-      this.xRatio = xRatio;
-      this.yRatio = yRatio;
-      this.radiusRatio = radiusRatio;
-      this.colorStart = colorStart;
-      this.colorEnd = colorEnd;
-      this.speedX = speedX;
-      this.speedY = speedY;
-      this.angle = Math.random() * Math.PI * 2;
-    }
-
-    update(time) {
-      this.angle += 0.003;
-      this.currentX = (this.xRatio + Math.sin(this.angle * this.speedX) * 0.08) * width;
-      this.currentY = (this.yRatio + Math.cos(this.angle * this.speedY) * 0.08) * height;
-      this.currentRadius = (this.radiusRatio + Math.sin(this.angle * 0.8) * 0.04) * Math.min(width, height);
-    }
-
-    draw() {
-      const gradient = ctx.createRadialGradient(
-        this.currentX, this.currentY, 0,
-        this.currentX, this.currentY, Math.max(this.currentRadius, 80)
-      );
-      gradient.addColorStop(0, this.colorStart);
-      gradient.addColorStop(0.6, this.colorEnd);
-      gradient.addColorStop(1, 'rgba(248, 250, 252, 0)');
-
-      ctx.beginPath();
-      ctx.arc(this.currentX, this.currentY, Math.max(this.currentRadius, 80), 0, Math.PI * 2);
-      ctx.fillStyle = gradient;
-      ctx.fill();
-    }
-  }
-
-  const lightOrbs = [
-    new LightAuroraOrb(0.20, 0.25, 0.42, 'rgba(2, 132, 199, 0.075)', 'rgba(56, 189, 248, 0.035)', 0.7, 0.9),
-    new LightAuroraOrb(0.82, 0.35, 0.46, 'rgba(99, 102, 241, 0.065)', 'rgba(129, 140, 248, 0.025)', 0.6, 0.8),
-    new LightAuroraOrb(0.45, 0.78, 0.44, 'rgba(6, 182, 212, 0.065)', 'rgba(14, 165, 233, 0.025)', 0.8, 0.6),
-    new LightAuroraOrb(0.85, 0.85, 0.38, 'rgba(168, 85, 247, 0.045)', 'rgba(99, 102, 241, 0.015)', 0.5, 0.7)
-  ];
-
-  // Subtle delicate flowing grid lines for Light Mode
-  let waveTime = 0;
-  function renderLightFlowLines() {
-    ctx.lineWidth = 0.65;
-    ctx.strokeStyle = 'rgba(2, 132, 199, 0.045)';
-
-    const step = 85;
-    const cols = Math.ceil(width / step);
-
-    for (let c = 0; c < cols; c++) {
-      const x = c * step;
-      ctx.beginPath();
-      ctx.moveTo(x, 0);
-      for (let y = 0; y < height; y += 40) {
-        const xOffset = Math.sin((y * 0.005) + waveTime + (c * 0.2)) * 8;
-        ctx.lineTo(x + xOffset, y);
-      }
-      ctx.stroke();
-    }
-  }
-
-  function renderLightMode(time) {
-    // 1. Draw subtle floating aurora gradient orbs
-    for (let orb of lightOrbs) {
-      if (!prefersReducedMotion) orb.update(time);
-      orb.draw();
-    }
-
-    // 2. Draw subtle delicate flowing background mesh lines
-    if (!prefersReducedMotion) waveTime += 0.004;
-    renderLightFlowLines();
-  }
-
-  // ==========================================
-  // 3. MAIN ANIMATION LOOP
-  // ==========================================
-  function animate(timestamp) {
+  function animate() {
     ctx.clearRect(0, 0, width, height);
 
     if (isLightMode()) {
-      renderLightMode(timestamp);
-    } else {
-      renderDarkMode();
+      drawLightAuroraBackground();
     }
+
+    for (let p of particles) {
+      if (!prefersReducedMotion) p.update();
+      p.draw();
+    }
+
+    connectParticles();
 
     animationFrameId = requestAnimationFrame(animate);
   }
 
-  // Handle document visibility to preserve CPU/battery
+  // Handle resize and screen changes
+  window.addEventListener('resize', resize, { passive: true });
+  resize();
+
+  // Battery & Tab-visibility preservation
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
     } else {
-      animate(performance.now());
+      animate();
     }
   });
 
-  animate(performance.now());
+  animate();
 }
 
 window.initBackgroundCanvas = initBackgroundCanvas;
