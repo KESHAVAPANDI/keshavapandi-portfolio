@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -61,6 +61,11 @@
       </nav>
 
       <div class="header-actions">
+        <!-- Theme Toggle Button -->
+        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle Dark / Light Theme" title="Toggle Theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+
         <a href="./resume two pages.pdf" download="Keshava_Pandi_Resume.pdf" class="btn btn-ghost btn-sm" id="download-resume">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
           Resume
@@ -83,7 +88,13 @@
         <li><a href="#achievements" class="mobile-nav-link">05. Achievements</a></li>
         <li><a href="#contact" class="mobile-nav-link">06. Contact</a></li>
       </ul>
-      <div style="margin-top: 2rem;">
+      <div class="mobile-drawer-actions">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <span style="font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-secondary);">Toggle Theme</span>
+          <button class="theme-toggle-btn" id="mobile-theme-toggle" aria-label="Toggle Dark / Light Theme" title="Toggle Theme">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          </button>
+        </div>
         <a href="./resume two pages.pdf" download="Keshava_Pandi_Resume.pdf" class="btn btn-primary" style="width: 100%;">
           Download Resume (PDF)
         </a>
@@ -93,13 +104,13 @@
 
   <!-- Fixed Left Social Rail (Desktop) -->
   <aside class="social-rail" aria-label="Social Media Links">
-    <a href="https://github.com/KESHAVAPANDI" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub Profile">
+    <a href="https://github.com/KESHAVAPANDI" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub Profile" title="GitHub: @KESHAVAPANDI">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
     </a>
-    <a href="https://www.linkedin.com/in/keshava-pandi-a-s-a30108377/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn Profile">
+    <a href="https://www.linkedin.com/in/keshava-pandi-a-s-a30108377/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn Profile" title="LinkedIn: Keshava Pandi A S">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
     </a>
-    <a href="https://leetcode.com/u/KESHAVAPANDI_A_S/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LeetCode Profile">
+    <a href="https://leetcode.com/u/KESHAVAPANDI_A_S/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LeetCode Profile" title="LeetCode: @KESHAVAPANDI_A_S">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 5.844a1.374 1.374 0 0 0-.438.961V21.6a1.4 1.4 0 0 0 1.4 1.4h12a1.4 1.4 0 0 0 1.4-1.4V1.4A1.4 1.4 0 0 0 20.083 0Zm-2.077 14.424-1.132 1.133a.37.37 0 0 1-.524 0l-1.132-1.133a.37.37 0 0 1 0-.524l1.132-1.132a.37.37 0 0 1 .524 0l1.132 1.132a.37.37 0 0 1 0 .524Zm4.155 0-1.133 1.133a.37.37 0 0 1-.524 0l-1.132-1.133a.37.37 0 0 1 0-.524l1.132-1.132a.37.37 0 0 1 .524 0l1.133 1.132a.37.37 0 0 1 0 .524Z"/></svg>
     </a>
   </aside>
@@ -116,7 +127,7 @@
           <div class="hero-content">
             <div class="status-pill">
               <span class="status-dot"></span>
-              <span>Available for AI & Engineering Opportunities</span>
+              <span>Available for AI & Engineering Roles</span>
             </div>
 
             <p class="hero-greeting">Hi, I am</p>
@@ -133,10 +144,10 @@
             <div class="hero-actions">
               <a href="#projects" class="btn btn-primary">
                 Explore Projects
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
               </a>
               <a href="https://github.com/KESHAVAPANDI" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                 GitHub Profile
               </a>
             </div>
@@ -207,8 +218,8 @@
           </p>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3.5rem; align-items: start;" class="reveal-on-scroll">
-          <div style="display: flex; flex-direction: column; gap: 1.25rem; font-size: 1.05rem; line-height: 1.75; color: var(--text-secondary);">
+        <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3rem; align-items: start;" class="reveal-on-scroll">
+          <div style="display: flex; flex-direction: column; gap: 1.15rem; font-size: 1.02rem; line-height: 1.75; color: var(--text-secondary);">
             <p>
               Hello! I'm <strong style="color: var(--text-primary);">Keshava Pandi A S</strong>, a developer driven by the challenge of transforming complex computational concepts into usable, reliable software. My focus spans <strong style="color: var(--accent-sky);">Artificial Intelligence</strong>, <strong style="color: var(--accent-sky);">Computer Vision</strong>, and <strong style="color: var(--accent-sky);">Modern Web Engineering</strong>.
             </p>
@@ -221,29 +232,29 @@
           </div>
 
           <!-- Value Pillars -->
-          <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <div class="glass-panel" style="padding: 1.35rem;">
-              <h3 style="font-size: 1.05rem; margin-bottom: 0.4rem; color: var(--accent-cyan); display: flex; align-items: center; gap: 0.5rem;">
+          <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+            <div class="glass-panel" style="padding: 1.25rem;">
+              <h3 style="font-size: 1rem; margin-bottom: 0.35rem; color: var(--accent-cyan); display: flex; align-items: center; gap: 0.5rem;">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
                 End-to-End Engineering
               </h3>
-              <p style="font-size: 0.88rem; color: var(--text-muted);">From low-level algorithms and neural model training to frontend client interfaces and REST API layers.</p>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">From low-level algorithms and neural model training to frontend client interfaces and REST API layers.</p>
             </div>
 
-            <div class="glass-panel" style="padding: 1.35rem;">
-              <h3 style="font-size: 1.05rem; margin-bottom: 0.4rem; color: var(--accent-indigo); display: flex; align-items: center; gap: 0.5rem;">
+            <div class="glass-panel" style="padding: 1.25rem;">
+              <h3 style="font-size: 1rem; margin-bottom: 0.35rem; color: var(--accent-indigo); display: flex; align-items: center; gap: 0.5rem;">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
                 AI & Model Deployment
               </h3>
-              <p style="font-size: 0.88rem; color: var(--text-muted);">Practical hands-on experience in OpenCV, PyTorch, Transformers, Stable Diffusion, and real-time inference optimization.</p>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Practical hands-on experience in OpenCV, PyTorch, Transformers, Stable Diffusion, and real-time inference optimization.</p>
             </div>
 
-            <div class="glass-panel" style="padding: 1.35rem;">
-              <h3 style="font-size: 1.05rem; margin-bottom: 0.4rem; color: var(--accent-emerald); display: flex; align-items: center; gap: 0.5rem;">
+            <div class="glass-panel" style="padding: 1.25rem;">
+              <h3 style="font-size: 1rem; margin-bottom: 0.35rem; color: var(--accent-emerald); display: flex; align-items: center; gap: 0.5rem;">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
                 Solid Algorithmic Core
               </h3>
-              <p style="font-size: 0.88rem; color: var(--text-muted);">Rigorous problem solving foundation in Java, Python, and C with data structure mastery.</p>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Rigorous problem solving foundation in Java, Python, and C with data structure mastery.</p>
             </div>
           </div>
         </div>
@@ -274,23 +285,21 @@
             <div class="category-header">
               <div class="category-title-group">
                 <div class="category-icon-badge" aria-hidden="true">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="3"></circle>
                     <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"></path>
                   </svg>
                 </div>
                 <div>
                   <h3 class="category-title">AI & Machine Learning Projects</h3>
-                  <p style="font-size: 0.85rem; color: var(--text-muted);">Computer vision, neural inference, generative AI, speech processing & knowledge graphs</p>
+                  <p style="font-size: 0.82rem; color: var(--text-muted);">Computer vision, neural inference, generative AI, speech processing & knowledge graphs</p>
                 </div>
               </div>
               <span class="category-count-pill" id="ai-projects-count">5 Projects</span>
             </div>
 
-            <!-- Dynamic AI Cards Injection Container -->
-            <div class="projects-grid" id="ai-projects-grid">
-              <!-- Injected by js/components/projectCards.js -->
-            </div>
+            <!-- Dynamic AI Cards Container -->
+            <div class="projects-grid" id="ai-projects-grid"></div>
           </div>
 
 
@@ -299,23 +308,21 @@
             <div class="category-header">
               <div class="category-title-group">
                 <div class="category-icon-badge other-icon" aria-hidden="true">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polyline points="16 18 22 12 16 6"></polyline>
                     <polyline points="8 6 2 12 8 18"></polyline>
                   </svg>
                 </div>
                 <div>
                   <h3 class="category-title">Software & Web Development</h3>
-                  <p style="font-size: 0.85rem; color: var(--text-muted);">Full-stack web applications, REST backend services & management automation</p>
+                  <p style="font-size: 0.82rem; color: var(--text-muted);">Full-stack web applications, REST backend services & management automation</p>
                 </div>
               </div>
               <span class="category-count-pill" id="other-projects-count">4 Projects</span>
             </div>
 
-            <!-- Dynamic Other Projects Cards Injection Container -->
-            <div class="projects-grid" id="other-projects-grid">
-              <!-- Injected by js/components/projectCards.js -->
-            </div>
+            <!-- Dynamic Other Projects Cards Container -->
+            <div class="projects-grid" id="other-projects-grid"></div>
           </div>
 
         </div>
@@ -341,14 +348,10 @@
 
         <div class="skills-wrapper reveal-on-scroll">
           <!-- Filter Tabs -->
-          <div class="skills-tabs" id="skills-tabs">
-            <!-- Injected by js/main.js -->
-          </div>
+          <div class="skills-tabs" id="skills-tabs"></div>
 
           <!-- Skill Cards Grid -->
-          <div class="skills-categories-grid" id="skills-categories-container">
-            <!-- Injected by js/main.js -->
-          </div>
+          <div class="skills-categories-grid" id="skills-categories-container"></div>
         </div>
       </div>
     </section>
@@ -371,9 +374,7 @@
         </div>
 
         <!-- Certificates Grid -->
-        <div class="certificates-grid reveal-on-scroll" id="certificates-grid">
-          <!-- Injected by js/components/mediaViewer.js -->
-        </div>
+        <div class="certificates-grid reveal-on-scroll" id="certificates-grid"></div>
       </div>
     </section>
 
@@ -395,9 +396,7 @@
         </div>
 
         <!-- Achievements Grid -->
-        <div class="achievements-grid reveal-on-scroll" id="achievements-grid">
-          <!-- Injected by js/components/mediaViewer.js -->
-        </div>
+        <div class="achievements-grid reveal-on-scroll" id="achievements-grid"></div>
       </div>
     </section>
 
@@ -455,6 +454,16 @@
                   <span class="contact-card-value">in/keshava-pandi-a-s</span>
                 </div>
               </a>
+
+              <a href="https://leetcode.com/u/KESHAVAPANDI_A_S/" target="_blank" rel="noopener noreferrer" class="contact-card-item">
+                <div class="contact-card-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 5.844a1.374 1.374 0 0 0-.438.961V21.6a1.4 1.4 0 0 0 1.4 1.4h12a1.4 1.4 0 0 0 1.4-1.4V1.4A1.4 1.4 0 0 0 20.083 0Zm-2.077 14.424-1.132 1.133a.37.37 0 0 1-.524 0l-1.132-1.133a.37.37 0 0 1 0-.524l1.132-1.132a.37.37 0 0 1 .524 0l1.132 1.132a.37.37 0 0 1 0 .524Zm4.155 0-1.133 1.133a.37.37 0 0 1-.524 0l-1.132-1.133a.37.37 0 0 1 0-.524l1.132-1.132a.37.37 0 0 1 .524 0l1.133 1.132a.37.37 0 0 1 0 .524Z"/></svg>
+                </div>
+                <div class="contact-card-text">
+                  <span class="contact-card-label">LeetCode Platform</span>
+                  <span class="contact-card-value">@KESHAVAPANDI_A_S</span>
+                </div>
+              </a>
             </div>
           </div>
 
@@ -476,9 +485,9 @@
                 <textarea id="message" name="message" required class="form-textarea" placeholder="Hello Keshava, we'd like to discuss..."></textarea>
               </div>
 
-              <button type="submit" class="btn btn-primary" id="form-submit-btn" style="width: 100%; padding: 0.95rem;">
+              <button type="submit" class="btn btn-primary" id="form-submit-btn" style="width: 100%; padding: 0.9rem;">
                 Transmit Message
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
               </button>
             </form>
 
@@ -497,13 +506,13 @@
   <footer class="site-footer">
     <div class="container footer-content">
       <div class="footer-socials">
-        <a href="https://github.com/KESHAVAPANDI" target="_blank" rel="noopener noreferrer" class="btn-icon" aria-label="GitHub Profile">
+        <a href="https://github.com/KESHAVAPANDI" target="_blank" rel="noopener noreferrer" class="btn-icon" aria-label="GitHub Profile" title="GitHub">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
         </a>
-        <a href="https://www.linkedin.com/in/keshava-pandi-a-s-a30108377/" target="_blank" rel="noopener noreferrer" class="btn-icon" aria-label="LinkedIn Profile">
+        <a href="https://www.linkedin.com/in/keshava-pandi-a-s-a30108377/" target="_blank" rel="noopener noreferrer" class="btn-icon" aria-label="LinkedIn Profile" title="LinkedIn">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
         </a>
-        <a href="https://leetcode.com/u/KESHAVAPANDI_A_S/" target="_blank" rel="noopener noreferrer" class="btn-icon" aria-label="LeetCode Profile">
+        <a href="https://leetcode.com/u/KESHAVAPANDI_A_S/" target="_blank" rel="noopener noreferrer" class="btn-icon" aria-label="LeetCode Profile" title="LeetCode">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 5.844a1.374 1.374 0 0 0-.438.961V21.6a1.4 1.4 0 0 0 1.4 1.4h12a1.4 1.4 0 0 0 1.4-1.4V1.4A1.4 1.4 0 0 0 20.083 0Zm-2.077 14.424-1.132 1.133a.37.37 0 0 1-.524 0l-1.132-1.133a.37.37 0 0 1 0-.524l1.132-1.132a.37.37 0 0 1 .524 0l1.132 1.132a.37.37 0 0 1 0 .524Zm4.155 0-1.133 1.133a.37.37 0 0 1-.524 0l-1.132-1.133a.37.37 0 0 1 0-.524l1.132-1.132a.37.37 0 0 1 .524 0l1.133 1.132a.37.37 0 0 1 0 .524Z"/></svg>
         </a>
       </div>
@@ -520,27 +529,16 @@
        ========================================== -->
   <div class="modal-backdrop" id="case-study-modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="case-study-modal" id="case-study-modal-container">
-      <!-- Dynamic Case Study Content Injected by js/components/caseStudyViewer.js -->
+      <!-- Injected dynamically by js/components/caseStudyViewer.js -->
     </div>
   </div>
 
 
   <!-- ==========================================
-       MODAL 2: MEDIA & CERTIFICATES LIGHTBOX
+       MODAL 2: 2-COLUMN CERTIFICATES & ACHIEVEMENTS LIGHTBOX
        ========================================== -->
   <div class="lightbox-modal" id="media-lightbox-modal" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="lightbox-header">
-      <div>
-        <h3 class="lightbox-title" id="lightbox-title">Certificate Inspection</h3>
-        <span class="lightbox-counter" id="lightbox-counter">1 / 1</span>
-      </div>
-      <button class="modal-close-btn" id="lightbox-close" aria-label="Close lightbox">✕</button>
-    </div>
-    <div class="lightbox-content" id="lightbox-content">
-      <!-- Lightbox Media or Placeholder Injected by js/components/mediaViewer.js -->
-    </div>
-    <button class="lightbox-nav-arrow prev" id="lightbox-prev" aria-label="Previous image">‹</button>
-    <button class="lightbox-nav-arrow next" id="lightbox-next" aria-label="Next image">›</button>
+    <!-- Injected dynamically by js/components/mediaViewer.js -->
   </div>
 
 

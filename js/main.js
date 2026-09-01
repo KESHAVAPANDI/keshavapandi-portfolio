@@ -1,19 +1,24 @@
 /**
  * MAIN JAVASCRIPT APPLICATION CONTROLLER
  * Portfolio of Keshava Pandi A S
+ * Handles Theme Management (Dark/Light), Navigation & Scroll Spy,
+ * Modal Viewers, Skills Filter, and Animations.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Initialize Ambient Canvas
+  // 1. Initialize Theme Engine (Dark/Light)
+  initThemeEngine();
+
+  // 2. Initialize Ambient Canvas
   if (window.initBackgroundCanvas) {
     window.initBackgroundCanvas();
   }
 
-  // 2. Initialize Modals & Viewers
+  // 3. Initialize Modals & Viewers
   const caseStudyViewer = new window.CaseStudyViewer();
   const mediaLightboxViewer = new window.MediaLightboxViewer();
 
-  // 3. Render Dynamic Content from Data Stores
+  // 4. Render Dynamic Content from Data Stores
   if (window.renderProjectCards) {
     window.renderProjectCards(caseStudyViewer);
   }
@@ -26,23 +31,72 @@ document.addEventListener('DOMContentLoaded', () => {
     window.renderAchievements(mediaLightboxViewer);
   }
 
-  // 4. Render Skills Section
+  // 5. Render Skills Section
   initSkillsSection();
 
-  // 5. Initialize Contact Form
+  // 6. Initialize Contact Form
   if (window.initContactForm) {
     window.initContactForm();
   }
 
-  // 6. Navigation & Scroll Spy
+  // 7. Navigation & Scroll Spy
   initNavigation();
 
-  // 7. Typewriter Hero Animation
+  // 8. Typewriter Hero Animation
   initTypewriter();
 
-  // 8. Scroll Reveal Observer
+  // 9. Scroll Reveal Observer
   initScrollReveal();
 });
+
+/* ==========================================================================
+   THEME ENGINE (DARK / LIGHT MODE & LOCALSTORAGE PERSISTENCE)
+   ========================================================================== */
+function initThemeEngine() {
+  const THEME_KEY = 'portfolio-theme';
+  const themeToggleBtns = document.querySelectorAll('.theme-toggle-btn');
+
+  // Sun & Moon SVG Icons
+  const sunIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
+  const moonIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
+
+  function getPreferredTheme() {
+    const saved = localStorage.getItem(THEME_KEY);
+    if (saved) return saved;
+    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  }
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem(THEME_KEY, theme);
+
+    themeToggleBtns.forEach(btn => {
+      btn.innerHTML = theme === 'dark' ? sunIcon : moonIcon;
+      btn.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`);
+      btn.setAttribute('title', `Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`);
+    });
+  }
+
+  // Initial theme application
+  const currentTheme = getPreferredTheme();
+  applyTheme(currentTheme);
+
+  // Toggle button clicks
+  themeToggleBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const activeTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+      const newTheme = activeTheme === 'dark' ? 'light' : 'dark';
+      applyTheme(newTheme);
+    });
+  });
+
+  // Listen to OS theme changes if user hasn't explicitly set preference
+  window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', e => {
+    if (!localStorage.getItem(THEME_KEY)) {
+      applyTheme(e.matches ? 'light' : 'dark');
+    }
+  });
+}
 
 /* ==========================================================================
    NAVIGATION & SCROLL SPY
@@ -56,7 +110,7 @@ function initNavigation() {
 
   // Header scroll shadow effect
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 40) {
+    if (window.scrollY > 30) {
       header.classList.add('scrolled');
     } else {
       header.classList.remove('scrolled');
@@ -86,7 +140,7 @@ function initNavigation() {
   // Scroll Spy Active Link Indicator
   const observerOptions = {
     root: null,
-    rootMargin: '-20% 0px -70% 0px',
+    rootMargin: '-20% 0px -65% 0px',
     threshold: 0
   };
 
@@ -126,7 +180,7 @@ function initTypewriter() {
   let roleIdx = 0;
   let charIdx = 0;
   let isDeleting = false;
-  let typingSpeed = 100;
+  let typingSpeed = 90;
 
   function type() {
     const current = roles[roleIdx];
@@ -134,11 +188,11 @@ function initTypewriter() {
     if (isDeleting) {
       target.textContent = current.substring(0, charIdx - 1);
       charIdx--;
-      typingSpeed = 50;
+      typingSpeed = 45;
     } else {
       target.textContent = current.substring(0, charIdx + 1);
       charIdx++;
-      typingSpeed = 100;
+      typingSpeed = 90;
     }
 
     if (!isDeleting && charIdx === current.length) {
@@ -232,8 +286,8 @@ function initScrollReveal() {
       }
     });
   }, {
-    threshold: 0.12,
-    rootMargin: '0px 0px -40px 0px'
+    threshold: 0.1,
+    rootMargin: '0px 0px -30px 0px'
   });
 
   reveals.forEach(el => observer.observe(el));

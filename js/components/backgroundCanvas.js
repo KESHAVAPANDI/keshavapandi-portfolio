@@ -1,6 +1,7 @@
 /**
  * AMBIENT BACKGROUND PARTICLE & MESH CANVAS
  * High-performance, lightweight ambient node background.
+ * Theme-aware: dynamically adapts particle hues for Dark & Light modes.
  */
 
 function initBackgroundCanvas() {
@@ -23,6 +24,10 @@ function initBackgroundCanvas() {
   window.addEventListener('resize', resize, { passive: true });
   resize();
 
+  function isLightMode() {
+    return document.documentElement.getAttribute('data-theme') === 'light';
+  }
+
   class Particle {
     constructor() {
       this.reset();
@@ -31,11 +36,9 @@ function initBackgroundCanvas() {
     reset() {
       this.x = Math.random() * width;
       this.y = Math.random() * height;
-      this.vx = (Math.random() - 0.5) * 0.35;
-      this.vy = (Math.random() - 0.5) * 0.35;
+      this.vx = (Math.random() - 0.5) * 0.3;
+      this.vy = (Math.random() - 0.5) * 0.3;
       this.radius = Math.random() * 1.5 + 0.6;
-      this.color = Math.random() > 0.4 ? 'rgba(56, 189, 248, ' : 'rgba(99, 102, 241, ';
-      this.alpha = Math.random() * 0.4 + 0.15;
     }
 
     update() {
@@ -47,21 +50,27 @@ function initBackgroundCanvas() {
     }
 
     draw() {
+      const light = isLightMode();
+      const color = light 
+        ? 'rgba(2, 132, 199, 0.35)' 
+        : 'rgba(56, 189, 248, 0.4)';
+
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.fillStyle = this.color + this.alpha + ')';
+      ctx.fillStyle = color;
       ctx.fill();
     }
   }
 
-  const count = Math.min(Math.floor((width * height) / 18000), 55);
+  const count = Math.min(Math.floor((width * height) / 20000), 45);
   for (let i = 0; i < count; i++) {
     particles.push(new Particle());
   }
 
   function connect() {
-    const maxDist = 110;
+    const maxDist = 100;
     const maxDistSq = maxDist * maxDist;
+    const light = isLightMode();
 
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
@@ -70,10 +79,13 @@ function initBackgroundCanvas() {
         const distSq = dx * dx + dy * dy;
 
         if (distSq < maxDistSq) {
-          const opacity = (1 - distSq / maxDistSq) * 0.18;
+          const factor = (1 - distSq / maxDistSq);
+          const opacity = light ? factor * 0.12 : factor * 0.18;
+          const strokeColor = light ? `rgba(2, 132, 199, ${opacity})` : `rgba(56, 189, 248, ${opacity})`;
+
           ctx.beginPath();
-          ctx.strokeStyle = `rgba(56, 189, 248, ${opacity})`;
-          ctx.lineWidth = 0.8;
+          ctx.strokeStyle = strokeColor;
+          ctx.lineWidth = 0.75;
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
           ctx.stroke();

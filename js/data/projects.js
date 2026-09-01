@@ -1,7 +1,7 @@
 /**
  * PROJECTS DATA REPOSITORY
  * Single source of truth for all projects, case studies, and architecture workflows.
- * To add a new project in the future, simply append a new object to this array.
+ * Each project uses its dedicated repository URL. If no dedicated repo exists, github is null.
  */
 
 const projectsData = [
@@ -52,7 +52,7 @@ const projectsData = [
     thumbnail: null,
     video: null,
     screenshots: [],
-    github: "https://github.com/KESHAVAPANDI",
+    github: null, // No dedicated repository
     demo: null,
     overview: "Standard diffusion models require 25 to 50 denoising iterations, demanding significant compute time. This project implements an accelerated local inference pipeline using Latent Consistency Models and Low-Rank Adaptation (LCM-LoRA) to generate high-resolution visual assets in as few as 4-8 inference steps.",
     problem: "Standard text-to-image diffusion models exhibit high compute latency on local hardware, making interactive creative prototyping sluggish.",
@@ -148,7 +148,7 @@ const projectsData = [
     thumbnail: null,
     video: null,
     screenshots: [],
-    github: "https://github.com/KESHAVAPANDI",
+    github: null, // No dedicated repository
     demo: null,
     overview: "Transformo Docs is a dual-interface (Web API + GUI) document processing utility designed to streamline document workflows. It combines optical character recognition for digitizing scanned documents with robust document manipulation utilities.",
     problem: "Handling diverse document formats, extracting text from unsearchable PDFs, and batch document manipulation often requires disjointed tools.",
@@ -216,7 +216,7 @@ const projectsData = [
     thumbnail: null,
     video: null,
     screenshots: [],
-    github: "https://github.com/KESHAVAPANDI",
+    github: null, // No dedicated repository
     demo: null,
     overview: "Institutional hostels encounter operational overhead managing physical logbooks for gate passes, room occupancy, meal tokens, and complaints. This system replaces paper records with a unified, role-based web application.",
     problem: "Manual paper-based hostel logs lead to misplaced gate passes, inefficient complaint resolution, and uncoordinated room tracking.",
