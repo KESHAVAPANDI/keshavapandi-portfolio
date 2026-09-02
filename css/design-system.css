@@ -63,6 +63,8 @@
   /* Layout & Spacing */
   --max-width: 1200px;
   --header-height: 72px;
+  --anchor-gap: 1.5rem;
+  --header-offset: calc(var(--header-height) + var(--anchor-gap));
   --section-padding: 4.75rem;
   --radius-xs: 4px;
   --radius-sm: 8px;
@@ -137,6 +139,7 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
+  scroll-padding-top: var(--header-offset);
   -webkit-text-size-adjust: 100%;
 }
 
