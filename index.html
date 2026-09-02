@@ -34,6 +34,17 @@
   <link rel="stylesheet" href="css/contact.css">
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- Immediate Theme Engine Initialization (Prevents FOUC) -->
+  <script>
+    (function() {
+      try {
+        var saved = localStorage.getItem('portfolio-theme');
+        var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
 
@@ -205,7 +216,7 @@
             <span class="metric-label">3x NVIDIA DLI + Google</span>
           </div>
           <div class="metric-item">
-            <span class="metric-number text-gradient">10 Projects</span>
+            <span class="metric-number text-gradient" id="hero-project-count">9 Projects</span>
             <span class="metric-label">AI & Software Engineering</span>
           </div>
           <div class="metric-item">

@@ -1,6 +1,7 @@
 /**
  * WORKFLOW & ARCHITECTURE DIAGRAM RENDERER
  * Generates custom, responsive architecture flowcharts for each project case study.
+ * Responsive layout with inline directional indicators, fitting naturally within the modal without horizontal scrollbars.
  */
 
 function renderWorkflowDiagram(workflowNodes) {
@@ -11,19 +12,14 @@ function renderWorkflowDiagram(workflowNodes) {
   const nodesHtml = workflowNodes.map((node, index) => {
     const isLast = index === workflowNodes.length - 1;
     return `
-      <div class="pipeline-node">
-        <span class="node-step-badge">Phase ${node.step}</span>
+      <div class="pipeline-node ${isLast ? 'is-last-step' : ''}">
+        <div class="node-header-row">
+          <span class="node-step-badge">Phase ${node.step}</span>
+          ${!isLast ? `<span class="node-arrow-inline" aria-hidden="true">→</span>` : `<span class="node-end-dot" title="Completed Output">✓</span>`}
+        </div>
         <h5 class="node-title">${node.title}</h5>
         <p class="node-desc">${node.desc}</p>
       </div>
-      ${!isLast ? `
-        <div class="pipeline-connector" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
-        </div>
-      ` : ''}
     `;
   }).join('');
 

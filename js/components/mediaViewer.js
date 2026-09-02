@@ -1,7 +1,8 @@
 /**
  * PROMINENT 2-COLUMN MEDIA & CERTIFICATE LIGHTBOX VIEWER
  * Features large certificate/achievement image stage on the left,
- * structured metadata panel on the right, and prev/next controls.
+ * structured metadata panel on the right, directional slide animations,
+ * and keyboard navigation controls.
  */
 
 class MediaLightboxViewer {
@@ -10,6 +11,7 @@ class MediaLightboxViewer {
     this.items = [];
     this.currentIndex = 0;
     this.type = 'cert'; // 'cert' or 'achievement'
+    this.isAnimating = false;
     this.initListeners();
   }
 
@@ -42,6 +44,7 @@ class MediaLightboxViewer {
     this.items = items;
     this.currentIndex = startIndex;
     this.type = type;
+    this.isAnimating = false;
     this.render();
 
     document.body.style.overflow = 'hidden';
@@ -62,15 +65,54 @@ class MediaLightboxViewer {
   }
 
   prev() {
-    if (this.items.length <= 1) return;
-    this.currentIndex = (this.currentIndex - 1 + this.items.length) % this.items.length;
-    this.render();
+    if (this.items.length <= 1 || this.isAnimating) return;
+    this.navigateWithAnimation('prev');
   }
 
   next() {
-    if (this.items.length <= 1) return;
-    this.currentIndex = (this.currentIndex + 1) % this.items.length;
-    this.render();
+    if (this.items.length <= 1 || this.isAnimating) return;
+    this.navigateWithAnimation('next');
+  }
+
+  navigateWithAnimation(direction) {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const body = this.modalEl.querySelector('.lightbox-body');
+
+    if (prefersReducedMotion || !body) {
+      if (direction === 'next') {
+        this.currentIndex = (this.currentIndex + 1) % this.items.length;
+      } else {
+        this.currentIndex = (this.currentIndex - 1 + this.items.length) % this.items.length;
+      }
+      this.render();
+      return;
+    }
+
+    this.isAnimating = true;
+    const outClass = direction === 'next' ? 'slide-out-left' : 'slide-out-right';
+    const inClass = direction === 'next' ? 'slide-in-right' : 'slide-in-left';
+
+    body.classList.add(outClass);
+
+    setTimeout(() => {
+      if (direction === 'next') {
+        this.currentIndex = (this.currentIndex + 1) % this.items.length;
+      } else {
+        this.currentIndex = (this.currentIndex - 1 + this.items.length) % this.items.length;
+      }
+      this.render();
+
+      const newBody = this.modalEl.querySelector('.lightbox-body');
+      if (newBody) {
+        newBody.classList.add(inClass);
+        setTimeout(() => {
+          newBody.classList.remove(inClass);
+          this.isAnimating = false;
+        }, 300);
+      } else {
+        this.isAnimating = false;
+      }
+    }, 140);
   }
 
   render() {
@@ -138,7 +180,7 @@ class MediaLightboxViewer {
           <button class="modal-close-btn" id="lightbox-close-btn" aria-label="Close viewer">✕</button>
         </div>
 
-        <!-- 2-Column Body -->
+        <!-- 2-Column Body with Directional Transitions -->
         <div class="lightbox-body">
           <!-- Left: Image Stage -->
           <div class="lightbox-image-stage">

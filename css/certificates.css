@@ -222,13 +222,54 @@
   border: 1px solid var(--border-subtle);
 }
 
-/* 2-Column Body Layout (Image + Info Panel) */
+/* 2-Column Body Layout (Image + Info Panel) with Directional Slide Transitions */
 .lightbox-body {
   display: grid;
   grid-template-columns: 1.35fr 0.85fr;
   flex: 1;
   overflow-y: auto;
   min-height: 420px;
+  transition: opacity 0.14s ease-out, transform 0.14s ease-out;
+}
+
+.lightbox-body.slide-out-left {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.lightbox-body.slide-out-right {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.lightbox-body.slide-in-right {
+  animation: certSlideInRight 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.lightbox-body.slide-in-left {
+  animation: certSlideInLeft 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes certSlideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes certSlideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 /* Left: Large Image Stage */
@@ -241,6 +282,11 @@
   border-right: 1px solid var(--border-subtle);
   position: relative;
   min-height: 380px;
+  transition: background-color var(--transition-normal);
+}
+
+[data-theme="light"] .lightbox-image-stage {
+  background: #F1F5F9;
 }
 
 .lightbox-image-stage img {

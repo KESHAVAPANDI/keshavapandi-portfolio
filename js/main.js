@@ -63,12 +63,19 @@ function initThemeEngine() {
   function getPreferredTheme() {
     const saved = localStorage.getItem(THEME_KEY);
     if (saved) return saved;
-    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+      return 'light';
+    }
+    return 'dark';
   }
 
-  function applyTheme(theme) {
+  function applyTheme(theme, saveManual = false) {
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem(THEME_KEY, theme);
+    if (saveManual) {
+      try {
+        localStorage.setItem(THEME_KEY, theme);
+      } catch (e) {}
+    }
 
     themeToggleBtns.forEach(btn => {
       btn.innerHTML = theme === 'dark' ? sunIcon : moonIcon;
@@ -79,23 +86,25 @@ function initThemeEngine() {
 
   // Initial theme application
   const currentTheme = getPreferredTheme();
-  applyTheme(currentTheme);
+  applyTheme(currentTheme, false);
 
-  // Toggle button clicks
+  // Toggle button clicks (explicit user action)
   themeToggleBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const activeTheme = document.documentElement.getAttribute('data-theme') || 'dark';
       const newTheme = activeTheme === 'dark' ? 'light' : 'dark';
-      applyTheme(newTheme);
+      applyTheme(newTheme, true);
     });
   });
 
   // Listen to OS theme changes if user hasn't explicitly set preference
-  window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', e => {
-    if (!localStorage.getItem(THEME_KEY)) {
-      applyTheme(e.matches ? 'light' : 'dark');
-    }
-  });
+  if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', e => {
+      if (!localStorage.getItem(THEME_KEY)) {
+        applyTheme(e.matches ? 'light' : 'dark', false);
+      }
+    });
+  }
 }
 
 /* ==========================================================================

@@ -1,32 +1,42 @@
 /* ==========================================================================
-   PROJECT WORKFLOW / ARCHITECTURE DIAGRAMS
+   PROJECT WORKFLOW / ARCHITECTURE DIAGRAMS (THEME-AWARE & FULLY RESPONSIVE)
+   Fits naturally inside modal without horizontal scrollbars.
    ========================================================================== */
 
 .workflow-section {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  width: 100%;
 }
 
 .workflow-container {
   background: #080C14;
   border: 1px solid var(--border-medium);
   border-radius: var(--radius-lg);
-  padding: 2rem;
+  padding: 1.5rem;
   position: relative;
-  overflow-x: auto;
+  overflow: hidden; /* No ugly horizontal scrollbars */
+  transition: background-color var(--transition-normal), border-color var(--transition-normal);
+  width: 100%;
+}
+
+[data-theme="light"] .workflow-container {
+  background: #FFFFFF;
+  border-color: rgba(15, 23, 42, 0.12);
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
 }
 
 .workflow-diagram-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.25rem;
 }
 
 .workflow-diagram-title {
   font-family: var(--font-mono);
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--accent-cyan);
@@ -35,13 +45,17 @@
   gap: 0.5rem;
 }
 
-/* Workflow Flow Track */
+[data-theme="light"] .workflow-diagram-title {
+  color: var(--accent-sky);
+}
+
+/* Responsive Grid Flow Track */
 .workflow-pipeline {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  min-width: min-content;
-  padding: 0.5rem 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+  gap: 0.85rem;
+  width: 100%;
+  align-items: stretch;
 }
 
 /* Single Step Node */
@@ -49,15 +63,19 @@
   background: rgba(18, 26, 42, 0.85);
   border: 1px solid var(--border-accent);
   border-radius: var(--radius-md);
-  padding: 1.15rem 1.25rem;
-  min-width: 170px;
-  max-width: 220px;
+  padding: 1.1rem 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
   position: relative;
-  transition: all var(--transition-fast);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] .pipeline-node {
+  background: #F8FAFC;
+  border-color: rgba(2, 132, 199, 0.22);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
 }
 
 .pipeline-node:hover {
@@ -67,70 +85,105 @@
   background: rgba(22, 33, 54, 0.95);
 }
 
+[data-theme="light"] .pipeline-node:hover {
+  background: #FFFFFF;
+  border-color: var(--accent-cyan);
+  box-shadow: 0 8px 20px rgba(2, 132, 199, 0.15);
+}
+
+.node-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
 .node-step-badge {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 700;
   color: var(--accent-sky);
   text-transform: uppercase;
+  background: rgba(56, 189, 248, 0.1);
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+[data-theme="light"] .node-step-badge {
+  color: #0284C7;
+  background: rgba(2, 132, 199, 0.08);
+  border-color: rgba(2, 132, 199, 0.2);
+}
+
+.node-arrow-inline {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  transition: transform var(--transition-fast);
+}
+
+[data-theme="light"] .node-arrow-inline {
+  color: var(--accent-sky);
+}
+
+.pipeline-node:hover .node-arrow-inline {
+  transform: translateX(3px);
+}
+
+.node-end-dot {
+  font-size: 0.85rem;
+  color: var(--accent-emerald);
+  font-weight: 700;
 }
 
 .node-title {
   font-family: var(--font-display);
-  font-size: 0.98rem;
+  font-size: 0.92rem;
   font-weight: 700;
   color: var(--text-primary);
+  line-height: 1.35;
+}
+
+[data-theme="light"] .node-title {
+  color: #0F172A;
 }
 
 .node-desc {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--text-muted);
   line-height: 1.45;
+  margin-top: 0.1rem;
 }
 
-/* Arrow Connector between nodes */
-.pipeline-connector {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--accent-sky);
-  padding: 0 0.25rem;
-  position: relative;
-  flex-shrink: 0;
+[data-theme="light"] .node-desc {
+  color: #64748B;
 }
 
-.pipeline-connector svg {
-  width: 24px;
-  height: 24px;
-  stroke: var(--accent-sky);
-  animation: pulse-arrow 1.8s infinite ease-in-out;
-}
-
-@keyframes pulse-arrow {
-  0%, 100% { transform: translateX(0); opacity: 0.7; }
-  50% { transform: translateX(4px); opacity: 1; stroke: var(--accent-cyan); }
-}
-
-/* Responsive adjustment */
+/* Tablet & Mobile Breakpoints */
 @media (max-width: 768px) {
   .workflow-pipeline {
-    flex-direction: column;
-    align-items: stretch;
-    min-width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 0.65rem;
   }
 
-  .pipeline-node {
-    max-width: 100%;
-    min-width: 100%;
+  .workflow-container {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 580px) {
+  .workflow-pipeline {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
   }
 
-  .pipeline-connector svg {
+  .node-arrow-inline {
     transform: rotate(90deg);
-    animation: pulse-arrow-vertical 1.8s infinite ease-in-out;
   }
 
-  @keyframes pulse-arrow-vertical {
-    0%, 100% { transform: rotate(90deg) translateX(0); opacity: 0.7; }
-    50% { transform: rotate(90deg) translateX(4px); opacity: 1; }
+  .pipeline-node:hover .node-arrow-inline {
+    transform: rotate(90deg) translateX(3px);
   }
 }

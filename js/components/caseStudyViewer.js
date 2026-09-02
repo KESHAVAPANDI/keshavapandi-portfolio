@@ -186,6 +186,13 @@ class CaseStudyViewer {
           Source Code
         </a>
       `;
+    } else if (p.sourceUrl) {
+      linksHtml += `
+        <a href="${p.sourceUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" aria-label="Visit source site ${p.sourceLabel || ''}">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          Source (${p.sourceLabel || 'Website'})
+        </a>
+      `;
     }
     if (p.demo) {
       linksHtml += `

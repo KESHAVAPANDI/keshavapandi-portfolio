@@ -1,7 +1,7 @@
 /**
  * PROJECTS DATA REPOSITORY
  * Authoritative source of truth for all projects, case studies, and architecture workflows.
- * Reconciled with the latest resume and GitHub verified repositories.
+ * Exactly 9 projects (6 AI Projects, 3 Software & Web Projects).
  */
 
 const projectsData = [
@@ -49,7 +49,7 @@ const projectsData = [
     type: "ai",
     category: "Computer Vision & OCR Preprocessing",
     tagType: "cv",
-    isInternship: true,
+    isInternship: false,
     organization: "RBG AI",
     period: "2024 – 2025",
     description: "An AI computer vision module that cleans and enhances bank cheque images by removing grid lines, symbols, and noise, preserving only meaningful text to improve OCR accuracy.",
@@ -219,20 +219,22 @@ const projectsData = [
   // ==========================================
   {
     id: "oxyher-ecommerce",
-    title: "E-Commerce Platform (OXYHER)",
+    title: "Oxyher",
     type: "other",
     category: "Full-Stack Web & E-Commerce",
     tagType: "web",
-    isInternship: false,
+    isInternship: true,
+    organization: "Oxyher",
     period: "2024 – 2025",
     description: "A full-stack e-commerce platform offering intimate hygiene products tailored for women, built with privacy-first user workflows and dynamic catalog management.",
     technologies: ["Node.js", "Express", "MongoDB", "JavaScript", "HTML5", "CSS3"],
     thumbnail: null,
     video: null,
     screenshots: [],
-    github: "https://github.com/KESHAVAPANDI/product",
-    demo: null,
-    overview: "OXYHER is a full-stack digital storefront created to provide a comfortable, discreet, and reliable purchasing experience for women's personal hygiene products. Built on a Node.js and MongoDB foundation, it manages product inventories, categories, user carts, and checkout flows.",
+    github: null,
+    sourceUrl: null,
+    demo: "https://oxyher.com/",
+    overview: "Oxyher is a full-stack digital storefront created to provide a comfortable, discreet, and reliable purchasing experience for women's personal hygiene products. Built on a Node.js and MongoDB foundation, it manages product inventories, categories, user carts, and checkout flows.",
     problem: "Creating an accessible, discreet, and high-performance shopping interface tailored specifically for personal hygiene essentials.",
     solution: "Developed a full-stack architecture featuring a responsive web frontend, secure REST API endpoints, and a flexible MongoDB document store.",
     howItWorks: "The client frontend communicates with Express route handlers to fetch categorized product catalogs, manage session carts in state, and store order documents in MongoDB.",
@@ -297,8 +299,8 @@ const projectsData = [
     thumbnail: null,
     video: null,
     screenshots: [],
-    github: "https://github.com/KESHAVAPANDI/petpair",
-    demo: "https://petpair-eight.vercel.app",
+    github: null,
+    demo: "https://peto-alpha.vercel.app/",
     overview: "PetPair is a modern frontend application designed to simplify the pet adoption process. It offers intuitive filtering based on animal temperament, age, breed, and location, providing an engaging browsing experience.",
     problem: "Finding suitable pets for adoption is often cumbersome across outdated, unorganized rescue websites.",
     solution: "Built a responsive, modern web interface with reactive filtering and clean card components for pet profiles.",
@@ -316,39 +318,6 @@ const projectsData = [
       { step: "04", title: "Inquiry Connection", desc: "Direct adoption inquiry connection with rescue contact" }
     ],
     outcome: "Launched live adoption platform offering an intuitive, modern pet discovery interface."
-  },
-  {
-    id: "fastapi-app",
-    title: "FastAPI Backend Service",
-    type: "other",
-    category: "High-Performance Backend & APIs",
-    tagType: "web",
-    isInternship: false,
-    description: "An asynchronous, high-throughput backend API service built with Python and FastAPI, featuring automatic OpenAPI documentation and Pydantic validation.",
-    technologies: ["Python", "FastAPI", "Pydantic", "Uvicorn", "RESTful APIs"],
-    thumbnail: null,
-    video: null,
-    screenshots: [],
-    github: "https://github.com/KESHAVAPANDI/FastAPIApp",
-    demo: null,
-    overview: "FastAPI is known for its speed and asynchronous capabilities. This project implements a clean modular backend architecture utilizing asynchronous route handlers, strict data validation with Pydantic models, and auto-generated Swagger documentation.",
-    problem: "Building reliable, self-documenting, and type-safe REST APIs for microservices and frontend clients.",
-    solution: "Constructed an extensible FastAPI service leveraging Python type annotations for automatic request validation and serialization.",
-    howItWorks: "Incoming HTTP requests pass through Pydantic model validators. Asynchronous endpoints execute business logic and return structured JSON responses with appropriate HTTP status codes.",
-    features: [
-      "Asynchronous request handling with Uvicorn ASGI server",
-      "Strict data contract validation using Pydantic schemas",
-      "Automatic interactive documentation (Swagger UI & ReDoc)",
-      "Modular routing hierarchy and error handling middleware"
-    ],
-    workflow: [
-      { step: "01", title: "HTTP Request", desc: "Client sends REST payload to API endpoint" },
-      { step: "02", title: "Pydantic Validation", desc: "Schema parser checks types, constraints, and data integrity" },
-      { step: "03", title: "Async Route Execution", desc: "Asynchronous controller processes business logic" },
-      { step: "04", title: "JSON Serialization", desc: "Response model serializes structured JSON payload" },
-      { step: "05", title: "Client Response", desc: "Status code and validated response returned to client" }
-    ],
-    outcome: "Established a robust, type-safe API foundation ready for production integration."
   }
 ];
 
