@@ -1,11 +1,11 @@
 /**
  * UNIFIED CONSTELLATION & PARTICLE NETWORK BACKGROUND CANVAS
- * Single, elegant technical network animation used in both Dark Mode and Light Mode.
+ * Single, authoritative technical network animation used in both Dark Mode and Light Mode.
  *
  * - Dark Mode: Subtle cyan/indigo glowing constellation network.
- * - Light Mode: Same constellation network rendered with lower opacity/intensity for a clean, faint aesthetic.
+ * - Light Mode: EXACT SAME constellation network, rendered with tailored contrast so it is clearly visible and gently moving against the light background.
  *
- * Lightweight, high-performance, battery-friendly, High-DPI support, zero dependencies.
+ * High-performance, zero dependencies, High-DPI (Retina) support, battery-friendly.
  */
 
 function initBackgroundCanvas() {
@@ -45,20 +45,20 @@ function initBackgroundCanvas() {
   class Particle {
     constructor() {
       this.reset(true);
-      this.colorType = Math.random() > 0.4 ? 1 : 2; // 1 = Cyan/Sky, 2 = Indigo
+      this.colorType = Math.random() > 0.4 ? 1 : 2; // 1 = Cyan/Sky Blue, 2 = Indigo
     }
 
     reset(initial = false) {
       this.x = Math.random() * width;
       this.y = initial ? Math.random() * height : (Math.random() > 0.5 ? -10 : height + 10);
 
-      // Slow, subtle, graceful drifting velocity
-      const speed = 0.18 + Math.random() * 0.22;
+      // Steady, elegant floating velocity
+      const speed = 0.22 + Math.random() * 0.28;
       const angle = Math.random() * Math.PI * 2;
       this.vx = Math.cos(angle) * speed;
       this.vy = Math.sin(angle) * speed;
 
-      this.radius = 1.2 + Math.random() * 1.2;
+      this.radius = 1.4 + Math.random() * 1.3;
     }
 
     update() {
@@ -78,15 +78,15 @@ function initBackgroundCanvas() {
       let fillColor;
 
       if (light) {
-        // Light Mode: Same constellation, transparent & faint
+        // Light Mode: Same constellation structure with clean visible contrast
         fillColor = this.colorType === 1
-          ? 'rgba(2, 132, 199, 0.40)'   // Faint Sky Blue
-          : 'rgba(99, 102, 241, 0.35)';  // Faint Indigo
+          ? 'rgba(2, 132, 199, 0.70)'   // Sky Blue
+          : 'rgba(79, 70, 229, 0.65)';  // Indigo
       } else {
-        // Dark Mode: Subtle technical glowing cyan & indigo
+        // Dark Mode: Subtle glowing cyan & indigo
         fillColor = this.colorType === 1
-          ? 'rgba(0, 240, 255, 0.70)'   // Cyber Cyan
-          : 'rgba(129, 140, 248, 0.60)'; // Luminous Indigo
+          ? 'rgba(0, 240, 255, 0.75)'   // Cyber Cyan
+          : 'rgba(129, 140, 248, 0.65)'; // Luminous Indigo
       }
 
       ctx.beginPath();
@@ -97,9 +97,9 @@ function initBackgroundCanvas() {
   }
 
   function initParticles() {
-    // Elegant density: not crowded, not empty
-    const baseCount = Math.floor((width * height) / 20000);
-    const particleCount = Math.max(22, Math.min(baseCount, 45));
+    // Balanced density: guaranteed clean coverage across all viewports
+    const baseCount = Math.floor((width * height) / 18000);
+    const particleCount = Math.max(26, Math.min(baseCount, 50));
 
     particles = [];
     for (let i = 0; i < particleCount; i++) {
@@ -108,7 +108,7 @@ function initBackgroundCanvas() {
   }
 
   function connectParticles() {
-    const maxDist = width < 768 ? 100 : 125;
+    const maxDist = width < 768 ? 105 : 130;
     const maxDistSq = maxDist * maxDist;
     const light = isLightMode();
 
@@ -122,15 +122,15 @@ function initBackgroundCanvas() {
           const factor = 1 - distSq / maxDistSq;
 
           let strokeColor;
-          let lineWidth = 0.75;
+          const lineWidth = 0.85;
 
           if (light) {
-            // Light Mode: faint transparent connecting lines
-            const alpha = factor * 0.16;
+            // Light Mode: clearly visible yet subtle connecting lines
+            const alpha = factor * 0.28;
             strokeColor = `rgba(3, 105, 161, ${alpha})`;
           } else {
             // Dark Mode: subtle cyber connecting lines
-            const alpha = factor * 0.24;
+            const alpha = factor * 0.28;
             strokeColor = `rgba(56, 189, 248, ${alpha})`;
           }
 
