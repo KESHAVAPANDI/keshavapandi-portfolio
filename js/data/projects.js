@@ -49,7 +49,7 @@ const projectsData = [
     type: "ai",
     category: "Computer Vision & OCR Preprocessing",
     tagType: "cv",
-    isInternship: false,
+    isInternship: true,
     organization: "RBG AI",
     period: "2024 – 2025",
     description: "An AI computer vision module that cleans and enhances bank cheque images by removing grid lines, symbols, and noise, preserving only meaningful text to improve OCR accuracy.",
