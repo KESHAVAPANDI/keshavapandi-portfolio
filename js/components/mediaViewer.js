@@ -411,7 +411,6 @@ function renderCertificates(lightboxInstance) {
           <span class="cert-issuer">${c.issuer}</span>
           <h3 class="cert-title">${c.title}</h3>
           <span class="cert-date">${c.date}</span>
-          <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:0; line-height:1.55;">${c.description}</p>
         </div>
       </article>
     `;
@@ -457,7 +456,6 @@ function renderAchievements(lightboxInstance) {
           <span class="cert-issuer">${a.issuer || a.organization}</span>
           <h3 class="cert-title">${a.title}</h3>
           <span class="cert-date">${a.date}</span>
-          <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:0; line-height:1.55;">${a.description}</p>
         </div>
       </article>
     `;
