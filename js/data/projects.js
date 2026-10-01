@@ -1,7 +1,7 @@
 /**
  * PROJECTS DATA REPOSITORY
  * Authoritative source of truth for all projects, case studies, and architecture workflows.
- * Exactly 9 projects (6 AI Projects, 3 Software & Web Projects).
+ * Exactly 10 projects (6 AI Projects, 4 Software & Web Projects).
  */
 
 const projectsData = [
@@ -57,7 +57,7 @@ const projectsData = [
     thumbnail: null,
     video: null,
     screenshots: [],
-    github: "https://github.com/KESHAVAPANDI/Internship",
+    github: "https://github.com/KESHAVAPANDI/RBG-AI-Internship",
     demo: null,
     overview: "Developed during an internship at RBG AI, this module preprocesses financial documents and bank cheques by stripping noise, grid lines, security background patterns, and stamps to preserve crisp text contours for downstream OCR engines.",
     problem: "Raw cheques contain complex security background patterns, watermarks, stamps, and noise that severely degrade OCR character recognition accuracy and confidence scores.",
@@ -92,7 +92,7 @@ const projectsData = [
     thumbnail: null,
     video: null,
     screenshots: [],
-    github: null,
+    github: "https://github.com/KESHAVAPANDI/text-to-image-generation",
     demo: null,
     overview: "Standard diffusion models require 25 to 50 denoising iterations, demanding significant compute time. This project implements an accelerated local inference pipeline using Latent Consistency Models and Low-Rank Adaptation (LCM-LoRA) to generate high-resolution visual assets in as few as 4-8 inference steps.",
     problem: "Standard text-to-image diffusion models exhibit high compute latency on local hardware, making interactive creative prototyping sluggish.",
@@ -126,7 +126,7 @@ const projectsData = [
     thumbnail: null,
     video: null,
     screenshots: [],
-    github: null,
+    github: "https://github.com/KESHAVAPANDI/transformoDocs",
     demo: null,
     overview: "Transformo Docs is a modular document processing and transformation system designed to automate end-to-end document workflows. It combines optical character recognition with pre-processing enhancement filters and multi-format document manipulation tools.",
     problem: "Handling diverse scanned document formats, unsearchable PDFs, and batch operations often requires multiple disconnected tools.",
@@ -217,6 +217,43 @@ const projectsData = [
   // ==========================================
   // 2. OTHER PROJECTS (SOFTWARE & WEB DEVELOPMENT)
   // ==========================================
+  {
+    id: "scrapeflow",
+    title: "ScrapeFlow — Web Data Synchronization Platform",
+    type: "other",
+    category: "Full-Stack Platform & Web Intelligence",
+    tagType: "web",
+    isInternship: false,
+    period: "2026",
+    description: "Enterprise-grade web data synchronization and monitoring platform that turns raw scrapes into continuous relational intelligence — SSRF-safe ingestion, hierarchical extraction with Playwright fallback, field-level change classification, canonical entity resolution, and HMAC-signed webhook alerts.",
+    technologies: ["Python", "FastAPI", "Next.js", "TypeScript", "PostgreSQL", "Playwright"],
+    thumbnail: null,
+    video: null,
+    screenshots: [],
+    github: "https://github.com/KESHAVAPANDI/ScrapeFlow",
+    demo: null,
+    overview: "ScrapeFlow is an enterprise-grade web data synchronization and monitoring platform. It bridges raw scrapes with continuous relational intelligence: SSRF-protected safe ingestion that resolves and pins IPs before connecting (filtering private, cloud metadata, and loopback ranges), hierarchical extraction with automatic schema discovery from JSON-LD, OpenGraph, HTML tables, and CSS/XPath (with a Playwright browser fallback), continuous historical lineage with gzip-compressed raw snapshots, and non-destructive reprocessing of historical scrapes against improved extraction schemas.",
+    problem: "Traditional web scrapers treat pages as one-off data dumps. When a target page alters its prices, stock levels, or layout, teams are left with broken scripts, silent data corruption, or duplicate unlinked records.",
+    solution: "Built a Dockerized full-stack platform (FastAPI backend, Next.js frontend, PostgreSQL, Redis) that ingests safely, extracts hierarchically with schema auto-discovery, versions every observation, classifies field-level changes, resolves multi-source observations into canonical entities, and dispatches proactive alerts.",
+    howItWorks: "Targets are fetched through an SSRF guard that resolves and pins IPs before connecting. The extraction engine auto-discovers schemas from JSON-LD, OpenGraph, tables, or CSS/XPath selectors, falling back to a Playwright browser for dynamic pages. Observations are validated, normalized, and versioned; incoming data is classified field-by-field as ADDED, UPDATED, UNCHANGED, REMOVED, or CONFLICT with precise percentage and absolute deltas. Multi-source observations aggregate into canonical entities (e.g. comparing product prices across Amazon, Flipkart, and brand stores), and threshold, stock, or health-score triggers dispatch HMAC-SHA256 signed webhooks.",
+    features: [
+      "SSRF-protected safe ingestion with IP pinning and private/cloud-metadata range filtering",
+      "Hierarchical extraction auto-discovery (JSON-LD, OpenGraph, tables, CSS/XPath) with Playwright fallback",
+      "Field-level synchronization classification (ADDED / UPDATED / UNCHANGED / REMOVED / CONFLICT) with precise deltas",
+      "Multi-source canonical entities, e.g. unified cross-store product price comparison",
+      "Proactive alerts with HMAC-SHA256 signed webhook dispatch",
+      "Non-destructive historical reprocessing against improved extraction schemas",
+      "Dockerized FastAPI + Next.js 15 stack with PostgreSQL, Redis, and CI"
+    ],
+    workflow: [
+      { step: "01", title: "Safe Ingestion", desc: "SSRF guard resolves and pins IPs, filtering unsafe ranges" },
+      { step: "02", title: "Extraction & Auto-Discovery", desc: "Schema discovery from JSON-LD, OpenGraph, tables, or selectors" },
+      { step: "03", title: "Validation & Versioning", desc: "Normalization with explicit schema and extractor versions" },
+      { step: "04", title: "Sync Classification", desc: "Field-level diffing into ADDED, UPDATED, UNCHANGED, REMOVED, CONFLICT" },
+      { step: "05", title: "Canonical Entities & Alerts", desc: "Multi-source entity resolution with signed webhook notifications" }
+    ],
+    outcome: "Turned fragile one-off scrapers into a continuously synchronized, auditable web intelligence platform with full historical lineage."
+  },
   {
     id: "oxyher-ecommerce",
     title: "Oxyher",
