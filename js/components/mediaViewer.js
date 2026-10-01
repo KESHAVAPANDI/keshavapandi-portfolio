@@ -438,26 +438,32 @@ function renderAchievements(lightboxInstance) {
   if (!achGrid || !achievementsData) return;
 
   achGrid.innerHTML = achievementsData.map((a, index) => {
-    const highlightsHtml = a.highlights.map(h => `<span class="tag-badge" style="font-size:0.75rem;">${h}</span>`).join('');
     return `
-      <article class="achievement-card" data-ach-index="${index}" tabindex="0" role="button" aria-label="View ${a.title} achievement">
+      <article class="cert-card" data-ach-index="${index}" tabindex="0" role="button" aria-label="View ${a.title} achievement">
+        <div class="cert-media-preview">
+          ${a.image ? `<img src="${a.image}" alt="${a.title}" loading="lazy">` : `
+            <div class="cert-placeholder">
+              <div class="cert-badge-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="8" r="7"></circle>
+                  <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                </svg>
+              </div>
+              <span class="placeholder-label" style="font-size:0.75rem;">Verified Achievement</span>
+            </div>
+          `}
+        </div>
         <div class="cert-card-body">
-          <span class="cert-issuer">${a.organization}</span>
+          <span class="cert-issuer">${a.issuer || a.organization}</span>
           <h3 class="cert-title">${a.title}</h3>
-          <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:1.15rem; line-height:1.6;">${a.description}</p>
-          <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:1.15rem;">
-            ${highlightsHtml}
-          </div>
-          <button class="cert-view-btn" aria-label="View milestone details">
-            View Milestone Details
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-          </button>
+          <span class="cert-date">${a.date}</span>
+          <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:0; line-height:1.55;">${a.description}</p>
         </div>
       </article>
     `;
   }).join('');
 
-  achGrid.querySelectorAll('.achievement-card').forEach(card => {
+  achGrid.querySelectorAll('.cert-card').forEach(card => {
     const idx = parseInt(card.getAttribute('data-ach-index'), 10);
     const trigger = () => {
       if (lightboxInstance) lightboxInstance.open(achievementsData, idx, 'achievement');
