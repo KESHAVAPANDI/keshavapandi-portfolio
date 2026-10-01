@@ -330,9 +330,8 @@
 }
 
 /* ==========================================================================
-   PDF MODE — PDF.js page carousel inside the LEFT column of the
-   two-column layout (document left, details right).
-   Pages render to canvas: no native toolbar, no download button.
+   PDF MODE — single static front-page render inside the LEFT column.
+   No carousel, no swipe, no page counter.
    ========================================================================== */
 
 /* Left column becomes the document stage. */
@@ -344,7 +343,7 @@
   justify-content: stretch;
 }
 
-/* Inner PDF.js carousel host — fills the left column. */
+/* Inner PDF.js host — fills the left column. */
 .lightbox-pdf-stage {
   position: relative;
   width: 100%;
@@ -353,106 +352,24 @@
   background: #04070B;
 }
 
-.pdf-strip {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
+/* Single front-page frame, centered. */
+.pdf-single {
+  width: 100%;
   height: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  padding: 1.5rem 2rem;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(56, 189, 248, 0.35) transparent;
-}
-
-.pdf-strip::-webkit-scrollbar {
-  height: 6px;
-}
-
-.pdf-strip::-webkit-scrollbar-thumb {
-  background: rgba(56, 189, 248, 0.35);
-  border-radius: 3px;
-}
-
-.pdf-page {
-  flex: 0 0 auto;
-  height: 100%;
-  scroll-snap-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 1.5rem;
 }
 
-.pdf-page canvas {
-  height: 100%;
+.pdf-single canvas {
+  max-width: 100%;
+  max-height: 100%;
   width: auto;
-  max-width: none;
+  height: auto;
   border-radius: 6px;
   background: #fff;
   box-shadow: 0 14px 44px rgba(0, 0, 0, 0.6);
-}
-
-/* Floating page controls */
-.pdf-ui {
-  position: absolute;
-  inset: auto 0 0.9rem 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.7rem;
-  pointer-events: none;
-  z-index: 5;
-}
-
-.pdf-ui .pdf-nav-btn,
-.pdf-ui .pdf-counter {
-  pointer-events: auto;
-}
-
-.pdf-nav-btn {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(15, 23, 42, 0.62);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-primary);
-  cursor: pointer;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
-}
-
-.pdf-nav-btn:hover:not(:disabled) {
-  background: rgba(56, 189, 248, 0.18);
-  border-color: var(--border-accent);
-  transform: scale(1.08);
-}
-
-.pdf-nav-btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-
-.pdf-counter {
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  color: var(--text-primary);
-  background: rgba(15, 23, 42, 0.62);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-full);
-  padding: 0.35rem 0.85rem;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-.pdf-counter strong {
-  color: var(--accent-cyan);
-  font-weight: 700;
 }
 
 /* Loading / error states */

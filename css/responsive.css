@@ -397,7 +397,7 @@
     object-fit: contain;
   }
 
-  /* PDF carousel inside the left column on mobile */
+  /* PDF front-page render inside the left column on mobile */
   .lightbox-image-stage.has-pdf {
     min-height: 0;
     max-height: none;
@@ -410,9 +410,8 @@
     height: 100%;
   }
 
-  .pdf-strip {
-    padding: 1rem 1.25rem;
-    gap: 1rem;
+  .pdf-single {
+    padding: 1rem;
   }
 
   .lightbox-placeholder-view {
