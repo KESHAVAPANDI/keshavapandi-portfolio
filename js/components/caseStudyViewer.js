@@ -181,13 +181,15 @@ class CaseStudyViewer {
       </button>`;
 
     this.modalContainer.innerHTML = `
-      <div class="watch-player">
-        ${videoPane}
-        ${galleryPane}
-        ${tabsHtml}
-        <button class="watch-close-btn" id="modal-watch-close" aria-label="Close case study">✕</button>
-      </div>
       <div class="watch-scroll">
+        <div class="watch-close-wrap">
+          <button class="watch-close-btn" id="modal-watch-close" aria-label="Close case study">✕</button>
+        </div>
+        <div class="watch-player">
+          ${videoPane}
+          ${galleryPane}
+          ${tabsHtml}
+        </div>
         <!-- Title block -->
         <div class="watch-title-block">
           <h2 class="watch-title">${p.title}</h2>

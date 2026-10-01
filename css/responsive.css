@@ -236,11 +236,13 @@
     transform: translateY(0);
   }
 
-  /* Player goes edge-to-edge at the top */
+  /* Player goes edge-to-edge at the top, scrolls with the content */
   .watch-player {
     aspect-ratio: 16 / 9;
     max-height: 32vh;
-    border-bottom: 1px solid var(--border-subtle);
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
   }
 
   .watch-close-btn {
@@ -260,8 +262,8 @@
   }
 
   .watch-scroll {
+    --watch-gap: 1.15rem;
     padding: 1.15rem 1rem calc(1.75rem + env(safe-area-inset-bottom, 0px));
-    gap: 1.15rem;
   }
 
   .watch-title {
@@ -284,6 +286,11 @@
 
   .watch-desc-box {
     padding: 1.05rem 1rem;
+  }
+
+  /* No project description on mobile */
+  .watch-desc-box {
+    display: none;
   }
 
   .watch-desc-text {
@@ -590,8 +597,8 @@
   }
 
   .watch-scroll {
+    --watch-gap: 1.1rem;
     padding: 1rem 0.85rem calc(1.5rem + env(safe-area-inset-bottom, 0px));
-    gap: 1.1rem;
   }
 
   .watch-desc-box {
