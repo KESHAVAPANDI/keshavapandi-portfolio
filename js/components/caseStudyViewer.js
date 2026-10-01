@@ -81,6 +81,24 @@ class CaseStudyViewer {
     document.body.style.overflow = '';
   }
 
+  /**
+   * Opens the shared certificate lightbox for an internship project,
+   * jumping straight to that project's page inside the certificate bundle.
+   */
+  openCertificate(project) {
+    const lightbox = window.mediaLightboxViewer;
+    if (!lightbox || !project || !project.certificate || !project.certificate.pdf) return;
+    const org = project.organization || 'Verified Credential';
+    lightbox.open([{
+      title: `${org} — Internship Certificate`,
+      issuer: org,
+      date: project.period || 'Verified',
+      description: `Internship completion certificate for the ${project.title} project.`,
+      pdf: project.certificate.pdf,
+      startPage: project.certificate.page || 1
+    }], 0, 'cert');
+  }
+
   renderContent() {
     const p = this.currentProject;
     if (!p) return;
@@ -142,6 +160,14 @@ class CaseStudyViewer {
 
     // ---------- Action links (YouTube-style pill actions) ----------
     let linksHtml = '';
+    // Internship certificate — opens the certificate viewer at this project's page
+    if (p.certificate && p.certificate.pdf) {
+      linksHtml += `
+        <button class="watch-action-btn watch-action-cert" data-view-certificate aria-label="View internship certificate for ${p.title}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+          <span>View Certificate</span>
+        </button>`;
+    }
     if (p.github) {
       linksHtml += `
         <a href="${p.github}" target="_blank" rel="noopener noreferrer" class="watch-action-btn" aria-label="View source code on GitHub">
@@ -267,6 +293,10 @@ class CaseStudyViewer {
     // Hook Close Button
     const closeBtn = document.getElementById('modal-watch-close');
     if (closeBtn) closeBtn.addEventListener('click', () => this.close());
+
+    // Hook "View Certificate" for internship projects
+    const certBtn = this.modalContainer.querySelector('[data-view-certificate]');
+    if (certBtn) certBtn.addEventListener('click', () => this.openCertificate(this.currentProject));
 
     // Hook player tabs (Demo video / Screenshots)
     const tabs = this.modalContainer.querySelectorAll('.watch-tab');

@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // 3. Initialize Modals & Viewers
   const caseStudyViewer = new window.CaseStudyViewer();
   const mediaLightboxViewer = new window.MediaLightboxViewer();
+  // Exposed so the case-study viewer can open internship certificates in the lightbox.
+  window.mediaLightboxViewer = mediaLightboxViewer;
 
   // 4. Render Dynamic Content from Data Stores
   if (window.renderProjectCards) {

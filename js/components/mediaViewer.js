@@ -3,7 +3,14 @@
  * Features large certificate/achievement image stage on the left,
  * structured metadata panel on the right, directional slide animations,
  * and keyboard navigation controls.
+ *
+ * PDF documents render through PDF.js into a full-width, horizontally
+ * scrollable page carousel — no native viewer toolbar, no download button.
  */
+
+const PDFJS_VERSION = '3.11.174';
+const PDFJS_LIB_URL = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.min.js`;
+const PDFJS_WORKER_URL = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.worker.min.js`;
 
 class MediaLightboxViewer {
   constructor() {
@@ -12,6 +19,9 @@ class MediaLightboxViewer {
     this.currentIndex = 0;
     this.type = 'cert'; // 'cert' or 'achievement'
     this.isAnimating = false;
+    this.pdfApi = null;   // { total, current, goTo } for the active PDF stage
+    this._pdfJsPromise = null;
+    this._pdfDoc = null;
     this.initListeners();
   }
 
@@ -31,10 +41,18 @@ class MediaLightboxViewer {
 
       if (e.key === 'Escape') {
         this.close();
-      } else if (e.key === 'ArrowLeft') {
-        this.prev();
+        return;
+      }
+
+      // When a multi-page PDF is on stage, arrows turn its pages;
+      // otherwise they move between certificates/achievements.
+      const item = this.items[this.currentIndex];
+      const pdfPaging = item && item.pdf && this.pdfApi && this.pdfApi.total > 1;
+
+      if (e.key === 'ArrowLeft') {
+        if (pdfPaging) this.pdfApi.go(-1); else this.prev();
       } else if (e.key === 'ArrowRight') {
-        this.next();
+        if (pdfPaging) this.pdfApi.go(1); else this.next();
       }
     });
   }
@@ -61,7 +79,12 @@ class MediaLightboxViewer {
     if (!this.modalEl) return;
     this.modalEl.classList.remove('is-open');
     this.modalEl.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
+    // Keep the page locked if the project case-study modal is still open underneath.
+    const caseBackdrop = document.getElementById('case-study-modal-backdrop');
+    const caseOpen = caseBackdrop && caseBackdrop.classList.contains('is-open');
+    document.body.style.overflow = caseOpen ? 'hidden' : '';
+    this.destroyPdfDoc();
+    this.pdfApi = null;
   }
 
   prev() {
@@ -115,99 +138,272 @@ class MediaLightboxViewer {
     }, 140);
   }
 
+  /* ------------------------------------------------------------------
+     PDF.js loading — fetched once, only when a PDF is actually opened.
+  ------------------------------------------------------------------ */
+  ensurePdfJs() {
+    if (window.pdfjsLib) return Promise.resolve();
+    if (this._pdfJsPromise) return this._pdfJsPromise;
+    this._pdfJsPromise = new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = PDFJS_LIB_URL;
+      script.onload = () => {
+        try {
+          window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER_URL;
+          resolve();
+        } catch (err) {
+          reject(err);
+        }
+      };
+      script.onerror = () => reject(new Error('PDF engine failed to load'));
+      document.head.appendChild(script);
+    });
+    return this._pdfJsPromise;
+  }
+
+  destroyPdfDoc() {
+    if (this._pdfDoc && typeof this._pdfDoc.destroy === 'function') {
+      try { this._pdfDoc.destroy(); } catch (e) { /* noop */ }
+    }
+    this._pdfDoc = null;
+  }
+
+  /* ------------------------------------------------------------------
+     Full-width horizontal PDF carousel. Pages render to canvas and sit
+     side by side in a swipeable strip — no native toolbar, no download.
+  ------------------------------------------------------------------ */
+  initPdfStage(stage, item) {
+    const startPage = Math.max(1, item.startPage || 1);
+    stage.innerHTML = `
+      <div class="pdf-loading" role="status" aria-label="Loading document">
+        <span class="pdf-spinner" aria-hidden="true"></span>
+        <span>Loading document…</span>
+      </div>
+    `;
+
+    this.ensurePdfJs()
+      .then(() => window.pdfjsLib.getDocument({ url: item.pdf }).promise)
+      .then((pdf) => {
+        // If the user already moved on, drop this render.
+        if (!stage.isConnected) {
+          try { pdf.destroy(); } catch (e) { /* noop */ }
+          return;
+        }
+        this.destroyPdfDoc();
+        this._pdfDoc = pdf;
+        this.buildPdfCarousel(stage, pdf, startPage);
+      })
+      .catch(() => {
+        if (!stage.isConnected) return;
+        stage.innerHTML = `
+          <div class="pdf-error">
+            <p>This document can't be previewed inline right now.</p>
+            <a href="${item.pdf}" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm">Open the full document</a>
+          </div>
+        `;
+      });
+  }
+
+  buildPdfCarousel(stage, pdf, startPage) {
+    const total = pdf.numPages;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    stage.innerHTML = `
+      <div class="pdf-strip" role="region" aria-label="Document pages, swipe horizontally"></div>
+      <div class="pdf-ui">
+        <button class="pdf-nav-btn pdf-nav-prev" aria-label="Previous page">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <span class="pdf-counter" aria-live="polite"><strong>1</strong> / ${total}</span>
+        <button class="pdf-nav-btn pdf-nav-next" aria-label="Next page">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+    `;
+
+    const strip = stage.querySelector('.pdf-strip');
+    const counterNum = stage.querySelector('.pdf-counter strong');
+    const prevBtn = stage.querySelector('.pdf-nav-prev');
+    const nextBtn = stage.querySelector('.pdf-nav-next');
+
+    const api = {
+      total,
+      current: 1,
+      go: (dir) => api.goTo(api.current + dir),
+      goTo: (n) => {
+        const target = Math.min(total, Math.max(1, n));
+        const pageEl = strip.children[target - 1];
+        if (!pageEl) return;
+        const left = pageEl.offsetLeft - (strip.clientWidth - pageEl.clientWidth) / 2;
+        strip.scrollTo({ left, behavior: reduceMotion ? 'auto' : 'smooth' });
+      }
+    };
+    this.pdfApi = api;
+
+    const setCounter = (n) => {
+      api.current = n;
+      if (counterNum) counterNum.textContent = n;
+      if (prevBtn) prevBtn.disabled = n <= 1;
+      if (nextBtn) nextBtn.disabled = n >= total;
+    };
+
+    if (prevBtn) prevBtn.addEventListener('click', () => api.go(-1));
+    if (nextBtn) nextBtn.addEventListener('click', () => api.go(1));
+
+    // Track the centered page as the user swipes/scrolls.
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.55) {
+          setCounter(parseInt(entry.target.dataset.page, 10));
+        }
+      });
+    }, { root: strip, threshold: [0.55] });
+
+    const stageH = stage.clientHeight || 520;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    (async () => {
+      for (let n = 1; n <= total; n++) {
+        if (!strip.isConnected) return;
+        const page = await pdf.getPage(n);
+        const base = page.getViewport({ scale: 1 });
+        // Fit page height to the stage; canvas renders at device pixel ratio for crispness.
+        const cssH = Math.max(120, stageH - 56);
+        const scale = (cssH / base.height) * dpr;
+        const viewport = page.getViewport({ scale });
+
+        const wrap = document.createElement('div');
+        wrap.className = 'pdf-page';
+        wrap.dataset.page = n;
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.floor(viewport.width);
+        canvas.height = Math.floor(viewport.height);
+        canvas.setAttribute('aria-label', `Page ${n} of ${total}`);
+        wrap.appendChild(canvas);
+        strip.appendChild(wrap);
+        observer.observe(wrap);
+
+        try {
+          await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
+        } catch (e) { /* keep the slot; a failed page still occupies layout */ }
+      }
+
+      // Jump to the requested page (e.g. a single internship certificate inside a bundle).
+      const first = Math.min(total, startPage);
+      setCounter(first);
+      requestAnimationFrame(() => api.goTo(first));
+    })();
+  }
+
   render() {
     const item = this.items[this.currentIndex];
     if (!item) return;
 
+    this.destroyPdfDoc();
+    this.pdfApi = null;
+
     const total = this.items.length;
     const currentNum = this.currentIndex + 1;
+    const pdfMode = !!item.pdf;
 
-    // Left Stage: Scrollable PDF, Real Image, or Polished Placeholder
-    let mediaStageHtml = '';
-    if (item.pdf) {
-      mediaStageHtml = `
-        <object class="lightbox-pdf" data="${item.pdf}" type="application/pdf" aria-label="${item.title} certificate document">
-          <div class="lightbox-pdf-fallback">
-            <p>Your browser can't preview this document inline.</p>
-            <a href="${item.pdf}" target="_blank" rel="noopener noreferrer">Open the full document</a>
-          </div>
-        </object>
-      `;
-    } else if (item.image) {
-      mediaStageHtml = `<img src="${item.image}" alt="${item.title} certificate scan" loading="lazy">`;
-    } else if (item.images && item.images.length > 0) {
-      mediaStageHtml = `<img src="${item.images[0]}" alt="${item.title}" loading="lazy">`;
-    } else {
-      mediaStageHtml = `
-        <div class="lightbox-placeholder-view">
-          <div class="lightbox-placeholder-badge" aria-hidden="true">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="8" r="7"></circle>
-              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
-            </svg>
-          </div>
-          <h4 class="lightbox-placeholder-title">${this.type === 'cert' ? 'Official Certificate Image' : 'Milestone Verification Media'}</h4>
-          <p class="lightbox-placeholder-hint">Image scan file ready for future upload in assets/${this.type === 'cert' ? 'certifications' : 'achievements'}/</p>
-        </div>
-      `;
-    }
-
-    // Right Info Panel Badges
-    let tagsHtml = '';
-    if (item.skills && item.skills.length > 0) {
-      tagsHtml = item.skills.map(s => `<span class="tag-badge">${s}</span>`).join('');
-    } else if (item.highlights && item.highlights.length > 0) {
-      tagsHtml = item.highlights.map(h => `<span class="tag-badge">${h}</span>`).join('');
-    }
-
-    // Action Links (independent: a certificate can offer verify + full document)
-    const actions = [];
-    if (item.credentialUrl) {
-      actions.push(`
-        <a href="${item.credentialUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
-          Verify Credential Authority
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-        </a>
-      `);
-    } else if (item.link) {
-      actions.push(`
-        <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
-          Explore Profile
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-        </a>
-      `);
-    }
-    if (item.pdf) {
-      actions.push(`
+    // ---------- Media stage ----------
+    let bodyHtml = '';
+    if (pdfMode) {
+      // Full-width horizontal document carousel + compact meta strip.
+      const metaActions = [];
+      if (item.credentialUrl) {
+        metaActions.push(`
+          <a href="${item.credentialUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+            Verify Credential Authority
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </a>
+        `);
+      } else if (item.link) {
+        metaActions.push(`
+          <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+            Explore Profile
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </a>
+        `);
+      }
+      metaActions.push(`
         <a href="${item.pdf}" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm">
           Open Full Document
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
         </a>
       `);
-    }
-    const actionLinkHtml = actions.length
-      ? `<div class="lightbox-actions-row" style="margin-top:auto; display:flex; flex-wrap:wrap; gap:0.6rem;">${actions.join('')}</div>`
-      : '';
 
-    this.modalEl.innerHTML = `
-      <div class="lightbox-window">
-        <!-- Header -->
-        <div class="lightbox-header">
-          <div class="lightbox-title-group">
-            <h3 class="lightbox-title">${item.title}</h3>
-            <span class="lightbox-counter">${currentNum} / ${total}</span>
+      bodyHtml = `
+        <div class="lightbox-body pdf-mode">
+          <div class="lightbox-pdf-stage" aria-label="${item.title} document pages"></div>
+          <div class="lightbox-pdf-meta">
+            <div class="pdf-meta-group">
+              <span class="lightbox-info-label">${this.type === 'cert' ? 'Issuing Organization' : 'Affiliation / Platform'}</span>
+              <span class="pdf-meta-value">${item.issuer || item.organization || 'Verified Credential'}</span>
+            </div>
+            <div class="pdf-meta-group">
+              <span class="lightbox-info-label">${this.type === 'cert' ? 'Issued' : 'Date'}</span>
+              <span class="pdf-meta-value pdf-meta-date"><span class="status-dot"></span>${item.date || 'Verified'}</span>
+            </div>
+            <div class="lightbox-actions-row pdf-meta-actions">${metaActions.join('')}</div>
           </div>
-          <button class="modal-close-btn" id="lightbox-close-btn" aria-label="Close viewer">✕</button>
         </div>
+      `;
+    } else {
+      // Image / placeholder stage + info panel (unchanged two-column layout).
+      let mediaStageHtml = '';
+      if (item.image) {
+        mediaStageHtml = `<img src="${item.image}" alt="${item.title} certificate scan" loading="lazy">`;
+      } else if (item.images && item.images.length > 0) {
+        mediaStageHtml = `<img src="${item.images[0]}" alt="${item.title}" loading="lazy">`;
+      } else {
+        mediaStageHtml = `
+          <div class="lightbox-placeholder-view">
+            <div class="lightbox-placeholder-badge" aria-hidden="true">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="8" r="7"></circle>
+                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+              </svg>
+            </div>
+            <h4 class="lightbox-placeholder-title">${this.type === 'cert' ? 'Official Certificate Image' : 'Milestone Verification Media'}</h4>
+            <p class="lightbox-placeholder-hint">Image scan file ready for future upload in assets/${this.type === 'cert' ? 'certifications' : 'achievements'}/</p>
+          </div>
+        `;
+      }
 
-        <!-- 2-Column Body with Directional Transitions -->
+      let tagsHtml = '';
+      if (item.skills && item.skills.length > 0) {
+        tagsHtml = item.skills.map(s => `<span class="tag-badge">${s}</span>`).join('');
+      } else if (item.highlights && item.highlights.length > 0) {
+        tagsHtml = item.highlights.map(h => `<span class="tag-badge">${h}</span>`).join('');
+      }
+
+      const actions = [];
+      if (item.credentialUrl) {
+        actions.push(`
+          <a href="${item.credentialUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+            Verify Credential Authority
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </a>
+        `);
+      } else if (item.link) {
+        actions.push(`
+          <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+            Explore Profile
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </a>
+        `);
+      }
+      const actionLinkHtml = actions.length
+        ? `<div class="lightbox-actions-row" style="margin-top:auto; display:flex; flex-wrap:wrap; gap:0.6rem;">${actions.join('')}</div>`
+        : '';
+
+      bodyHtml = `
         <div class="lightbox-body">
-          <!-- Left: Image/PDF Stage -->
-          <div class="lightbox-image-stage${item.pdf ? ' has-pdf' : ''}">
+          <div class="lightbox-image-stage">
             ${mediaStageHtml}
           </div>
 
-          <!-- Right: Information Panel -->
           <div class="lightbox-info-panel">
             <div class="lightbox-info-row">
               <span class="lightbox-info-label">${this.type === 'cert' ? 'Issuing Organization' : 'Affiliation / Platform'}</span>
@@ -238,6 +434,25 @@ class MediaLightboxViewer {
             ${actionLinkHtml}
           </div>
         </div>
+      `;
+    }
+
+    const footerHint = pdfMode
+      ? 'Swipe sideways or use ← → to turn pages'
+      : 'Use ← → arrow keys to navigate';
+
+    this.modalEl.innerHTML = `
+      <div class="lightbox-window">
+        <!-- Header -->
+        <div class="lightbox-header">
+          <div class="lightbox-title-group">
+            <h3 class="lightbox-title">${item.title}</h3>
+            <span class="lightbox-counter">${currentNum} / ${total}</span>
+          </div>
+          <button class="modal-close-btn" id="lightbox-close-btn" aria-label="Close viewer">✕</button>
+        </div>
+
+        ${bodyHtml}
 
         <!-- Footer Navigation -->
         <div class="lightbox-footer">
@@ -245,7 +460,7 @@ class MediaLightboxViewer {
             ← Previous
           </button>
           <span style="font-family:var(--font-mono); font-size:0.84rem; color:var(--text-muted);">
-            Use ← → arrow keys to navigate
+            ${footerHint}
           </span>
           <button class="lightbox-nav-btn" id="lightbox-nav-next" ${total <= 1 ? 'disabled' : ''} aria-label="Next certificate">
             Next →
@@ -253,6 +468,12 @@ class MediaLightboxViewer {
         </div>
       </div>
     `;
+
+    // Kick off the PDF carousel after the stage exists in the DOM.
+    if (pdfMode) {
+      const stage = this.modalEl.querySelector('.lightbox-pdf-stage');
+      if (stage) this.initPdfStage(stage, item);
+    }
 
     // Hook listeners
     const closeBtn = document.getElementById('lightbox-close-btn');

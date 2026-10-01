@@ -229,8 +229,9 @@
   color: #06121F;
 }
 
-/* Sticky top bar — the close button gets its own slim row above the player,
-   so it never overlaps the video and stays visible while scrolling */
+/* Slim sticky close row — no bar, just the circular button pinned top-right
+   above the player, so it never overlaps the video and stays visible
+   while scrolling. The wrapper is transparent and click-through. */
 .watch-topbar {
   position: sticky;
   top: 0;
@@ -240,14 +241,13 @@
   align-items: center;
   margin: -1.5rem -1.75rem 0;
   padding: 0.55rem 0.9rem;
-  background: rgba(6, 10, 16, 0.78);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-subtle);
+  background: transparent;
+  border-bottom: none;
+  pointer-events: none;
 }
 
-[data-theme="light"] .watch-topbar {
-  background: rgba(255, 255, 255, 0.82);
+.watch-topbar .watch-close-btn {
+  pointer-events: auto;
 }
 
 .watch-close-btn {
@@ -367,6 +367,18 @@
   background: var(--accent-cyan);
   color: #06121F;
   box-shadow: 0 4px 18px rgba(56, 189, 248, 0.35);
+}
+
+/* Internship certificate action — amber tint matching the internship badge */
+.watch-action-btn.watch-action-cert {
+  border-color: rgba(245, 158, 11, 0.45);
+  color: var(--accent-amber, #F59E0B);
+}
+
+.watch-action-btn.watch-action-cert:hover {
+  border-color: var(--accent-amber, #F59E0B);
+  background: rgba(245, 158, 11, 0.12);
+  color: var(--accent-amber, #F59E0B);
 }
 
 /* Description box (YouTube description style) */

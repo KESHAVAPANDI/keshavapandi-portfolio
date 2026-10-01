@@ -328,40 +328,199 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
 }
 
-/* Scrollable multi-page PDF stage — the browser's native PDF viewer
-   gives scrollable access to every page */
-.lightbox-image-stage.has-pdf {
-  padding: 0;
+/* ==========================================================================
+   PDF MODE — full-width, horizontally scrollable page carousel.
+   Pages render to canvas via PDF.js: no native toolbar, no download button.
+   ========================================================================== */
+
+.lightbox-body.pdf-mode {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   min-height: 0;
-  height: min(64vh, 620px);
-  align-items: stretch;
-  justify-content: stretch;
+  flex: 1;
+}
+
+.lightbox-pdf-stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: min(62vh, 600px);
+  background: #04070B;
   overflow: hidden;
 }
 
-.lightbox-pdf {
-  width: 100%;
+.pdf-strip {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
   height: 100%;
-  border: 0;
-  display: block;
-  background: #101418;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  padding: 1.5rem 2rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(56, 189, 248, 0.35) transparent;
 }
 
-.lightbox-pdf-fallback {
+.pdf-strip::-webkit-scrollbar {
+  height: 6px;
+}
+
+.pdf-strip::-webkit-scrollbar-thumb {
+  background: rgba(56, 189, 248, 0.35);
+  border-radius: 3px;
+}
+
+.pdf-page {
+  flex: 0 0 auto;
+  height: 100%;
+  scroll-snap-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pdf-page canvas {
+  height: 100%;
+  width: auto;
+  max-width: none;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.6);
+}
+
+/* Floating page controls */
+.pdf-ui {
+  position: absolute;
+  inset: auto 0 0.9rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.pdf-ui .pdf-nav-btn,
+.pdf-ui .pdf-counter {
+  pointer-events: auto;
+}
+
+.pdf-nav-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.62);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.pdf-nav-btn:hover:not(:disabled) {
+  background: rgba(56, 189, 248, 0.18);
+  border-color: var(--border-accent);
+  transform: scale(1.08);
+}
+
+.pdf-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.pdf-counter {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-primary);
+  background: rgba(15, 23, 42, 0.62);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  padding: 0.35rem 0.85rem;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.pdf-counter strong {
+  color: var(--accent-cyan);
+  font-weight: 700;
+}
+
+/* Loading / error states */
+.pdf-loading,
+.pdf-error {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  padding: 2rem;
-  color: var(--text-secondary);
-  text-align: center;
+  gap: 0.9rem;
   height: 100%;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  text-align: center;
+  padding: 2rem;
 }
 
-.lightbox-pdf-fallback a {
-  color: var(--accent-cyan);
+.pdf-spinner {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 3px solid rgba(56, 189, 248, 0.2);
+  border-top-color: var(--accent-cyan);
+  animation: pdfSpin 0.9s linear infinite;
+}
+
+@keyframes pdfSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* Compact meta strip under the document */
+.lightbox-pdf-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding: 1rem 1.75rem;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.pdf-meta-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.pdf-meta-value {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pdf-meta-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--accent-emerald);
   font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.pdf-meta-actions {
+  margin-left: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
 }
 
 /* Image Placeholder in Viewer */
