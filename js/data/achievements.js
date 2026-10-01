@@ -1,38 +1,57 @@
 /**
  * ACHIEVEMENTS DATA REPOSITORY
  * Single source of truth for all milestones, hackathons, and technical achievements.
+ * Rendered with the same certificate-card UI as the certifications section.
  */
 
 const achievementsData = [
   {
-    id: "competitive-coding",
-    title: "Algorithmic Problem Solving & Data Structures",
-    organization: "LeetCode & Technical Platforms",
-    date: "Active",
-    description: "Consistent practice and problem solving across data structures, graph traversals, dynamic programming, and algorithmic optimization.",
-    link: "https://leetcode.com/u/KESHAVA_PANDI_A_S/",
-    images: [],
-    highlights: ["Strong foundation in Java, Python, and C", "Graph algorithms & matrix transformations", "Optimized space and time complexity solutions"]
+    id: "achievement-brain-byte",
+    title: "BRAIN BYTE — 2nd Place",
+    issuer: "Sri Ramakrishna Engineering College",
+    badgeType: "srec",
+    date: "March 26, 2024",
+    credentialUrl: null,
+    image: "assets/achievements/achievement-brain-byte-xtensis-2024-thumb.jpg",
+    pdf: "assets/achievements/achievement-brain-byte-xtensis-2024.pdf",
+    skills: ["Competitive Programming", "Problem Solving"],
+    description: "Certificate of Appreciation for securing 2nd place in the BRAIN BYTE event at XTENSIS 2024, the state-level technical symposium of the Department of Information Technology, with a cash prize of Rs. 700."
   },
   {
-    id: "nvidia-ai-cert-series",
-    title: "Triple NVIDIA Deep Learning Institute Accreditations",
-    organization: "NVIDIA DLI",
-    date: "Certified",
-    description: "Completed intensive technical accreditations spanning Deep Learning Fundamentals, Transformer NLP, and Real-Time Video AI Stream Processing.",
-    link: null,
-    images: [],
-    highlights: ["Advanced neural network training & tuning", "Transformer model architectures", "Real-time edge video AI pipelines"]
+    id: "achievement-srec-hackathon-winners",
+    title: "SREC Hackathon 1.0 — Winners",
+    issuer: "Sri Ramakrishna Engineering College",
+    badgeType: "srec",
+    date: "March 13–14, 2024",
+    credentialUrl: null,
+    image: "assets/achievements/achievement-srec-hackathon-winners-thumb.jpg",
+    pdf: "assets/achievements/achievement-srec-hackathon-winners.pdf",
+    skills: ["Hackathon", "Rapid Prototyping", "Pitching"],
+    description: "Certificate of Recognition as Winners of the SREC Hackathon 1.0 for Domestic Applications — Final Pitch Day."
   },
   {
-    id: "full-lifecycle-engineering",
-    title: "End-to-End AI & Web System Deliveries",
-    organization: "Independent & Academic Projects",
-    date: "Ongoing",
-    description: "Successfully designed, coded, and deployed end-to-end applications from initial wireframes to model inference endpoints, databases, and responsive client interfaces.",
-    link: "https://github.com/KESHAVAPANDI",
-    images: [],
-    highlights: ["Model deployment and REST API integrations", "Responsive frontend UI/UX engineering", "Relational and document database modeling"]
+    id: "achievement-srec-hackathon-participant",
+    title: "SREC Hackathon 1.0 — Finalist",
+    issuer: "Sri Ramakrishna Engineering College",
+    badgeType: "srec",
+    date: "March 13–14, 2024",
+    credentialUrl: null,
+    image: "assets/achievements/achievement-srec-hackathon-participant-thumb.jpg",
+    pdf: "assets/achievements/achievement-srec-hackathon-participant.pdf",
+    skills: ["Hackathon", "Team Collaboration"],
+    description: "Certificate of Participation in the SREC Hackathon 1.0 for Domestic Applications — Final Pitch Day."
+  },
+  {
+    id: "achievement-crezils-2023",
+    title: "TEAMSTER Contest — CREZILS 2023",
+    issuer: "SREC Business School",
+    badgeType: "srec",
+    date: "April 5, 2023",
+    credentialUrl: null,
+    image: "assets/achievements/achievement-crezils-2023-teamster-thumb.jpg",
+    pdf: "assets/achievements/achievement-crezils-2023-teamster.pdf",
+    skills: ["Team Building", "Management Games"],
+    description: "Certificate of Participation in the TEAMSTER contest at CREZILS 2023, the national-level management fest of SREC Business School."
   }
 ];
 
