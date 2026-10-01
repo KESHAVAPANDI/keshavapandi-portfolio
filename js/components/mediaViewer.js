@@ -411,11 +411,7 @@ function renderCertificates(lightboxInstance) {
           <span class="cert-issuer">${c.issuer}</span>
           <h3 class="cert-title">${c.title}</h3>
           <span class="cert-date">${c.date}</span>
-          <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:1.15rem; line-height:1.55;">${c.description}</p>
-          <button class="cert-view-btn" aria-label="Inspect certificate details">
-            Inspect Certificate
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-          </button>
+          <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:0; line-height:1.55;">${c.description}</p>
         </div>
       </article>
     `;
