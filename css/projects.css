@@ -239,59 +239,12 @@
   flex: 1;
 }
 
-/* Tech Tags List */
+/* Tech Tags List — pinned to the bottom of the card body */
 .card-tech-stack {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-  margin-bottom: 1.35rem;
-}
-
-/* Card Footer Action */
-.project-card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  margin-bottom: 0;
   padding-top: 0.85rem;
   border-top: 1px solid var(--border-subtle);
-}
-
-.view-case-study-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--accent-sky);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.project-card:hover .view-case-study-btn {
-  color: var(--accent-cyan);
-  transform: translateX(4px);
-}
-
-.card-links-group {
-  display: flex;
-  gap: 0.4rem;
-}
-
-.card-quick-link {
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  padding: 0.3rem;
-  border-radius: var(--radius-xs);
-  transition: all var(--transition-fast);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.card-quick-link:hover {
-  color: var(--accent-cyan);
-  background: rgba(56, 189, 248, 0.08);
 }
