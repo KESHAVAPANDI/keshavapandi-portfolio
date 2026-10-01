@@ -190,22 +190,21 @@ class CaseStudyViewer {
           ${galleryPane}
           ${tabsHtml}
         </div>
-        <!-- Title block -->
+        <!-- Title block: title left, actions right -->
         <div class="watch-title-block">
-          <h2 class="watch-title">${p.title}</h2>
-          <div class="watch-badges">
-            <span class="tag-badge ${p.type === 'ai' ? 'tag-ai' : 'tag-web'}">${p.category}</span>
-            ${p.isInternship ? `<span class="tag-badge tag-internship">INTERNSHIP PROJECT${p.organization ? ` · ${p.organization}` : ''}</span>` : ''}
+          <div class="watch-title-group">
+            <h2 class="watch-title">${p.title}</h2>
+            <div class="watch-badges">
+              <span class="tag-badge ${p.type === 'ai' ? 'tag-ai' : 'tag-web'}">${p.category}</span>
+              ${p.isInternship ? `<span class="tag-badge tag-internship">INTERNSHIP PROJECT${p.organization ? ` · ${p.organization}` : ''}</span>` : ''}
+            </div>
           </div>
+          ${linksHtml ? `<div class="watch-actions">${linksHtml}</div>` : ''}
         </div>
-
-        <!-- Actions row -->
-        ${linksHtml ? `<div class="watch-actions">${linksHtml}</div>` : ''}
 
         <!-- Description box -->
         <div class="watch-desc-box">
           <p class="watch-desc-text">${p.overview}</p>
-          <div class="watch-tech-row">${techBadges}</div>
           ${p.isInternship && p.organization ? `
             <div class="watch-org-box">
               <span class="watch-org-label">Affiliated Organization</span>
@@ -213,27 +212,39 @@ class CaseStudyViewer {
             </div>` : ''}
         </div>
 
-        <!-- Detail cards -->
-        <div class="case-study-details-grid">
-          <div class="case-study-card">
-            <h4 class="case-study-card-title"><span class="dot"></span> The Problem</h4>
-            <p class="case-study-card-content">${p.problem}</p>
+        <!-- Minimal details -->
+        <div class="watch-details">
+          <div class="detail-row">
+            <section class="detail-sec">
+              <h4 class="detail-heading">The Problem</h4>
+              <p class="detail-text">${p.problem}</p>
+            </section>
+            <section class="detail-sec">
+              <h4 class="detail-heading">The Solution</h4>
+              <p class="detail-text">${p.solution}</p>
+            </section>
           </div>
-          <div class="case-study-card">
-            <h4 class="case-study-card-title"><span class="dot"></span> The Solution</h4>
-            <p class="case-study-card-content">${p.solution}</p>
-          </div>
-          <div class="case-study-card full-width">
-            <h4 class="case-study-card-title"><span class="dot"></span> How It Works</h4>
-            <p class="case-study-card-content">${p.howItWorks}</p>
-          </div>
-          <div class="case-study-card">
-            <h4 class="case-study-card-title"><span class="dot"></span> Key Features</h4>
-            <ul class="features-list">${featuresList}</ul>
-          </div>
-          <div class="case-study-card">
-            <h4 class="case-study-card-title"><span class="dot"></span> Verified Outcome</h4>
-            <p class="case-study-card-content">${p.outcome || 'Outcome details coming soon.'}</p>
+
+          <section class="detail-sec">
+            <h4 class="detail-heading">How It Works</h4>
+            <p class="detail-text">${p.howItWorks}</p>
+          </section>
+
+          <div class="detail-row">
+            <section class="detail-sec">
+              <h4 class="detail-heading">Key Features</h4>
+              <ul class="features-list features-compact">
+                ${featuresList}
+              </ul>
+            </section>
+            <section class="detail-sec">
+              <h4 class="detail-heading">Tech Stack</h4>
+              <div class="watch-tech-row">
+                ${techBadges}
+              </div>
+              ${p.outcome ? `
+                <p class="detail-outcome"><span>Outcome</span>${p.outcome}</p>` : ''}
+            </section>
           </div>
         </div>
 

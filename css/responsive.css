@@ -86,13 +86,9 @@
     gap: 2.5rem;
   }
 
-  .case-study-details-grid {
+  .detail-row {
     grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .case-study-card.full-width {
-    grid-column: span 1;
+    gap: 1.35rem;
   }
 }
 
@@ -270,12 +266,14 @@
     font-size: clamp(1.12rem, 4.8vw, 1.3rem);
   }
 
-  /* Actions become a horizontal swipe strip */
+  /* Title block stacks on narrow screens; actions stay right-aligned */
+  .watch-title-block {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
   .watch-actions {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 0.15rem;
+    justify-content: flex-end;
   }
 
   .watch-action-btn {
@@ -297,25 +295,17 @@
     font-size: 0.9rem;
   }
 
-  .case-study-details-grid {
+  .watch-details > * {
+    padding: 1.1rem 0;
+  }
+
+  .detail-row {
     grid-template-columns: 1fr;
+    gap: 1.35rem;
   }
 
-  .case-study-card.full-width {
-    grid-column: span 1;
-  }
-
-  .case-study-card {
-    padding: 1.15rem 1rem;
-  }
-
-  .case-study-card-title {
-    font-size: 0.85rem;
-  }
-
-  .case-study-card-content {
-    font-size: 0.9rem;
-    line-height: 1.65;
+  .features-compact {
+    grid-template-columns: 1fr;
   }
 
   .upnext-list {
