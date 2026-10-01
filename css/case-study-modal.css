@@ -229,42 +229,53 @@
   color: #06121F;
 }
 
-/* Sticky close button — floats over the player corner, inset from the edges,
-   stays visible while scrolling */
-.watch-close-wrap {
+/* Sticky top bar — the close button gets its own slim row above the player,
+   so it never overlaps the video and stays visible while scrolling */
+.watch-topbar {
   position: sticky;
-  top: 1.15rem;
+  top: 0;
   z-index: 30;
-  height: 0;
   display: flex;
   justify-content: flex-end;
-  margin-bottom: calc(var(--watch-gap) * -1);
+  align-items: center;
+  margin: -1.5rem -1.75rem 0;
+  padding: 0.55rem 0.9rem;
+  background: rgba(6, 10, 16, 0.78);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+[data-theme="light"] .watch-topbar {
+  background: rgba(255, 255, 255, 0.82);
 }
 
 .watch-close-btn {
   flex: 0 0 auto;
-  width: 40px;
-  height: 40px;
-  margin: 1.15rem 1.15rem 0 0;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background: rgba(4, 7, 12, 0.72);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(15, 23, 42, 0.5);
   border: 1px solid var(--border-subtle);
-  color: var(--text-secondary);
-  display: flex;
+  color: var(--text-primary);
+  font-size: 1rem;
+  line-height: 1;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 1.15rem;
-  transition: all var(--transition-fast);
+  transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
 }
 
 .watch-close-btn:hover {
-  background: rgba(239, 68, 68, 0.25);
-  color: #EF4444;
-  border-color: rgba(239, 68, 68, 0.4);
-  transform: scale(1.05);
+  background: rgba(56, 189, 248, 0.16);
+  border-color: var(--border-accent);
+  transform: scale(1.06);
+}
+
+.watch-close-btn:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 2px;
 }
 
 /* --------------------------------------------------------------------------

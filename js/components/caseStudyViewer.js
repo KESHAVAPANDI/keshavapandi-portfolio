@@ -182,7 +182,7 @@ class CaseStudyViewer {
 
     this.modalContainer.innerHTML = `
       <div class="watch-scroll">
-        <div class="watch-close-wrap">
+        <div class="watch-topbar">
           <button class="watch-close-btn" id="modal-watch-close" aria-label="Close case study">✕</button>
         </div>
         <div class="watch-player">

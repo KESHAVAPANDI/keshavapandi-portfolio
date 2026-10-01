@@ -262,6 +262,11 @@
     padding: 1.15rem 1rem calc(1.75rem + env(safe-area-inset-bottom, 0px));
   }
 
+  .watch-topbar {
+    margin: -1.15rem -1rem 0;
+    padding: 0.5rem 0.75rem;
+  }
+
   .watch-title {
     font-size: clamp(1.12rem, 4.8vw, 1.3rem);
   }
@@ -395,13 +400,6 @@
     max-width: 100%;
     max-height: 32vh;
     object-fit: contain;
-  }
-
-  .lightbox-image-stage.has-pdf {
-    min-height: 0;
-    max-height: none;
-    height: 52vh;
-    padding: 0;
   }
 
   .lightbox-placeholder-view {
@@ -596,6 +594,11 @@
   .watch-scroll {
     --watch-gap: 1.1rem;
     padding: 1rem 0.85rem calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .watch-topbar {
+    margin: -1rem -0.85rem 0;
+    padding: 0.45rem 0.7rem;
   }
 
   .watch-desc-box {
