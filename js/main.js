@@ -325,24 +325,35 @@ function initSkillsSection() {
 
 /* ==========================================================================
    PROFILE PHOTO LOADER (PROGRESSIVE ENHANCEMENT)
-   Swaps the about-section placeholder for the real portrait when
-   assets/profile/profile-photo.jpg exists. If the file is missing or
-   fails to load, the elegant placeholder stays untouched.
+   Shows the portrait in the about card. Prefers a real
+   assets/profile/profile-photo.jpg when it exists and decodes as a valid
+   image; otherwise falls back to the embedded data-URI portrait shipped in
+   assets/profile/profile-photo.js. If neither is available, the elegant
+   placeholder stays untouched.
    ========================================================================== */
 function initProfilePhoto() {
   const card = document.getElementById('about-photo-card');
   if (!card || card.querySelector('img')) return;
 
-  const img = new Image();
-  img.src = './assets/profile/profile-photo.jpg';
-  img.alt = 'Portrait of Keshava Pandi A S';
-  img.decoding = 'async';
-  img.onload = () => {
-    const placeholder = card.querySelector('.photo-placeholder');
-    if (placeholder) placeholder.remove();
-    card.appendChild(img);
+  const show = (src) => {
+    const img = new Image();
+    img.decoding = 'async';
+    img.alt = 'Portrait of Keshava Pandi A S';
+    img.onload = () => {
+      const placeholder = card.querySelector('.photo-placeholder');
+      if (placeholder) placeholder.remove();
+      card.appendChild(img);
+    };
+    img.src = src;
+    // onerror: intentionally keep the placeholder as graceful fallback
   };
-  // onerror: intentionally keep the placeholder as graceful fallback
+
+  const probe = new Image();
+  probe.onload = () => show('./assets/profile/profile-photo.jpg');
+  probe.onerror = () => {
+    if (window.__PROFILE_PHOTO_DATA_URL) show(window.__PROFILE_PHOTO_DATA_URL);
+  };
+  probe.src = './assets/profile/profile-photo.jpg';
 }
 
 /* ==========================================================================
