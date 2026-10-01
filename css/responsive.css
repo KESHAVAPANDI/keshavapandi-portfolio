@@ -58,15 +58,15 @@
   }
 
   .about-photo-wrapper {
-    order: 2;
+    order: -1;
     display: flex;
     justify-content: center;
     width: 100%;
   }
 
   .about-photo-card {
-    width: min(75vw, 320px);
-    max-width: 320px;
+    width: min(70vw, 280px);
+    max-width: 280px;
   }
 
   .about-capabilities-grid {
@@ -75,7 +75,7 @@
   }
 
   .projects-grid {
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 1.5rem;
   }
 
@@ -197,14 +197,14 @@
     line-height: 1.6;
   }
 
-  /* Projects Grid (1 Column) */
+  /* Projects Grid (2 compact columns on mobile) */
   .projects-container {
     gap: 2.5rem;
   }
 
   .projects-grid {
-    grid-template-columns: 1fr;
-    gap: 1.35rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem;
     width: 100%;
   }
 
@@ -214,59 +214,100 @@
     min-width: 0;
   }
 
-  .project-media-preview {
-    aspect-ratio: 16 / 9;
-    height: auto;
-    min-height: 180px;
-  }
-
   .card-internship-badge {
-    top: 0.75rem;
-    right: 0.75rem;
-    font-size: 0.7rem;
-    padding: 0.22rem 0.55rem;
+    top: 0.6rem;
+    right: 0.6rem;
+    font-size: 0.62rem;
+    padding: 0.18rem 0.5rem;
   }
 
   .project-card-body {
-    padding: 1.25rem 1.15rem;
-  }
-
-  .project-card-title {
-    font-size: clamp(1.12rem, 4.2vw, 1.3rem);
-    line-height: 1.35;
-  }
-
-  .project-card-desc {
-    font-size: clamp(0.86rem, 3.3vw, 0.92rem);
-    line-height: 1.6;
-  }
-
-  /* Interactive Case Study Modal (Vertical Full-Bleed Viewport) */
-  .modal-backdrop {
-    padding: 0.65rem;
-  }
-
-  .case-study-modal {
-    width: calc(100% - 8px);
-    max-height: calc(100dvh - 16px);
-    border-radius: var(--radius-lg);
-  }
-
-  .modal-header {
-    padding: 0.85rem 1.15rem;
-    flex-wrap: wrap;
+    padding: 1.05rem 0.95rem 0.95rem;
     gap: 0.65rem;
   }
 
+  .project-card-title {
+    font-size: clamp(0.92rem, 3.8vw, 1.05rem);
+    line-height: 1.35;
+  }
+
+  .project-card:has(.card-internship-badge) .project-card-title {
+    padding-right: 4.4rem;
+  }
+
+  .card-tech-stack {
+    gap: 0.32rem;
+  }
+
+  .card-open-hint {
+    font-size: 0.72rem;
+    padding-top: 0.6rem;
+  }
+
+  /* Interactive Case Study Modal (full-screen app view on mobile) */
+  .modal-backdrop {
+    padding: 0;
+    align-items: stretch;
+    justify-content: stretch;
+  }
+
+  .case-study-modal {
+    width: 100%;
+    max-width: 100%;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+    border: none;
+    transform: translateY(24px);
+  }
+
+  .modal-backdrop.is-open .case-study-modal {
+    transform: translateY(0);
+  }
+
+  .modal-header {
+    padding: 0.85rem 1rem;
+    gap: 0.75rem;
+    flex-wrap: nowrap;
+  }
+
+  .modal-title-group {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .modal-category-row {
+    flex-wrap: wrap;
+    row-gap: 0.35rem;
+  }
+
   .modal-title {
-    font-size: clamp(1.15rem, 4.2vw, 1.35rem);
+    font-size: clamp(1.1rem, 4.6vw, 1.3rem);
     line-height: 1.3;
   }
 
+  .modal-close-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 1.3rem;
+  }
+
+  .modal-links-bar {
+    padding: 0.75rem 1rem;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .modal-links-bar .btn {
+    flex: 0 0 auto;
+  }
+
   .modal-body {
-    padding: 1.15rem 1rem;
+    padding: 1.25rem 1rem calc(1.75rem + env(safe-area-inset-bottom, 0px));
     gap: 1.5rem;
     overflow-y: auto;
+    overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
   }
 
@@ -276,7 +317,7 @@
   }
 
   .gallery-viewport {
-    height: 210px;
+    height: 220px;
   }
 
   .case-study-card {
@@ -284,12 +325,23 @@
   }
 
   .case-study-card-title {
-    font-size: 0.88rem;
+    font-size: 0.85rem;
   }
 
   .case-study-card-content {
-    font-size: 0.88rem;
-    line-height: 1.6;
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+
+  .modal-project-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-nav-btn span {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
 
   /* Workflow & Execution Pipeline (Clean Vertical Reflow, No Scrollbar) */
@@ -541,35 +593,51 @@
     padding: 1.15rem 1rem;
   }
 
-  /* Project Cards on Narrow Phones */
+  /* Compact Project Cards on Narrow Phones (2 per row) */
+  .projects-grid {
+    gap: 0.7rem;
+  }
+
   .project-card-body {
-    padding: 1.15rem 1rem;
+    padding: 0.9rem 0.8rem 0.85rem;
+    gap: 0.55rem;
   }
 
-  .project-media-preview {
-    min-height: 160px;
+  .project-card-title {
+    font-size: 0.9rem;
   }
 
-  .project-card-footer {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
+  /* Show at most 3 tech tags on very narrow screens */
+  .card-tech-stack .tag-badge:nth-child(n+4) {
+    display: none;
   }
 
-  .project-card-footer .card-links-group {
-    align-self: flex-end;
+  .card-open-hint {
+    font-size: 0.68rem;
+    padding-top: 0.55rem;
+  }
+
+  .card-internship-badge {
+    font-size: 0.58rem;
+    padding: 0.15rem 0.45rem;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .project-card:has(.card-internship-badge) .project-card-title {
+    padding-right: 3.9rem;
   }
 
   /* Modals Full Fit */
   .modal-backdrop,
   .lightbox-modal {
-    padding: 0.35rem;
+    padding: 0;
   }
 
   .case-study-modal,
   .lightbox-window {
     width: 100%;
-    max-height: calc(100dvh - 10px);
+    max-height: 100dvh;
   }
 
   .modal-header,
@@ -578,7 +646,7 @@
   }
 
   .modal-body {
-    padding: 1rem 0.85rem;
+    padding: 1.1rem 0.85rem calc(1.5rem + env(safe-area-inset-bottom, 0px));
     gap: 1.25rem;
   }
 }

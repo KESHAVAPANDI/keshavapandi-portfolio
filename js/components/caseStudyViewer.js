@@ -44,12 +44,23 @@ class CaseStudyViewer {
 
     this.currentProject = project;
     this.currentSlideIndex = 0;
+
+    // Prev / Next neighbours in the data order for modal browsing
+    const idx = projectsData.indexOf(project);
+    this.prevProject = idx > 0 ? projectsData[idx - 1] : null;
+    this.nextProject = idx < projectsData.length - 1 ? projectsData[idx + 1] : null;
+
     this.renderContent();
 
     // Lock body scroll
     document.body.style.overflow = 'hidden';
     this.modalBackdrop.classList.add('is-open');
     this.modalBackdrop.setAttribute('aria-hidden', 'false');
+
+    // Always start at the top of the modal
+    const body = this.modalContainer.querySelector('.modal-body');
+    if (body) body.scrollTop = 0;
+    if (this.modalBackdrop) this.modalBackdrop.scrollTop = 0;
 
     // Accessibility focus
     setTimeout(() => {
@@ -212,11 +223,9 @@ class CaseStudyViewer {
           </div>
           <h2 class="modal-title">${p.title}</h2>
         </div>
-        <div class="modal-actions">
-          ${linksHtml}
-          <button class="modal-close-btn" id="modal-header-close" aria-label="Close modal">✕</button>
-        </div>
+        <button class="modal-close-btn" id="modal-header-close" aria-label="Close case study">✕</button>
       </div>
+      ${linksHtml ? `<div class="modal-links-bar">${linksHtml}</div>` : ''}
       <div class="modal-body">
         <!-- 1. Video Section -->
         <div class="modal-video-section">
@@ -296,12 +305,32 @@ class CaseStudyViewer {
             ` : ''}
           </div>
         </div>
+
+        <!-- 6. Prev / Next Project Navigation -->
+        <nav class="modal-project-nav" aria-label="Browse projects">
+          ${this.prevProject ? `
+            <button class="modal-nav-btn modal-nav-prev" id="modal-prev-project">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              <span><small>Previous</small>${this.prevProject.title}</span>
+            </button>` : `<span></span>`}
+          ${this.nextProject ? `
+            <button class="modal-nav-btn modal-nav-next" id="modal-next-project">
+              <span><small>Next</small>${this.nextProject.title}</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>` : `<span></span>`}
+        </nav>
       </div>
     `;
 
     // Hook Close Button
     const closeBtn = document.getElementById('modal-header-close');
     if (closeBtn) closeBtn.addEventListener('click', () => this.close());
+
+    // Hook Prev / Next project buttons
+    const prevBtn = document.getElementById('modal-prev-project');
+    const nextBtn = document.getElementById('modal-next-project');
+    if (prevBtn && this.prevProject) prevBtn.addEventListener('click', () => this.open(this.prevProject.id));
+    if (nextBtn && this.nextProject) nextBtn.addEventListener('click', () => this.open(this.nextProject.id));
 
     // Hook Gallery controls if screenshots exist
     if (hasScreenshots) {
@@ -310,7 +339,27 @@ class CaseStudyViewer {
       if (prevBtn) prevBtn.addEventListener('click', () => this.prevSlide());
       if (nextBtn) nextBtn.addEventListener('click', () => this.nextSlide());
       this.updateGalleryView();
+      this.initGallerySwipe();
     }
+  }
+
+  /**
+   * Touch swipe support for the screenshot gallery (mobile).
+   */
+  initGallerySwipe() {
+    const viewport = this.modalContainer.querySelector('.gallery-viewport');
+    if (!viewport) return;
+    let startX = null;
+    viewport.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+    }, { passive: true });
+    viewport.addEventListener('touchend', (e) => {
+      if (startX === null) return;
+      const dx = e.changedTouches[0].clientX - startX;
+      startX = null;
+      if (Math.abs(dx) < 40) return;
+      if (dx < 0) this.nextSlide(); else this.prevSlide();
+    }, { passive: true });
   }
 
   prevSlide() {
