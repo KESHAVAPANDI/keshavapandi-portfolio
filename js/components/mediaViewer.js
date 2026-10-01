@@ -122,9 +122,18 @@ class MediaLightboxViewer {
     const total = this.items.length;
     const currentNum = this.currentIndex + 1;
 
-    // Left Stage: Real Image or Polished Placeholder
+    // Left Stage: Scrollable PDF, Real Image, or Polished Placeholder
     let mediaStageHtml = '';
-    if (item.image) {
+    if (item.pdf) {
+      mediaStageHtml = `
+        <object class="lightbox-pdf" data="${item.pdf}" type="application/pdf" aria-label="${item.title} certificate document">
+          <div class="lightbox-pdf-fallback">
+            <p>Your browser can't preview this document inline.</p>
+            <a href="${item.pdf}" target="_blank" rel="noopener noreferrer">Open the full document</a>
+          </div>
+        </object>
+      `;
+    } else if (item.image) {
       mediaStageHtml = `<img src="${item.image}" alt="${item.title} certificate scan" loading="lazy">`;
     } else if (item.images && item.images.length > 0) {
       mediaStageHtml = `<img src="${item.images[0]}" alt="${item.title}" loading="lazy">`;
@@ -151,23 +160,34 @@ class MediaLightboxViewer {
       tagsHtml = item.highlights.map(h => `<span class="tag-badge">${h}</span>`).join('');
     }
 
-    // Action Link (if available)
-    let actionLinkHtml = '';
+    // Action Links (independent: a certificate can offer verify + full document)
+    const actions = [];
     if (item.credentialUrl) {
-      actionLinkHtml = `
-        <a href="${item.credentialUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" style="margin-top:auto;">
+      actions.push(`
+        <a href="${item.credentialUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
           Verify Credential Authority
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
         </a>
-      `;
+      `);
     } else if (item.link) {
-      actionLinkHtml = `
-        <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" style="margin-top:auto;">
+      actions.push(`
+        <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
           Explore Profile
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
         </a>
-      `;
+      `);
     }
+    if (item.pdf) {
+      actions.push(`
+        <a href="${item.pdf}" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm">
+          Open Full Document
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        </a>
+      `);
+    }
+    const actionLinkHtml = actions.length
+      ? `<div class="lightbox-actions-row" style="margin-top:auto; display:flex; flex-wrap:wrap; gap:0.6rem;">${actions.join('')}</div>`
+      : '';
 
     this.modalEl.innerHTML = `
       <div class="lightbox-window">
@@ -182,8 +202,8 @@ class MediaLightboxViewer {
 
         <!-- 2-Column Body with Directional Transitions -->
         <div class="lightbox-body">
-          <!-- Left: Image Stage -->
-          <div class="lightbox-image-stage">
+          <!-- Left: Image/PDF Stage -->
+          <div class="lightbox-image-stage${item.pdf ? ' has-pdf' : ''}">
             ${mediaStageHtml}
           </div>
 

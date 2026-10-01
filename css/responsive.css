@@ -397,6 +397,13 @@
     object-fit: contain;
   }
 
+  .lightbox-image-stage.has-pdf {
+    min-height: 0;
+    max-height: none;
+    height: 52vh;
+    padding: 0;
+  }
+
   .lightbox-placeholder-view {
     padding: 1.25rem;
     gap: 0.55rem;

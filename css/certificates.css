@@ -222,6 +222,37 @@
   border: 1px solid var(--border-subtle);
 }
 
+/* Close button — circular, inset from the corner, never on the edge */
+.lightbox-header .modal-close-btn {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.lightbox-header .modal-close-btn:hover {
+  background: rgba(56, 189, 248, 0.16);
+  border-color: var(--border-accent);
+  transform: scale(1.07);
+}
+
+.lightbox-header .modal-close-btn:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 2px;
+}
+
 /* 2-Column Body Layout (Image + Info Panel) with Directional Slide Transitions */
 .lightbox-body {
   display: grid;
@@ -295,6 +326,42 @@
   object-fit: contain;
   border-radius: var(--radius-sm);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Scrollable multi-page PDF stage — the browser's native PDF viewer
+   gives scrollable access to every page */
+.lightbox-image-stage.has-pdf {
+  padding: 0;
+  min-height: 0;
+  height: min(64vh, 620px);
+  align-items: stretch;
+  justify-content: stretch;
+  overflow: hidden;
+}
+
+.lightbox-pdf {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: #101418;
+}
+
+.lightbox-pdf-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 2rem;
+  color: var(--text-secondary);
+  text-align: center;
+  height: 100%;
+}
+
+.lightbox-pdf-fallback a {
+  color: var(--accent-cyan);
+  font-weight: 600;
 }
 
 /* Image Placeholder in Viewer */
