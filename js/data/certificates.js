@@ -12,7 +12,7 @@ const certificatesData = [
     badgeType: "nvidia",
     date: "Issued October 18, 2024",
     credentialUrl: "https://learn.nvidia.com/certificates?id=4PsPOWG8CTbLFcYn2d_Q",
-    image: null,
+    image: "assets/certifications/nvidia-fundamentals-of-deep-learning-thumb.jpg",
     pdf: "assets/certifications/nvidia-fundamentals-of-deep-learning.pdf",
     skills: ["Deep Neural Networks", "Computer Vision", "PyTorch", "Model Training", "Optimization"],
     description: "Hands-on competency in designing, training, and deploying deep learning neural networks for computer vision and perception tasks."
@@ -24,7 +24,7 @@ const certificatesData = [
     badgeType: "nvidia",
     date: "Issued February 8, 2025",
     credentialUrl: "https://learn.nvidia.com/certificates?id=9eG5Ye2OuRe6V75_kQ",
-    image: null,
+    image: "assets/certifications/nvidia-building-real-time-video-ai-thumb.jpg",
     pdf: "assets/certifications/nvidia-building-real-time-video-ai.pdf",
     skills: ["DeepStream SDK", "Real-Time Video Analytics", "TensorRT", "Multi-Stream AI"],
     description: "Specialized training in building high-throughput, low-latency intelligent video analytics pipelines and hardware-accelerated AI deployment."
@@ -36,7 +36,7 @@ const certificatesData = [
     badgeType: "nvidia",
     date: "Issued February 15, 2025",
     credentialUrl: "https://learn.nvidia.com/certificates?id=9PPE6b1TRX0K0BELrJ5ZHw",
-    image: null,
+    image: "assets/certifications/nvidia-transformer-based-nlp-thumb.jpg",
     pdf: "assets/certifications/nvidia-transformer-based-nlp.pdf",
     skills: ["Transformers", "Attention Mechanisms", "BERT", "Text Classification", "NLP Pipelines"],
     description: "Comprehensive foundation in transformer architectures, self-attention mechanisms, and fine-tuning language models for natural language tasks."
@@ -48,7 +48,7 @@ const certificatesData = [
     badgeType: "ebox",
     date: "Jul 2024 – Sep 2024",
     credentialUrl: null,
-    image: null,
+    image: "assets/certifications/ebox-coded-conundrums-c-thumb.jpg",
     pdf: "assets/certifications/ebox-coded-conundrums-c.pdf",
     skills: ["C Programming", "Problem Solving", "Algorithms", "Data Structures"],
     description: "Online certification course on mastering problem solving with C, completed Jul 2024 – Sep 2024."
