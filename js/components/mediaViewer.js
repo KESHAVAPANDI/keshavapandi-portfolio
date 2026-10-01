@@ -306,140 +306,110 @@ class MediaLightboxViewer {
     const currentNum = this.currentIndex + 1;
     const pdfMode = !!item.pdf;
 
-    // ---------- Media stage ----------
-    let bodyHtml = '';
+    // ---------- Left stage: PDF carousel, image, or placeholder ----------
+    let mediaStageHtml = '';
+    let stageClass = 'lightbox-image-stage';
     if (pdfMode) {
-      // Full-width horizontal document carousel + compact meta strip.
-      const metaActions = [];
-      if (item.credentialUrl) {
-        metaActions.push(`
-          <a href="${item.credentialUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
-            Verify Credential Authority
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-          </a>
-        `);
-      } else if (item.link) {
-        metaActions.push(`
-          <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
-            Explore Profile
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-          </a>
-        `);
-      }
-      metaActions.push(`
+      stageClass += ' has-pdf';
+      mediaStageHtml = `<div class="lightbox-pdf-stage" aria-label="${item.title} document pages"></div>`;
+    } else if (item.image) {
+      mediaStageHtml = `<img src="${item.image}" alt="${item.title} certificate scan" loading="lazy">`;
+    } else if (item.images && item.images.length > 0) {
+      mediaStageHtml = `<img src="${item.images[0]}" alt="${item.title}" loading="lazy">`;
+    } else {
+      mediaStageHtml = `
+        <div class="lightbox-placeholder-view">
+          <div class="lightbox-placeholder-badge" aria-hidden="true">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="8" r="7"></circle>
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+            </svg>
+          </div>
+          <h4 class="lightbox-placeholder-title">${this.type === 'cert' ? 'Official Certificate Image' : 'Milestone Verification Media'}</h4>
+          <p class="lightbox-placeholder-hint">Image scan file ready for future upload in assets/${this.type === 'cert' ? 'certifications' : 'achievements'}/</p>
+        </div>
+      `;
+    }
+
+    // ---------- Right info panel (shared by all media types) ----------
+    let tagsHtml = '';
+    if (item.skills && item.skills.length > 0) {
+      tagsHtml = item.skills.map(s => `<span class="tag-badge">${s}</span>`).join('');
+    } else if (item.highlights && item.highlights.length > 0) {
+      tagsHtml = item.highlights.map(h => `<span class="tag-badge">${h}</span>`).join('');
+    }
+
+    const actions = [];
+    if (item.credentialUrl) {
+      actions.push(`
+        <a href="${item.credentialUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+          Verify Credential Authority
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        </a>
+      `);
+    } else if (item.link) {
+      actions.push(`
+        <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+          Explore Profile
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        </a>
+      `);
+    }
+    if (pdfMode) {
+      actions.push(`
         <a href="${item.pdf}" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm">
           Open Full Document
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
         </a>
       `);
-
-      bodyHtml = `
-        <div class="lightbox-body pdf-mode">
-          <div class="lightbox-pdf-stage" aria-label="${item.title} document pages"></div>
-          <div class="lightbox-pdf-meta">
-            <div class="pdf-meta-group">
-              <span class="lightbox-info-label">${this.type === 'cert' ? 'Issuing Organization' : 'Affiliation / Platform'}</span>
-              <span class="pdf-meta-value">${item.issuer || item.organization || 'Verified Credential'}</span>
-            </div>
-            <div class="pdf-meta-group">
-              <span class="lightbox-info-label">${this.type === 'cert' ? 'Issued' : 'Date'}</span>
-              <span class="pdf-meta-value pdf-meta-date"><span class="status-dot"></span>${item.date || 'Verified'}</span>
-            </div>
-            <div class="lightbox-actions-row pdf-meta-actions">${metaActions.join('')}</div>
-          </div>
-        </div>
-      `;
-    } else {
-      // Image / placeholder stage + info panel (unchanged two-column layout).
-      let mediaStageHtml = '';
-      if (item.image) {
-        mediaStageHtml = `<img src="${item.image}" alt="${item.title} certificate scan" loading="lazy">`;
-      } else if (item.images && item.images.length > 0) {
-        mediaStageHtml = `<img src="${item.images[0]}" alt="${item.title}" loading="lazy">`;
-      } else {
-        mediaStageHtml = `
-          <div class="lightbox-placeholder-view">
-            <div class="lightbox-placeholder-badge" aria-hidden="true">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="8" r="7"></circle>
-                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
-              </svg>
-            </div>
-            <h4 class="lightbox-placeholder-title">${this.type === 'cert' ? 'Official Certificate Image' : 'Milestone Verification Media'}</h4>
-            <p class="lightbox-placeholder-hint">Image scan file ready for future upload in assets/${this.type === 'cert' ? 'certifications' : 'achievements'}/</p>
-          </div>
-        `;
-      }
-
-      let tagsHtml = '';
-      if (item.skills && item.skills.length > 0) {
-        tagsHtml = item.skills.map(s => `<span class="tag-badge">${s}</span>`).join('');
-      } else if (item.highlights && item.highlights.length > 0) {
-        tagsHtml = item.highlights.map(h => `<span class="tag-badge">${h}</span>`).join('');
-      }
-
-      const actions = [];
-      if (item.credentialUrl) {
-        actions.push(`
-          <a href="${item.credentialUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
-            Verify Credential Authority
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-          </a>
-        `);
-      } else if (item.link) {
-        actions.push(`
-          <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
-            Explore Profile
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-          </a>
-        `);
-      }
-      const actionLinkHtml = actions.length
-        ? `<div class="lightbox-actions-row" style="margin-top:auto; display:flex; flex-wrap:wrap; gap:0.6rem;">${actions.join('')}</div>`
-        : '';
-
-      bodyHtml = `
-        <div class="lightbox-body">
-          <div class="lightbox-image-stage">
-            ${mediaStageHtml}
-          </div>
-
-          <div class="lightbox-info-panel">
-            <div class="lightbox-info-row">
-              <span class="lightbox-info-label">${this.type === 'cert' ? 'Issuing Organization' : 'Affiliation / Platform'}</span>
-              <span class="lightbox-info-value">${item.issuer || item.organization || 'Verified Credential'}</span>
-            </div>
-
-            <div class="lightbox-info-row">
-              <span class="lightbox-info-label">Verification Status</span>
-              <span style="font-size: 0.95rem; color: var(--accent-emerald); font-weight:600; display:flex; align-items:center; gap:0.4rem;">
-                <span class="status-dot"></span> ${item.date || 'Verified'}
-              </span>
-            </div>
-
-            <div class="lightbox-info-row">
-              <span class="lightbox-info-label">Description & Scope</span>
-              <p class="lightbox-info-desc">${item.description}</p>
-            </div>
-
-            ${tagsHtml ? `
-              <div class="lightbox-info-row">
-                <span class="lightbox-info-label">${this.type === 'cert' ? 'Key Competencies Covered' : 'Key Focus Areas'}</span>
-                <div class="lightbox-skills-list">
-                  ${tagsHtml}
-                </div>
-              </div>
-            ` : ''}
-
-            ${actionLinkHtml}
-          </div>
-        </div>
-      `;
     }
+    const actionLinkHtml = actions.length
+      ? `<div class="lightbox-actions-row" style="margin-top:auto; display:flex; flex-wrap:wrap; gap:0.6rem;">${actions.join('')}</div>`
+      : '';
+
+    const bodyHtml = `
+      <div class="lightbox-body">
+        <!-- Left: document / image stage -->
+        <div class="${stageClass}">
+          ${mediaStageHtml}
+        </div>
+
+        <!-- Right: information panel -->
+        <div class="lightbox-info-panel">
+          <div class="lightbox-info-row">
+            <span class="lightbox-info-label">${this.type === 'cert' ? 'Issuing Organization' : 'Affiliation / Platform'}</span>
+            <span class="lightbox-info-value">${item.issuer || item.organization || 'Verified Credential'}</span>
+          </div>
+
+          <div class="lightbox-info-row">
+            <span class="lightbox-info-label">Verification Status</span>
+            <span style="font-size: 0.95rem; color: var(--accent-emerald); font-weight:600; display:flex; align-items:center; gap:0.4rem;">
+              <span class="status-dot"></span> ${item.date || 'Verified'}
+            </span>
+          </div>
+
+          <div class="lightbox-info-row">
+            <span class="lightbox-info-label">Description & Scope</span>
+            <p class="lightbox-info-desc">${item.description}</p>
+          </div>
+
+          ${tagsHtml ? `
+            <div class="lightbox-info-row">
+              <span class="lightbox-info-label">${this.type === 'cert' ? 'Key Competencies Covered' : 'Key Focus Areas'}</span>
+              <div class="lightbox-skills-list">
+                ${tagsHtml}
+              </div>
+            </div>
+          ` : ''}
+
+          ${actionLinkHtml}
+        </div>
+      </div>
+    `;
 
     const footerHint = pdfMode
-      ? 'Swipe sideways or use ← → to turn pages'
-      : 'Use ← → arrow keys to navigate';
+      ? 'Swipe sideways or use \u2190 \u2192 to turn pages'
+      : 'Use \u2190 \u2192 arrow keys to navigate';
 
     this.modalEl.innerHTML = `
       <div class="lightbox-window">
@@ -449,7 +419,7 @@ class MediaLightboxViewer {
             <h3 class="lightbox-title">${item.title}</h3>
             <span class="lightbox-counter">${currentNum} / ${total}</span>
           </div>
-          <button class="modal-close-btn" id="lightbox-close-btn" aria-label="Close viewer">✕</button>
+          <button class="modal-close-btn" id="lightbox-close-btn" aria-label="Close viewer">\u2715</button>
         </div>
 
         ${bodyHtml}
@@ -457,13 +427,13 @@ class MediaLightboxViewer {
         <!-- Footer Navigation -->
         <div class="lightbox-footer">
           <button class="lightbox-nav-btn" id="lightbox-nav-prev" ${total <= 1 ? 'disabled' : ''} aria-label="Previous certificate">
-            ← Previous
+            \u2190 Previous
           </button>
           <span style="font-family:var(--font-mono); font-size:0.84rem; color:var(--text-muted);">
             ${footerHint}
           </span>
           <button class="lightbox-nav-btn" id="lightbox-nav-next" ${total <= 1 ? 'disabled' : ''} aria-label="Next certificate">
-            Next →
+            Next \u2192
           </button>
         </div>
       </div>

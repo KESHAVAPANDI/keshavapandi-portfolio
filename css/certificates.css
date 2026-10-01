@@ -329,25 +329,27 @@
 }
 
 /* ==========================================================================
-   PDF MODE — full-width, horizontally scrollable page carousel.
-   Pages render to canvas via PDF.js: no native toolbar, no download button.
+   PDF MODE — PDF.js page carousel inside the LEFT column of the
+   two-column layout (document left, details right).
+   Pages render to canvas: no native toolbar, no download button.
    ========================================================================== */
 
-.lightbox-body.pdf-mode {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+/* Left column becomes the document stage. */
+.lightbox-image-stage.has-pdf {
+  padding: 0;
+  height: min(62vh, 600px);
   min-height: 0;
-  flex: 1;
+  align-items: stretch;
+  justify-content: stretch;
 }
 
+/* Inner PDF.js carousel host — fills the left column. */
 .lightbox-pdf-stage {
   position: relative;
-  flex: 1 1 auto;
-  min-height: 0;
-  height: min(62vh, 600px);
-  background: #04070B;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
+  background: #04070B;
 }
 
 .pdf-strip {
@@ -478,49 +480,6 @@
 
 @keyframes pdfSpin {
   to { transform: rotate(360deg); }
-}
-
-/* Compact meta strip under the document */
-.lightbox-pdf-meta {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  padding: 1rem 1.75rem;
-  background: var(--bg-card);
-  border-top: 1px solid var(--border-subtle);
-}
-
-.pdf-meta-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  min-width: 0;
-}
-
-.pdf-meta-value {
-  font-size: 0.98rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.pdf-meta-date {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  color: var(--accent-emerald);
-  font-weight: 600;
-  font-size: 0.92rem;
-}
-
-.pdf-meta-actions {
-  margin-left: auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
 }
 
 /* Image Placeholder in Viewer */

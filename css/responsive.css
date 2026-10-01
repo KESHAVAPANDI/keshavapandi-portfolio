@@ -397,29 +397,22 @@
     object-fit: contain;
   }
 
-  /* Full-width PDF carousel on mobile */
-  .lightbox-body.pdf-mode {
-    overflow: hidden;
+  /* PDF carousel inside the left column on mobile */
+  .lightbox-image-stage.has-pdf {
+    min-height: 0;
+    max-height: none;
+    height: 52vh;
+    padding: 0;
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .lightbox-pdf-stage {
-    height: 52vh;
-    min-height: 320px;
+    height: 100%;
   }
 
   .pdf-strip {
     padding: 1rem 1.25rem;
     gap: 1rem;
-  }
-
-  .lightbox-pdf-meta {
-    padding: 0.85rem 1.15rem;
-    gap: 0.9rem;
-  }
-
-  .pdf-meta-actions {
-    margin-left: 0;
-    width: 100%;
   }
 
   .lightbox-placeholder-view {
