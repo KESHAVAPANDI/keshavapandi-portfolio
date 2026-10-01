@@ -33,6 +33,17 @@ const achievementsData = [
     link: "https://github.com/KESHAVAPANDI",
     images: [],
     highlights: ["Model deployment and REST API integrations", "Responsive frontend UI/UX engineering", "Relational and document database modeling"]
+  },
+  {
+    id: "ai-engineering-internships",
+    title: "AI Engineering Internships",
+    organization: "RBG.AI · Oxyher E-Commerce Retail · Orange Automation and AI Solutions",
+    date: "2024 – 2025",
+    description: "Completed three industry internships spanning AI research, full-stack e-commerce development, and manufacturing automation.",
+    link: null,
+    images: [],
+    pdf: "assets/certifications/internship-certificates.pdf",
+    highlights: ["RBG.AI (Jun – Jul 2024): Large OCR models, Gen AI models, image processing and hyperparameter tuning", "Oxyher E-Commerce Retail (Dec 2024 – Jan 2025): Full-stack e-commerce site with Python Flask, HTML, CSS and JavaScript", "Orange Automation and AI Solutions (Jun – Jul 2025): 30-day production department internship"]
   }
 ];
 
