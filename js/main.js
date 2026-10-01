@@ -47,6 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 9. Scroll Reveal Observer
   initScrollReveal();
+
+  // 10. Profile Photo (progressive enhancement: shows only if the asset exists)
+  initProfilePhoto();
 });
 
 /* ==========================================================================
@@ -318,6 +321,28 @@ function initSkillsSection() {
       </div>
     `;
   }).join('');
+}
+
+/* ==========================================================================
+   PROFILE PHOTO LOADER (PROGRESSIVE ENHANCEMENT)
+   Swaps the about-section placeholder for the real portrait when
+   assets/profile/profile-photo.jpg exists. If the file is missing or
+   fails to load, the elegant placeholder stays untouched.
+   ========================================================================== */
+function initProfilePhoto() {
+  const card = document.getElementById('about-photo-card');
+  if (!card || card.querySelector('img')) return;
+
+  const img = new Image();
+  img.src = './assets/profile/profile-photo.jpg';
+  img.alt = 'Portrait of Keshava Pandi A S';
+  img.decoding = 'async';
+  img.onload = () => {
+    const placeholder = card.querySelector('.photo-placeholder');
+    if (placeholder) placeholder.remove();
+    card.appendChild(img);
+  };
+  // onerror: intentionally keep the placeholder as graceful fallback
 }
 
 /* ==========================================================================
