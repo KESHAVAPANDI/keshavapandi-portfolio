@@ -56,13 +56,26 @@ const certificatesData = [
   {
     id: "google-cybersecurity",
     title: "Foundations of Cybersecurity",
-    issuer: "Google",
+    issuer: "Google · Coursera",
     badgeType: "google",
-    date: "Verified Certification",
-    credentialUrl: "https://grow.google/certificates/cybersecurity/",
-    image: null,
+    date: "Issued March 4, 2024",
+    credentialUrl: "https://coursera.org/verify/64V2JALKG857",
+    image: "assets/certifications/google-foundations-of-cybersecurity-thumb.jpg",
+    pdf: "assets/certifications/google-foundations-of-cybersecurity.pdf",
     skills: ["Security Principles", "Threat Mitigation", "Network Security", "Asset Protection"],
     description: "Core cybersecurity principles, threat modeling, vulnerability assessment, and defense-in-depth architectural security practices."
+  },
+  {
+    id: "google-automate-cybersecurity-python",
+    title: "Automate Cybersecurity Tasks with Python",
+    issuer: "Google · Coursera",
+    badgeType: "google",
+    date: "Issued March 18, 2024",
+    credentialUrl: "https://coursera.org/verify/4RQ7J83WLGCS",
+    image: "assets/certifications/google-automate-cybersecurity-tasks-python-thumb.jpg",
+    pdf: "assets/certifications/google-automate-cybersecurity-tasks-python.pdf",
+    skills: ["Python", "Security Automation", "Scripting", "Log Parsing"],
+    description: "Hands-on training in writing Python scripts to automate routine cybersecurity workflows, parse logs, and respond to threats faster."
   }
 ];
 
