@@ -4,8 +4,8 @@
  * structured metadata panel on the right, directional slide animations,
  * and keyboard navigation controls.
  *
- * PDF documents render through PDF.js into a full-width, horizontally
- * scrollable page carousel — no native viewer toolbar, no download button.
+ * PDF documents render through PDF.js as a single static front-page
+ * image — no native viewer toolbar, no download button, no page carousel.
  */
 
 const PDFJS_VERSION = '3.11.174';
@@ -19,7 +19,6 @@ class MediaLightboxViewer {
     this.currentIndex = 0;
     this.type = 'cert'; // 'cert' or 'achievement'
     this.isAnimating = false;
-    this.pdfApi = null;   // { total, current, goTo } for the active PDF stage
     this._pdfJsPromise = null;
     this._pdfDoc = null;
     this.initListeners();
@@ -44,15 +43,11 @@ class MediaLightboxViewer {
         return;
       }
 
-      // When a multi-page PDF is on stage, arrows turn its pages;
-      // otherwise they move between certificates/achievements.
-      const item = this.items[this.currentIndex];
-      const pdfPaging = item && item.pdf && this.pdfApi && this.pdfApi.total > 1;
-
+      // Arrow keys always move between certificates/achievements.
       if (e.key === 'ArrowLeft') {
-        if (pdfPaging) this.pdfApi.go(-1); else this.prev();
+        this.prev();
       } else if (e.key === 'ArrowRight') {
-        if (pdfPaging) this.pdfApi.go(1); else this.next();
+        this.next();
       }
     });
   }
@@ -84,7 +79,6 @@ class MediaLightboxViewer {
     const caseOpen = caseBackdrop && caseBackdrop.classList.contains('is-open');
     document.body.style.overflow = caseOpen ? 'hidden' : '';
     this.destroyPdfDoc();
-    this.pdfApi = null;
   }
 
   prev() {
@@ -169,11 +163,10 @@ class MediaLightboxViewer {
   }
 
   /* ------------------------------------------------------------------
-     Full-width horizontal PDF carousel. Pages render to canvas and sit
-     side by side in a swipeable strip — no native toolbar, no download.
+     Front-page-only PDF render. The certificate's first page renders to a
+     single static canvas — no carousel, no swipe, no page counter.
   ------------------------------------------------------------------ */
   initPdfStage(stage, item) {
-    const startPage = Math.max(1, item.startPage || 1);
     stage.innerHTML = `
       <div class="pdf-loading" role="status" aria-label="Loading document">
         <span class="pdf-spinner" aria-hidden="true"></span>
@@ -183,7 +176,7 @@ class MediaLightboxViewer {
 
     this.ensurePdfJs()
       .then(() => window.pdfjsLib.getDocument({ url: item.pdf }).promise)
-      .then((pdf) => {
+      .then(async (pdf) => {
         // If the user already moved on, drop this render.
         if (!stage.isConnected) {
           try { pdf.destroy(); } catch (e) { /* noop */ }
@@ -191,7 +184,39 @@ class MediaLightboxViewer {
         }
         this.destroyPdfDoc();
         this._pdfDoc = pdf;
-        this.buildPdfCarousel(stage, pdf, startPage);
+
+        // Front page only.
+        const page = await pdf.getPage(1);
+        if (!stage.isConnected) return;
+        const stageH = stage.clientHeight || 520;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const base = page.getViewport({ scale: 1 });
+        const cssH = Math.max(120, stageH - 48);
+        const scale = (cssH / base.height) * dpr;
+        const viewport = page.getViewport({ scale });
+
+        const wrap = document.createElement('div');
+        wrap.className = 'pdf-single';
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.floor(viewport.width);
+        canvas.height = Math.floor(viewport.height);
+        canvas.setAttribute('role', 'img');
+        canvas.setAttribute('aria-label', `${item.title} — certificate front page`);
+        wrap.appendChild(canvas);
+        stage.innerHTML = '';
+        stage.appendChild(wrap);
+
+        try {
+          await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
+        } catch (e) {
+          if (!stage.isConnected) return;
+          stage.innerHTML = `
+            <div class="pdf-error">
+              <p>This document can't be previewed inline right now.</p>
+              <a href="${item.pdf}" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm">Open the full document</a>
+            </div>
+          `;
+        }
       })
       .catch(() => {
         if (!stage.isConnected) return;
@@ -204,103 +229,11 @@ class MediaLightboxViewer {
       });
   }
 
-  buildPdfCarousel(stage, pdf, startPage) {
-    const total = pdf.numPages;
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    stage.innerHTML = `
-      <div class="pdf-strip" role="region" aria-label="Document pages, swipe horizontally"></div>
-      <div class="pdf-ui">
-        <button class="pdf-nav-btn pdf-nav-prev" aria-label="Previous page">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"></polyline></svg>
-        </button>
-        <span class="pdf-counter" aria-live="polite"><strong>1</strong> / ${total}</span>
-        <button class="pdf-nav-btn pdf-nav-next" aria-label="Next page">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="9 18 15 12 9 6"></polyline></svg>
-        </button>
-      </div>
-    `;
-
-    const strip = stage.querySelector('.pdf-strip');
-    const counterNum = stage.querySelector('.pdf-counter strong');
-    const prevBtn = stage.querySelector('.pdf-nav-prev');
-    const nextBtn = stage.querySelector('.pdf-nav-next');
-
-    const api = {
-      total,
-      current: 1,
-      go: (dir) => api.goTo(api.current + dir),
-      goTo: (n) => {
-        const target = Math.min(total, Math.max(1, n));
-        const pageEl = strip.children[target - 1];
-        if (!pageEl) return;
-        const left = pageEl.offsetLeft - (strip.clientWidth - pageEl.clientWidth) / 2;
-        strip.scrollTo({ left, behavior: reduceMotion ? 'auto' : 'smooth' });
-      }
-    };
-    this.pdfApi = api;
-
-    const setCounter = (n) => {
-      api.current = n;
-      if (counterNum) counterNum.textContent = n;
-      if (prevBtn) prevBtn.disabled = n <= 1;
-      if (nextBtn) nextBtn.disabled = n >= total;
-    };
-
-    if (prevBtn) prevBtn.addEventListener('click', () => api.go(-1));
-    if (nextBtn) nextBtn.addEventListener('click', () => api.go(1));
-
-    // Track the centered page as the user swipes/scrolls.
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.55) {
-          setCounter(parseInt(entry.target.dataset.page, 10));
-        }
-      });
-    }, { root: strip, threshold: [0.55] });
-
-    const stageH = stage.clientHeight || 520;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-
-    (async () => {
-      for (let n = 1; n <= total; n++) {
-        if (!strip.isConnected) return;
-        const page = await pdf.getPage(n);
-        const base = page.getViewport({ scale: 1 });
-        // Fit page height to the stage; canvas renders at device pixel ratio for crispness.
-        const cssH = Math.max(120, stageH - 56);
-        const scale = (cssH / base.height) * dpr;
-        const viewport = page.getViewport({ scale });
-
-        const wrap = document.createElement('div');
-        wrap.className = 'pdf-page';
-        wrap.dataset.page = n;
-        const canvas = document.createElement('canvas');
-        canvas.width = Math.floor(viewport.width);
-        canvas.height = Math.floor(viewport.height);
-        canvas.setAttribute('aria-label', `Page ${n} of ${total}`);
-        wrap.appendChild(canvas);
-        strip.appendChild(wrap);
-        observer.observe(wrap);
-
-        try {
-          await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
-        } catch (e) { /* keep the slot; a failed page still occupies layout */ }
-      }
-
-      // Jump to the requested page (e.g. a single internship certificate inside a bundle).
-      const first = Math.min(total, startPage);
-      setCounter(first);
-      requestAnimationFrame(() => api.goTo(first));
-    })();
-  }
-
   render() {
     const item = this.items[this.currentIndex];
     if (!item) return;
 
     this.destroyPdfDoc();
-    this.pdfApi = null;
 
     const total = this.items.length;
     const currentNum = this.currentIndex + 1;
@@ -407,9 +340,7 @@ class MediaLightboxViewer {
       </div>
     `;
 
-    const footerHint = pdfMode
-      ? 'Swipe sideways or use \u2190 \u2192 to turn pages'
-      : 'Use \u2190 \u2192 arrow keys to navigate';
+    const footerHint = 'Use \u2190 \u2192 arrow keys to navigate';
 
     this.modalEl.innerHTML = `
       <div class="lightbox-window">
