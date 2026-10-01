@@ -62,6 +62,8 @@
     display: flex;
     justify-content: center;
     width: 100%;
+    /* No upward nudge once the photo stacks below the text on small screens */
+    transform: none;
   }
 
   .about-photo-card {
@@ -197,72 +199,23 @@
     line-height: 1.6;
   }
 
-  /* Projects Grid: 2 compact columns on mobile.
-     Cards render the full rich layout, but on mobile we collapse them to
-     name + tech stack only (preview, description, category badge and quick
-     links are hidden; details live in the case study modal). */
+  /* Projects: single column of full rich cards on mobile (preview restored) */
   .projects-container {
     gap: 2.5rem;
   }
 
   .projects-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.9rem;
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
     width: 100%;
   }
 
   .project-card {
     width: 100%;
     max-width: 100%;
-    min-width: 0;
   }
 
-  .project-media-preview,
-  .project-card-desc,
-  .card-meta-top,
-  .card-links-group {
-    display: none;
-  }
-
-  .card-internship-badge {
-    top: 0.6rem;
-    right: 0.6rem;
-    font-size: 0.62rem;
-    padding: 0.18rem 0.5rem;
-  }
-
-  .project-card-body {
-    padding: 1.05rem 0.95rem 0.95rem;
-  }
-
-  .project-card-title {
-    font-size: clamp(0.92rem, 3.8vw, 1.05rem);
-    line-height: 1.35;
-    margin-bottom: 0.6rem;
-  }
-
-  /* Keep the title clear of the absolute INTERNSHIP badge */
-  .project-card:has(.card-internship-badge) .project-card-title {
-    padding-right: 4.2rem;
-  }
-
-  .card-tech-stack {
-    gap: 0.32rem;
-    margin-bottom: 0.85rem;
-  }
-
-  /* Minimal footer: only the "View Case Study" tap affordance */
-  .project-card-footer {
-    padding-top: 0.6rem;
-    border-top: 1px solid var(--border-subtle);
-    justify-content: flex-start;
-  }
-
-  .view-case-study-btn {
-    font-size: 0.74rem;
-  }
-
-  /* Interactive Case Study Modal (full-screen app view on mobile) */
+  /* Watch-style Case Study Modal (full-screen app view on mobile) */
   .modal-backdrop {
     padding: 0;
     align-items: stretch;
@@ -283,59 +236,66 @@
     transform: translateY(0);
   }
 
-  .modal-header {
-    padding: 0.85rem 1rem;
-    gap: 0.75rem;
-    flex-wrap: nowrap;
+  /* Player goes edge-to-edge at the top */
+  .watch-player {
+    aspect-ratio: 16 / 9;
+    max-height: 32vh;
+    border-bottom: 1px solid var(--border-subtle);
   }
 
-  .modal-title-group {
-    min-width: 0;
-    flex: 1;
-  }
-
-  .modal-category-row {
-    flex-wrap: wrap;
-    row-gap: 0.35rem;
-  }
-
-  .modal-title {
-    font-size: clamp(1.1rem, 4.6vw, 1.3rem);
-    line-height: 1.3;
-  }
-
-  .modal-close-btn {
+  .watch-close-btn {
     width: 44px;
     height: 44px;
     font-size: 1.3rem;
   }
 
-  .modal-links-bar {
-    padding: 0.75rem 1rem;
-    overflow-x: auto;
+  .watch-player-tabs {
+    top: 0.6rem;
+    left: 0.6rem;
+  }
+
+  .watch-tab {
+    font-size: 0.68rem;
+    padding: 0.38rem 0.7rem;
+  }
+
+  .watch-scroll {
+    padding: 1.15rem 1rem calc(1.75rem + env(safe-area-inset-bottom, 0px));
+    gap: 1.15rem;
+  }
+
+  .watch-title {
+    font-size: clamp(1.12rem, 4.8vw, 1.3rem);
+  }
+
+  /* Actions become a horizontal swipe strip */
+  .watch-actions {
     flex-wrap: nowrap;
+    overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.15rem;
   }
 
-  .modal-links-bar .btn {
+  .watch-action-btn {
     flex: 0 0 auto;
+    font-size: 0.82rem;
+    padding: 0.6rem 1rem;
   }
 
-  .modal-body {
-    padding: 1.25rem 1rem calc(1.75rem + env(safe-area-inset-bottom, 0px));
-    gap: 1.5rem;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
+  .watch-desc-box {
+    padding: 1.05rem 1rem;
   }
 
-  .video-frame-container {
-    aspect-ratio: 16 / 9;
-    max-height: 250px;
+  .watch-desc-text {
+    font-size: 0.9rem;
   }
 
-  .gallery-viewport {
-    height: 220px;
+  .case-study-details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .case-study-card.full-width {
+    grid-column: span 1;
   }
 
   .case-study-card {
@@ -351,15 +311,12 @@
     line-height: 1.65;
   }
 
-  .modal-project-nav {
+  .upnext-list {
     grid-template-columns: 1fr;
   }
 
-  .modal-nav-btn span {
-    white-space: normal;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+  .upnext-thumb {
+    width: 96px;
   }
 
   /* Workflow & Execution Pipeline (Clean Vertical Reflow, No Scrollbar) */
@@ -611,42 +568,9 @@
     padding: 1.15rem 1rem;
   }
 
-  /* Compact Project Cards on Narrow Phones (2 per row) */
+  /* Project cards: comfortable single-column rhythm on narrow phones */
   .projects-grid {
-    gap: 0.7rem;
-  }
-
-  .project-card-body {
-    padding: 0.9rem 0.8rem 0.85rem;
-  }
-
-  .project-card-title {
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-  }
-
-  /* Show at most 3 tech tags on very narrow screens */
-  .card-tech-stack .tag-badge:nth-child(n+4) {
-    display: none;
-  }
-
-  .card-tech-stack {
-    margin-bottom: 0.7rem;
-  }
-
-  .view-case-study-btn {
-    font-size: 0.68rem;
-  }
-
-  .card-internship-badge {
-    font-size: 0.58rem;
-    padding: 0.15rem 0.45rem;
-    top: 0.5rem;
-    right: 0.5rem;
-  }
-
-  .project-card:has(.card-internship-badge) .project-card-title {
-    padding-right: 3.8rem;
+    gap: 1.15rem;
   }
 
   /* Modals Full Fit */
@@ -661,13 +585,20 @@
     max-height: 100dvh;
   }
 
-  .modal-header,
   .lightbox-header {
     padding: 0.75rem 0.85rem;
   }
 
-  .modal-body {
-    padding: 1.1rem 0.85rem calc(1.5rem + env(safe-area-inset-bottom, 0px));
-    gap: 1.25rem;
+  .watch-scroll {
+    padding: 1rem 0.85rem calc(1.5rem + env(safe-area-inset-bottom, 0px));
+    gap: 1.1rem;
+  }
+
+  .watch-desc-box {
+    padding: 1rem 0.9rem;
+  }
+
+  .upnext-item {
+    padding: 0.65rem 0.7rem;
   }
 }

@@ -1,8 +1,8 @@
 /**
- * INTERACTIVE CASE STUDY VIEWER
- * Animated modal dialog featuring 16:9 video container,
- * screenshot gallery with keyboard controls, structured case study,
- * dynamic architecture flowchart, internship badges, and verified repository links.
+ * INTERACTIVE CASE STUDY VIEWER — "Watch page" style
+ * YouTube-inspired layout: 16:9 media player pinned at the top (demo video /
+ * screenshot gallery with tabs), title + badges + pill actions below, then a
+ * description box, detail cards, workflow, and an "Up next" rail.
  */
 
 class CaseStudyViewer {
@@ -57,14 +57,14 @@ class CaseStudyViewer {
     this.modalBackdrop.classList.add('is-open');
     this.modalBackdrop.setAttribute('aria-hidden', 'false');
 
-    // Always start at the top of the modal
-    const body = this.modalContainer.querySelector('.modal-body');
-    if (body) body.scrollTop = 0;
+    // Always start at the top of the watch page
+    const scroller = this.modalContainer.querySelector('.watch-scroll');
+    if (scroller) scroller.scrollTop = 0;
     if (this.modalBackdrop) this.modalBackdrop.scrollTop = 0;
 
     // Accessibility focus
     setTimeout(() => {
-      const closeBtn = this.modalContainer.querySelector('.modal-close-btn');
+      const closeBtn = this.modalContainer.querySelector('.watch-close-btn');
       if (closeBtn) closeBtn.focus();
     }, 80);
   }
@@ -85,20 +85,17 @@ class CaseStudyViewer {
     const p = this.currentProject;
     if (!p) return;
 
-    // Video Area HTML (16:9 aspect ratio)
-    let videoHtml = '';
-    if (p.video) {
-      videoHtml = `
-        <div class="video-frame-container">
+    const hasVideo = !!p.video;
+    const hasScreenshots = p.screenshots && p.screenshots.length > 0;
+
+    // ---------- Watch-style media player ----------
+    const videoPane = `
+      <div class="watch-media watch-media-video${hasVideo ? '' : ' is-hidden'}" data-pane="video">
+        ${hasVideo ? `
           <video controls preload="metadata" playsinline>
             <source src="${p.video}" type="video/mp4">
             Your browser does not support HTML5 video playback.
-          </video>
-        </div>
-      `;
-    } else {
-      videoHtml = `
-        <div class="video-frame-container">
+          </video>` : `
           <div class="video-placeholder">
             <div class="video-play-mock" aria-hidden="true">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -109,228 +106,178 @@ class CaseStudyViewer {
               <h4>Demo Video Demonstration</h4>
               <p>Demo walk-through will be uploaded soon for ${p.title}.</p>
             </div>
-          </div>
-        </div>
-      `;
-    }
+          </div>`}
+      </div>`;
 
-    // Screenshots Gallery HTML
-    let galleryHtml = '';
-    const hasScreenshots = p.screenshots && p.screenshots.length > 0;
+    let galleryPane = '';
     if (hasScreenshots) {
       const slides = p.screenshots.map((src, i) => `
         <div class="gallery-slide">
-          <img src="${src}" alt="${p.title} screenshot ${i+1}" loading="lazy">
-        </div>
-      `).join('');
+          <img src="${src}" alt="${p.title} screenshot ${i + 1}" loading="lazy">
+        </div>`).join('');
 
-      galleryHtml = `
-        <div class="modal-gallery-section">
-          <div class="gallery-header-row">
-            <h4 class="gallery-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                <polyline points="21 15 16 10 5 21"></polyline>
-              </svg>
-              Project Screenshots
-            </h4>
-            <div class="gallery-controls">
-              <span class="gallery-counter" id="modal-gallery-counter">1 / ${p.screenshots.length}</span>
-              <button class="gallery-nav-btn" id="modal-gallery-prev" aria-label="Previous screenshot">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
-              </button>
-              <button class="gallery-nav-btn" id="modal-gallery-next" aria-label="Next screenshot">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
-              </button>
-            </div>
+      galleryPane = `
+        <div class="watch-media watch-media-gallery gallery-viewport${hasVideo ? ' is-hidden' : ''}" data-pane="gallery">
+          <div class="gallery-slider" id="modal-gallery-slider">
+            ${slides}
           </div>
-          <div class="gallery-viewport">
-            <div class="gallery-slider" id="modal-gallery-slider">
-              ${slides}
-            </div>
+          <div class="watch-gallery-ui">
+            <span class="gallery-counter" id="modal-gallery-counter">1 / ${p.screenshots.length}</span>
+            <button class="gallery-nav-btn" id="modal-gallery-prev" aria-label="Previous screenshot">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button class="gallery-nav-btn" id="modal-gallery-next" aria-label="Next screenshot">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
           </div>
-        </div>
-      `;
-    } else {
-      galleryHtml = `
-        <div class="modal-gallery-section">
-          <div class="gallery-header-row">
-            <h4 class="gallery-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                <polyline points="21 15 16 10 5 21"></polyline>
-              </svg>
-              Project Screenshots
-            </h4>
-          </div>
-          <div class="gallery-viewport">
-            <div class="gallery-placeholder">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                <polyline points="21 15 16 10 5 21"></polyline>
-              </svg>
-              <p>Screenshots gallery ready for future asset uploads.</p>
-            </div>
-          </div>
-        </div>
-      `;
+        </div>`;
     }
 
-    // Tech Badges HTML
-    const techBadges = p.technologies.map(t => `<span class="tag-badge">${t}</span>`).join('');
+    const showTabs = hasVideo && hasScreenshots;
+    const tabsHtml = showTabs ? `
+      <div class="watch-player-tabs" role="tablist" aria-label="Project media">
+        <button class="watch-tab is-active" data-tab="video" role="tab" aria-selected="true">Demo video</button>
+        <button class="watch-tab" data-tab="gallery" role="tab" aria-selected="false">Screenshots · ${p.screenshots.length}</button>
+      </div>` : '';
 
-    // Features List HTML
-    const featuresList = p.features.map(f => `<li>${f}</li>`).join('');
-
-    // Architecture Workflow HTML
-    const workflowHtml = window.renderWorkflowDiagram ? window.renderWorkflowDiagram(p.workflow) : '';
-
-    // Action Links HTML (Only render Source Code if a dedicated repo URL is provided)
+    // ---------- Action links (YouTube-style pill actions) ----------
     let linksHtml = '';
     if (p.github) {
       linksHtml += `
-        <a href="${p.github}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" aria-label="View source code on GitHub">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-          Source Code
-        </a>
-      `;
+        <a href="${p.github}" target="_blank" rel="noopener noreferrer" class="watch-action-btn" aria-label="View source code on GitHub">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          <span>Source Code</span>
+        </a>`;
     } else if (p.sourceUrl) {
       linksHtml += `
-        <a href="${p.sourceUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" aria-label="Visit source site ${p.sourceLabel || ''}">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-          Source (${p.sourceLabel || 'Website'})
-        </a>
-      `;
+        <a href="${p.sourceUrl}" target="_blank" rel="noopener noreferrer" class="watch-action-btn" aria-label="Visit source site ${p.sourceLabel || ''}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          <span>Source (${p.sourceLabel || 'Website'})</span>
+        </a>`;
     }
     if (p.demo) {
       linksHtml += `
-        <a href="${p.demo}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" aria-label="Open live application demo">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-          Live Demo
-        </a>
-      `;
+        <a href="${p.demo}" target="_blank" rel="noopener noreferrer" class="watch-action-btn watch-action-primary" aria-label="Open live application demo">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          <span>Live Demo</span>
+        </a>`;
     }
 
+    // ---------- Tech badges / features / workflow ----------
+    const techBadges = p.technologies.map(t => `<span class="tag-badge">${t}</span>`).join('');
+    const featuresList = p.features.map(f => `<li>${f}</li>`).join('');
+    const workflowHtml = window.renderWorkflowDiagram ? window.renderWorkflowDiagram(p.workflow) : '';
+
+    // ---------- Up next rail ----------
+    const upnextItem = (proj, label) => `
+      <button class="upnext-item" data-open-project="${proj.id}" aria-label="Open ${proj.title}">
+        <span class="upnext-thumb" aria-hidden="true">${proj.category.charAt(0)}</span>
+        <span class="upnext-meta">
+          <small>${label}</small>
+          <strong>${proj.title}</strong>
+          <span class="upnext-sub">${proj.category}</span>
+        </span>
+        <svg class="upnext-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>`;
+
     this.modalContainer.innerHTML = `
-      <div class="modal-header">
-        <div class="modal-title-group">
-          <div class="modal-category-row">
-            <span class="tag-badge ${p.type === 'ai' ? 'tag-ai' : 'tag-web'}">${p.category}</span>
-            ${p.isInternship ? `<span class="tag-badge tag-internship">INTERNSHIP PROJECT ${p.organization ? `· ${p.organization}` : ''}</span>` : ''}
-          </div>
-          <h2 class="modal-title">${p.title}</h2>
-        </div>
-        <button class="modal-close-btn" id="modal-header-close" aria-label="Close case study">✕</button>
+      <div class="watch-player">
+        ${videoPane}
+        ${galleryPane}
+        ${tabsHtml}
+        <button class="watch-close-btn" id="modal-watch-close" aria-label="Close case study">✕</button>
       </div>
-      ${linksHtml ? `<div class="modal-links-bar">${linksHtml}</div>` : ''}
-      <div class="modal-body">
-        <!-- 1. Video Section -->
-        <div class="modal-video-section">
-          ${videoHtml}
+      <div class="watch-scroll">
+        <!-- Title block -->
+        <div class="watch-title-block">
+          <h2 class="watch-title">${p.title}</h2>
+          <div class="watch-badges">
+            <span class="tag-badge ${p.type === 'ai' ? 'tag-ai' : 'tag-web'}">${p.category}</span>
+            ${p.isInternship ? `<span class="tag-badge tag-internship">INTERNSHIP PROJECT${p.organization ? ` · ${p.organization}` : ''}</span>` : ''}
+          </div>
         </div>
 
-        <!-- 2. Screenshots Gallery -->
-        ${galleryHtml}
+        <!-- Actions row -->
+        ${linksHtml ? `<div class="watch-actions">${linksHtml}</div>` : ''}
 
-        <!-- 3. Overview & Problem/Solution -->
+        <!-- Description box -->
+        <div class="watch-desc-box">
+          <p class="watch-desc-text">${p.overview}</p>
+          <div class="watch-tech-row">${techBadges}</div>
+          ${p.isInternship && p.organization ? `
+            <div class="watch-org-box">
+              <span class="watch-org-label">Affiliated Organization</span>
+              <p class="watch-org-name">${p.organization} (${p.period || 'Verified Internship'})</p>
+            </div>` : ''}
+        </div>
+
+        <!-- Detail cards -->
         <div class="case-study-details-grid">
-          <div class="case-study-card full-width">
-            <h4 class="case-study-card-title">
-              <span class="dot"></span> Project Overview
-            </h4>
-            <p class="case-study-card-content">${p.overview}</p>
-          </div>
-
           <div class="case-study-card">
-            <h4 class="case-study-card-title">
-              <span class="dot"></span> The Problem
-            </h4>
+            <h4 class="case-study-card-title"><span class="dot"></span> The Problem</h4>
             <p class="case-study-card-content">${p.problem}</p>
           </div>
-
           <div class="case-study-card">
-            <h4 class="case-study-card-title">
-              <span class="dot"></span> The Solution
-            </h4>
+            <h4 class="case-study-card-title"><span class="dot"></span> The Solution</h4>
             <p class="case-study-card-content">${p.solution}</p>
           </div>
-
           <div class="case-study-card full-width">
-            <h4 class="case-study-card-title">
-              <span class="dot"></span> How It Works
-            </h4>
+            <h4 class="case-study-card-title"><span class="dot"></span> How It Works</h4>
             <p class="case-study-card-content">${p.howItWorks}</p>
+          </div>
+          <div class="case-study-card">
+            <h4 class="case-study-card-title"><span class="dot"></span> Key Features</h4>
+            <ul class="features-list">${featuresList}</ul>
+          </div>
+          <div class="case-study-card">
+            <h4 class="case-study-card-title"><span class="dot"></span> Verified Outcome</h4>
+            <p class="case-study-card-content">${p.outcome || 'Outcome details coming soon.'}</p>
           </div>
         </div>
 
-        <!-- 4. Architecture / Workflow -->
+        <!-- Architecture / Workflow -->
         <div class="workflow-section">
           ${workflowHtml}
         </div>
 
-        <!-- 5. Key Features & Technologies -->
-        <div class="case-study-details-grid">
-          <div class="case-study-card">
-            <h4 class="case-study-card-title">
-              <span class="dot"></span> Key Features
-            </h4>
-            <ul class="features-list">
-              ${featuresList}
-            </ul>
-          </div>
-
-          <div class="case-study-card">
-            <h4 class="case-study-card-title">
-              <span class="dot"></span> Technology Stack & Context
-            </h4>
-            <div class="card-tech-stack" style="margin-top: 0.5rem;">
-              ${techBadges}
-            </div>
-
-            ${p.isInternship && p.organization ? `
-              <div style="margin-top: 1rem; padding: 0.75rem; background: var(--bg-tertiary); border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
-                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-amber); font-weight: 600; text-transform: uppercase;">Affiliated Organization</span>
-                <p style="font-size: 0.9rem; font-weight: 600; color: var(--text-primary); margin-top: 0.2rem;">${p.organization} (${p.period || 'Verified Internship'})</p>
-              </div>
-            ` : ''}
-
-            ${p.outcome ? `
-              <h4 class="case-study-card-title" style="margin-top: 1.25rem;">
-                <span class="dot"></span> Verified Outcome
-              </h4>
-              <p class="case-study-card-content">${p.outcome}</p>
-            ` : ''}
+        <!-- Up next -->
+        <div class="watch-upnext">
+          <h4 class="upnext-heading">Up next</h4>
+          <div class="upnext-list">
+            ${this.prevProject ? upnextItem(this.prevProject, 'Previous project') : ''}
+            ${this.nextProject ? upnextItem(this.nextProject, 'Next project') : ''}
           </div>
         </div>
-
-        <!-- 6. Prev / Next Project Navigation -->
-        <nav class="modal-project-nav" aria-label="Browse projects">
-          ${this.prevProject ? `
-            <button class="modal-nav-btn modal-nav-prev" id="modal-prev-project">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
-              <span><small>Previous</small>${this.prevProject.title}</span>
-            </button>` : `<span></span>`}
-          ${this.nextProject ? `
-            <button class="modal-nav-btn modal-nav-next" id="modal-next-project">
-              <span><small>Next</small>${this.nextProject.title}</span>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </button>` : `<span></span>`}
-        </nav>
       </div>
     `;
 
     // Hook Close Button
-    const closeBtn = document.getElementById('modal-header-close');
+    const closeBtn = document.getElementById('modal-watch-close');
     if (closeBtn) closeBtn.addEventListener('click', () => this.close());
 
-    // Hook Prev / Next project buttons
-    const prevBtn = document.getElementById('modal-prev-project');
-    const nextBtn = document.getElementById('modal-next-project');
-    if (prevBtn && this.prevProject) prevBtn.addEventListener('click', () => this.open(this.prevProject.id));
-    if (nextBtn && this.nextProject) nextBtn.addEventListener('click', () => this.open(this.nextProject.id));
+    // Hook player tabs (Demo video / Screenshots)
+    const tabs = this.modalContainer.querySelectorAll('.watch-tab');
+    tabs.forEach(tab => tab.addEventListener('click', () => {
+      tabs.forEach(t => {
+        const active = t === tab;
+        t.classList.toggle('is-active', active);
+        t.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      const target = tab.dataset.tab;
+      this.modalContainer.querySelectorAll('.watch-media').forEach(m => {
+        m.classList.toggle('is-hidden', m.dataset.pane !== target);
+      });
+      // Pause the demo video when switching away from it
+      if (target !== 'video') {
+        const video = this.modalContainer.querySelector('.watch-media-video video');
+        if (video) video.pause();
+      }
+    }));
+
+    // Hook Up-next items
+    this.modalContainer.querySelectorAll('[data-open-project]').forEach(btn => {
+      btn.addEventListener('click', () => this.open(btn.dataset.openProject));
+    });
 
     // Hook Gallery controls if screenshots exist
     if (hasScreenshots) {

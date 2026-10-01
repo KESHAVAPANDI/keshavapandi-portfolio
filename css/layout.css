@@ -382,6 +382,8 @@ section[id],
   align-items: center;
   align-self: center;
   width: 100%;
+  /* Nudges the portrait slightly above the exact vertical center of the text column */
+  transform: translateY(-3rem);
 }
 
 .about-photo-card {
