@@ -1,6 +1,6 @@
 /**
  * CONTACT FORM AJAX SUBMISSION HANDLER
- * Seamless AJAX submission to Formspree endpoint without page reloads.
+ * Seamless AJAX submission to Netlify Forms without page reloads.
  */
 
 function initContactForm() {
@@ -33,11 +33,11 @@ function initContactForm() {
     }
 
     try {
-      const response = await fetch(form.action, {
+      const response = await fetch('/', {
         method: 'POST',
-        body: formData,
+        body: new URLSearchParams(formData).toString(),
         headers: {
-          'Accept': 'application/json'
+          'Content-Type': 'application/x-www-form-urlencoded'
         }
       });
 
@@ -52,10 +52,9 @@ function initContactForm() {
           `;
         }
       } else {
-        const errorData = await response.json();
         if (statusBox) {
           statusBox.className = 'form-status-box is-error';
-          statusBox.innerHTML = `<p>${errorData.errors ? errorData.errors.map(err => err.message).join(', ') : 'Oops! Something went wrong transmitting your message. Please try again.'}</p>`;
+          statusBox.innerHTML = `<p>Oops! Something went wrong transmitting your message. Please try again or email directly at keshavapandi@gmail.com</p>`;
         }
         if (submitBtn) {
           submitBtn.disabled = false;
