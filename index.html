@@ -73,6 +73,7 @@
 <body>
 
   <!-- Ambient Particle & Grid Mesh Canvas -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
   <!-- Sticky Site Header -->
   <header class="site-header" id="site-header">
@@ -229,7 +230,7 @@
         </div>
 
         <!-- Metrics Strip -->
-        <div class="hero-metrics">
+        <div class="hero-metrics reveal-on-scroll">
           <div class="metric-item">
             <span class="metric-number text-gradient">AI & CV</span>
             <span class="metric-label">Model Training & Deployment</span>
@@ -256,18 +257,18 @@
          ========================================== -->
     <section class="section" id="about">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal-on-scroll">
           <div class="section-eyebrow">
             <span class="dot"></span>
             01. Background & Philosophy
           </div>
           <h2 class="section-title">About Me</h2>
           <p class="section-subtitle">
-            Background and philosophy: how I approach building AI systems that hold up in production.
+            Adaptable and results-driven engineer passionate about creating impactful, reliable systems through AI and modern software engineering.
           </p>
         </div>
 
-        <div class="about-content-wrapper">
+        <div class="about-content-wrapper reveal-on-scroll">
           
           <!-- Upper Portion: About Text (Left) + Portrait Photo Card (Right) -->
           <div class="about-main-grid">
@@ -350,21 +351,21 @@
          ========================================== -->
     <section class="section" id="projects">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal-on-scroll">
           <div class="section-eyebrow">
             <span class="dot"></span>
             02. Engineering Portfolio
           </div>
           <h2 class="section-title">Featured Projects & Case Studies</h2>
           <p class="section-subtitle">
-            Interactive case studies covering architecture decisions, pipeline workflows, and implementation details.
+            Explore interactive case studies detailing architecture decisions, pipeline workflows, problem statements, and implementation mechanics.
           </p>
         </div>
 
         <div class="projects-container">
           
           <!-- SUBSECTION 1: AI PROJECTS (PRIMARY PROMINENCE) -->
-          <div class="projects-category-block" id="ai-projects">
+          <div class="projects-category-block reveal-on-scroll" id="ai-projects">
             <div class="category-header">
               <div class="category-title-group">
                 <div class="category-icon-badge" aria-hidden="true">
@@ -387,7 +388,7 @@
 
 
           <!-- SUBSECTION 2: OTHER PROJECTS (SOFTWARE & WEB) -->
-          <div class="projects-category-block" id="other-projects">
+          <div class="projects-category-block reveal-on-scroll" id="other-projects">
             <div class="category-header">
               <div class="category-title-group">
                 <div class="category-icon-badge other-icon" aria-hidden="true">
@@ -418,18 +419,18 @@
          ========================================== -->
     <section class="section" id="skills">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal-on-scroll">
           <div class="section-eyebrow">
             <span class="dot"></span>
             03. Technical Competencies
           </div>
           <h2 class="section-title">Skills & Technologies</h2>
           <p class="section-subtitle">
-            Technical capabilities and tools used across production systems and projects.
+            Categorized technical capabilities and tools utilized across production systems and projects.
           </p>
         </div>
 
-        <div class="skills-wrapper">
+        <div class="skills-wrapper reveal-on-scroll">
           <!-- Filter Tabs -->
           <div class="skills-tabs" id="skills-tabs"></div>
 
@@ -445,7 +446,7 @@
          ========================================== -->
     <section class="section" id="certifications">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal-on-scroll">
           <div class="section-eyebrow">
             <span class="dot"></span>
             04. Industry Accreditations
@@ -457,7 +458,7 @@
         </div>
 
         <!-- Certificates Grid -->
-        <div class="certificates-grid" id="certificates-grid"></div>
+        <div class="certificates-grid reveal-on-scroll" id="certificates-grid"></div>
       </div>
     </section>
 
@@ -467,7 +468,7 @@
          ========================================== -->
     <section class="section" id="achievements">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal-on-scroll">
           <div class="section-eyebrow">
             <span class="dot"></span>
             05. Awards & Recognition
@@ -479,7 +480,7 @@
         </div>
 
         <!-- Achievements Grid -->
-        <div class="achievements-grid" id="achievements-grid"></div>
+        <div class="achievements-grid reveal-on-scroll" id="achievements-grid"></div>
       </div>
     </section>
 
@@ -489,18 +490,18 @@
          ========================================== -->
     <section class="section" id="contact">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal-on-scroll">
           <div class="section-eyebrow">
             <span class="dot"></span>
             06. Connect & Collaborate
           </div>
           <h2 class="section-title">Get In Touch</h2>
           <p class="section-subtitle">
-            Open to engineering roles, research collaborations, and technical inquiries.
+            I am actively seeking new engineering opportunities, research collaborations, and impactful technical roles.
           </p>
         </div>
 
-        <div class="contact-grid">
+        <div class="contact-grid reveal-on-scroll">
           <!-- Direct Contact Cards -->
           <div class="contact-info-col">
             <p class="contact-lead-text">
@@ -632,6 +633,7 @@
   <script src="js/data/certificates.js"></script>
   <script src="js/data/achievements.js"></script>
   <script src="js/data/skills.js"></script>
+  <script src="js/components/backgroundCanvas.js"></script>
   <script src="js/components/workflowRenderer.js"></script>
   <script src="js/components/caseStudyViewer.js"></script>
   <script src="js/components/mediaViewer.js"></script>
