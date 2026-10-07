@@ -9,11 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // 1. Initialize Theme Engine (Dark/Light)
   initThemeEngine();
 
-  // 2. Initialize Ambient Canvas
-  if (window.initBackgroundCanvas) {
-    window.initBackgroundCanvas();
-  }
-
   // 3. Initialize Modals & Viewers
   const caseStudyViewer = new window.CaseStudyViewer();
   const mediaLightboxViewer = new window.MediaLightboxViewer();
@@ -46,9 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 8. Typewriter Hero Animation
   initTypewriter();
-
-  // 9. Scroll Reveal Observer
-  initScrollReveal();
 
   // 10. Profile Photo (progressive enhancement: shows only if the asset exists)
   initProfilePhoto();
@@ -358,24 +350,3 @@ function initProfilePhoto() {
   probe.src = './assets/profile/profile-photo.jpg';
 }
 
-/* ==========================================================================
-   SCROLL REVEAL OBSERVER
-   ========================================================================== */
-function initScrollReveal() {
-  const reveals = document.querySelectorAll('.reveal-on-scroll');
-  if (reveals.length === 0) return;
-
-  const observer = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-revealed');
-        obs.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -30px 0px'
-  });
-
-  reveals.forEach(el => observer.observe(el));
-}
