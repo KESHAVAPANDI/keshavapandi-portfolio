@@ -316,7 +316,7 @@ class MediaLightboxViewer {
 
           <div class="lightbox-info-row">
             <span class="lightbox-info-label">Verification Status</span>
-            <span style="font-size: 0.9375rem; color: var(--accent-emerald); font-weight:600; display:flex; align-items:center; gap:0.4rem;">
+            <span style="font-size: 0.95rem; color: var(--accent-emerald); font-weight:600; display:flex; align-items:center; gap:0.4rem;">
               <span class="status-dot"></span> ${item.date || 'Verified'}
             </span>
           </div>
@@ -360,7 +360,7 @@ class MediaLightboxViewer {
           <button class="lightbox-nav-btn" id="lightbox-nav-prev" ${total <= 1 ? 'disabled' : ''} aria-label="Previous certificate">
             \u2190 Previous
           </button>
-          <span style="font-family:var(--font-mono); font-size:0.8125rem; color:var(--text-muted);">
+          <span style="font-family:var(--font-mono); font-size:0.84rem; color:var(--text-muted);">
             ${footerHint}
           </span>
           <button class="lightbox-nav-btn" id="lightbox-nav-next" ${total <= 1 ? 'disabled' : ''} aria-label="Next certificate">
