@@ -24,6 +24,7 @@
 [data-theme="light"] .workflow-container {
   background: #FFFFFF;
   border-color: rgba(15, 23, 42, 0.12);
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
 }
 
 .workflow-diagram-header {
@@ -35,17 +36,17 @@
 
 .workflow-diagram-title {
   font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-size: 0.88rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--text-muted);
+  color: var(--accent-cyan);
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
 [data-theme="light"] .workflow-diagram-title {
-  color: var(--text-muted);
+  color: var(--accent-sky);
 }
 
 /* Responsive Grid Flow Track */
@@ -59,30 +60,35 @@
 
 /* Single Step Node */
 .pipeline-node {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-subtle);
+  background: rgba(18, 26, 42, 0.85);
+  border: 1px solid var(--border-accent);
   border-radius: var(--radius-md);
-  padding: 1rem;
+  padding: 1.1rem 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
   position: relative;
-  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="light"] .pipeline-node {
   background: #F8FAFC;
-  border-color: var(--border-subtle);
+  border-color: rgba(2, 132, 199, 0.22);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
 }
 
 .pipeline-node:hover {
-  border-color: var(--border-medium);
-  background: var(--bg-elevated);
+  transform: translateY(-3px);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 8px 25px rgba(0, 240, 255, 0.25);
+  background: rgba(22, 33, 54, 0.95);
 }
 
 [data-theme="light"] .pipeline-node:hover {
   background: #FFFFFF;
-  border-color: var(--border-medium);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 8px 20px rgba(2, 132, 199, 0.15);
 }
 
 .node-header-row {
@@ -94,32 +100,32 @@
 
 .node-step-badge {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-secondary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-sky);
   text-transform: uppercase;
-  background: var(--bg-elevated);
+  background: rgba(56, 189, 248, 0.1);
   padding: 0.15rem 0.45rem;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid rgba(56, 189, 248, 0.2);
 }
 
 [data-theme="light"] .node-step-badge {
-  color: var(--text-secondary);
-  background: var(--bg-tertiary);
-  border-color: var(--border-subtle);
+  color: #0284C7;
+  background: rgba(2, 132, 199, 0.08);
+  border-color: rgba(2, 132, 199, 0.2);
 }
 
 .node-arrow-inline {
   font-family: var(--font-mono);
-  font-size: 0.9375rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  color: var(--text-muted);
+  color: var(--accent-cyan);
   transition: transform var(--transition-fast);
 }
 
 [data-theme="light"] .node-arrow-inline {
-  color: var(--text-muted);
+  color: var(--accent-sky);
 }
 
 .pipeline-node:hover .node-arrow-inline {
@@ -127,15 +133,15 @@
 }
 
 .node-end-dot {
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   color: var(--accent-emerald);
   font-weight: 700;
 }
 
 .node-title {
   font-family: var(--font-display);
-  font-size: 0.9375rem;
-  font-weight: 600;
+  font-size: 0.92rem;
+  font-weight: 700;
   color: var(--text-primary);
   line-height: 1.35;
 }
@@ -145,7 +151,7 @@
 }
 
 .node-desc {
-  font-size: 0.8125rem;
+  font-size: 0.78rem;
   color: var(--text-muted);
   line-height: 1.45;
   margin-top: 0.1rem;

@@ -5,7 +5,7 @@
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
-  gap: 3rem;
+  gap: 3.5rem;
   align-items: start;
 }
 
@@ -16,7 +16,7 @@
 }
 
 .contact-lead-text {
-  font-size: 1.125rem;
+  font-size: 1.1rem;
   line-height: 1.7;
   color: var(--text-secondary);
 }
@@ -43,18 +43,20 @@
 .contact-card-item:hover {
   border-color: var(--border-medium);
   background: var(--bg-card-hover);
+  transform: translateX(4px);
+  box-shadow: var(--shadow-sm);
 }
 
 .contact-card-icon {
   width: 44px;
   height: 44px;
   border-radius: var(--radius-sm);
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-subtle);
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid var(--border-accent);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-secondary);
+  color: var(--accent-cyan);
   flex-shrink: 0;
 }
 
@@ -74,7 +76,7 @@
 
 .contact-card-value {
   font-weight: 600;
-  font-size: 0.9375rem;
+  font-size: 0.95rem;
   color: var(--text-primary);
 }
 
@@ -83,7 +85,8 @@
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: 2rem;
+  padding: 2.25rem;
+  box-shadow: var(--shadow-sm);
   position: relative;
 }
 
@@ -101,7 +104,7 @@
 
 .form-label {
   font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-primary);
 }
@@ -109,31 +112,21 @@
 .form-input,
 .form-textarea {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.85rem 1.15rem;
   background: var(--bg-input);
   border: 1px solid var(--border-medium);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   color: var(--text-primary);
   font-family: var(--font-sans);
-  font-size: 0.9375rem;
+  font-size: 0.95rem;
   outline: none;
   transition: all var(--transition-fast);
 }
 
-.form-input::placeholder,
-.form-textarea::placeholder {
-  color: var(--text-dim);
-}
-
-.form-input:hover,
-.form-textarea:hover {
-  border-color: var(--border-strong);
-}
-
 .form-input:focus,
 .form-textarea:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
 }
 
 .form-textarea {
@@ -147,7 +140,7 @@
   padding: 1.5rem;
   border-radius: var(--radius-md);
   text-align: center;
-  font-size: 0.9375rem;
+  font-size: 0.95rem;
   line-height: 1.6;
 }
 
