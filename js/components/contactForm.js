@@ -47,7 +47,7 @@ function initContactForm() {
         if (statusBox) {
           statusBox.className = 'form-status-box is-success';
           statusBox.innerHTML = `
-            <h4 style="font-size:1.15rem; font-weight:700; margin-bottom:0.45rem; color:#34D399;">Message Transmitted Successfully!</h4>
+            <h4 style="font-size:1.125rem; font-weight:600; margin-bottom:0.45rem; color:#34D399;">Message Transmitted Successfully!</h4>
             <p>Thank you for reaching out. I have received your message and will get back to you shortly.</p>
           `;
         }
