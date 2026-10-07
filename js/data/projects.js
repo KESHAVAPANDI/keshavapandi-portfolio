@@ -1,7 +1,7 @@
 /**
  * PROJECTS DATA REPOSITORY
  * Authoritative source of truth for all projects, case studies, and architecture workflows.
- * Exactly 10 projects (6 AI Projects, 4 Software & Web Projects).
+ * Exactly 11 projects (7 AI Projects, 4 Software & Web Projects).
  */
 
 const projectsData = [
@@ -56,9 +56,9 @@ const projectsData = [
     period: "2024 – 2025",
     description: "An AI computer vision module that cleans and enhances bank cheque images by removing grid lines, symbols, and noise, preserving only meaningful text to improve OCR accuracy.",
     technologies: ["Python", "OpenCV", "NumPy", "Computer Vision", "Adaptive Thresholding"],
-    thumbnail: null,
+    thumbnail: "assets/projects/rbg-ocr/pipeline-overview.jpg",
     video: null,
-    screenshots: [],
+    screenshots: ["assets/projects/rbg-ocr/pipeline-overview.jpg", "assets/projects/rbg-ocr/field-detection.jpg", "assets/projects/rbg-ocr/cleaned-output.jpg"],
     github: "https://github.com/KESHAVAPANDI/RBG-AI-Internship",
     demo: null,
     overview: "Developed during an internship at RBG AI, this module preprocesses financial documents and bank cheques by stripping noise, grid lines, security background patterns, and stamps to preserve crisp text contours for downstream OCR engines.",
@@ -91,9 +91,9 @@ const projectsData = [
     period: "2024 – 2025",
     description: "An optimized text-to-image generation system built with Stable Diffusion and LCM-LoRA, designed for low-latency neural image synthesis on limited GPU resources.",
     technologies: ["Stable Diffusion", "LCM-LoRA", "PyTorch", "Diffusers", "Python", "CUDA"],
-    thumbnail: null,
+    thumbnail: "assets/projects/text-to-image/output-1.jpg",
     video: null,
-    screenshots: [],
+    screenshots: ["assets/projects/text-to-image/output-1.jpg", "assets/projects/text-to-image/output-2.jpg", "assets/projects/text-to-image/output-3.jpg", "assets/projects/text-to-image/output-4.jpg"],
     github: "https://github.com/KESHAVAPANDI/text-to-image-generation",
     demo: null,
     overview: "Standard diffusion models require 25 to 50 denoising iterations, demanding significant compute time. This project implements an accelerated local inference pipeline using Latent Consistency Models and Low-Rank Adaptation (LCM-LoRA) to generate high-resolution visual assets in as few as 4-8 inference steps.",
@@ -125,9 +125,9 @@ const projectsData = [
     period: "2025 – 2026",
     description: "A voice-first desktop AI assistant powered by LLMs, speech recognition, and text-to-speech, with vision, persistent memory, and tool use for task automation.",
     technologies: ["Python", "LLMs", "Speech-to-Text", "Text-to-Speech", "WebSockets", "Event-Driven Architecture"],
-    thumbnail: null,
+    thumbnail: "assets/projects/sera-desktop-assistant/state-idle.jpg",
     video: null,
-    screenshots: [],
+    screenshots: ["assets/projects/sera-desktop-assistant/state-idle.jpg", "assets/projects/sera-desktop-assistant/state-listening.jpg", "assets/projects/sera-desktop-assistant/state-thinking.jpg", "assets/projects/sera-desktop-assistant/state-planning.jpg", "assets/projects/sera-desktop-assistant/state-speaking.jpg", "assets/projects/sera-desktop-assistant/state-completed.jpg"],
     github: "https://github.com/KESHAVAPANDI/SERA-Desktop-Agent",
     demo: null,
     overview: "SERA (Semantic Execution & Runtime Assistant) is an agentic desktop assistant powered by LLMs, STT, TTS, vision, memory, and tools. It supports voice and hotkey activation with intelligent fallback across processing systems, enabling conversations, contextual understanding, task automation, and information retrieval.",
