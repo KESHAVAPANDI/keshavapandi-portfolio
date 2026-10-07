@@ -26,6 +26,8 @@ const skillsData = [
       { name: "Deep Learning", type: "primary" },
       { name: "Transformers & Attention", type: "primary" },
       { name: "Stable Diffusion & LoRA", type: "primary" },
+      { name: "SDXL", type: "primary" },
+      { name: "LCM-LoRA", type: "primary" },
       { name: "PyTorch", type: "primary" },
       { name: "Scikit-Learn", type: "primary" },
       { name: "Model Deployment", type: "primary" },

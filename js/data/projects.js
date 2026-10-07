@@ -116,6 +116,40 @@ const projectsData = [
     outcome: "Achieved substantial reduction in inference computation time while maintaining sharp visual quality on consumer hardware."
   },
   {
+    id: "sera-desktop-assistant",
+    title: "SERA — Desktop AI Assistant",
+    type: "ai",
+    category: "Agentic AI & Voice Interfaces",
+    tagType: "ai",
+    isInternship: false,
+    period: "2025 – 2026",
+    description: "A voice-first desktop AI assistant powered by LLMs, speech recognition, and text-to-speech, with vision, persistent memory, and tool use for task automation.",
+    technologies: ["Python", "LLMs", "Speech-to-Text", "Text-to-Speech", "WebSockets", "Event-Driven Architecture"],
+    thumbnail: null,
+    video: null,
+    screenshots: [],
+    github: "https://github.com/KESHAVAPANDI/SERA-Desktop-Agent",
+    demo: null,
+    overview: "SERA (Semantic Execution & Runtime Assistant) is an agentic desktop assistant powered by LLMs, STT, TTS, vision, memory, and tools. It supports voice and hotkey activation with intelligent fallback across processing systems, enabling conversations, contextual understanding, task automation, and information retrieval.",
+    problem: "Most desktop assistants are cloud-bound, single-turn, and disconnected from the local machine, so they cannot act on the user's actual environment or hold context across interactions.",
+    solution: "Built SERA as a local-first agent: an LLM core with speech input and output, vision, and persistent memory, plus a tool layer for acting on the desktop, all coordinated through an event bus with explicit runtime states.",
+    howItWorks: "Voice or hotkey activation wakes the assistant. Speech is transcribed and reasoned over by the LLM with memory context, actions run through the tool layer, and responses are spoken back via TTS. A WebSocket gateway streams live state to the interface, where a single persistent 2.5D core character reflects every state of the assistant.",
+    features: [
+      "Voice and hotkey activation with intelligent fallback across processing systems",
+      "Conversational task automation and information retrieval",
+      "Persistent memory for personalized, contextual interactions",
+      "A single persistent 2.5D core character visualizing the assistant's live state"
+    ],
+    workflow: [
+      { step: "01", title: "Wake & Listen", desc: "Voice or hotkey activation starts the interaction loop" },
+      { step: "02", title: "Transcribe", desc: "Speech-to-text converts the request into structured input" },
+      { step: "03", title: "Reason & Plan", desc: "LLM reasons over the request with memory context" },
+      { step: "04", title: "Execute", desc: "Tool layer carries out the planned actions on the desktop" },
+      { step: "05", title: "Respond", desc: "Spoken reply via TTS, synced with the core character's state" }
+    ],
+    outcome: "A working local-first desktop agent that converses, remembers, and acts on the machine, with a living visual presence instead of a static chat window."
+  },
+  {
     id: "transformo-docs",
     title: "Transformo Docs - Document Processing Pipeline",
     type: "ai",
