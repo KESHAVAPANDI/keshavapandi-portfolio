@@ -100,7 +100,7 @@
     --header-height: 64px;
     --anchor-gap: 1.25rem;
     --header-offset: calc(var(--header-height) + var(--anchor-gap));
-    --section-padding: 3.85rem;
+    --section-padding: 4rem;
   }
 
   /* Header & Navigation Bar Reflow */
@@ -132,16 +132,16 @@
 
   .section-eyebrow {
     font-size: 0.75rem;
-    padding: 0.2rem 0.65rem;
+    padding: 0;
   }
 
   .section-title {
-    font-size: clamp(1.65rem, 6.2vw, 2.25rem);
+    font-size: clamp(1.5rem, 6.2vw, 2.25rem);
     letter-spacing: -0.02em;
   }
 
   .section-subtitle {
-    font-size: clamp(0.92rem, 3.4vw, 1.02rem);
+    font-size: clamp(0.875rem, 3.4vw, 1rem);
     line-height: 1.65;
   }
 
@@ -153,12 +153,12 @@
   }
 
   .hero-greeting {
-    font-size: clamp(0.92rem, 3.2vw, 1.05rem);
+    font-size: clamp(0.875rem, 3.2vw, 1rem);
   }
 
   .hero-title {
-    font-size: clamp(1.95rem, 8vw, 3.25rem);
-    font-weight: 900;
+    font-size: clamp(1.875rem, 8vw, 3.25rem);
+    font-weight: 700;
     line-height: 1.14;
     margin-bottom: 0.65rem;
   }
@@ -173,13 +173,13 @@
   }
 
   .hero-role-wrapper {
-    font-size: clamp(1.2rem, 5.2vw, 1.85rem);
+    font-size: clamp(1.25rem, 5.2vw, 1.875rem);
     min-height: 2.2rem;
     margin-bottom: 1rem;
   }
 
   .hero-desc {
-    font-size: clamp(0.92rem, 3.5vw, 1.02rem);
+    font-size: clamp(0.875rem, 3.5vw, 1rem);
     line-height: 1.7;
     margin-bottom: 1.5rem;
     max-width: 100%;
@@ -191,7 +191,7 @@
 
   .code-body {
     padding: 1rem;
-    font-size: 0.78rem;
+    font-size: 0.8125rem;
     line-height: 1.6;
   }
 
@@ -244,7 +244,7 @@
   .watch-close-btn {
     width: 44px;
     height: 44px;
-    font-size: 1.3rem;
+    font-size: 1.25rem;
   }
 
   .watch-player-tabs {
@@ -253,7 +253,7 @@
   }
 
   .watch-tab {
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     padding: 0.38rem 0.7rem;
   }
 
@@ -263,7 +263,7 @@
   }
 
   .watch-title {
-    font-size: clamp(1.12rem, 4.8vw, 1.3rem);
+    font-size: clamp(1.125rem, 4.8vw, 1.25rem);
   }
 
   /* Title block stacks on narrow screens; actions stay right-aligned */
@@ -278,7 +278,7 @@
 
   .watch-action-btn {
     flex: 0 0 auto;
-    font-size: 0.82rem;
+    font-size: 0.8125rem;
     padding: 0.6rem 1rem;
   }
 
@@ -292,7 +292,7 @@
   }
 
   .watch-desc-text {
-    font-size: 0.9rem;
+    font-size: 0.9375rem;
   }
 
   .watch-details > * {
@@ -327,7 +327,7 @@
   }
 
   .workflow-diagram-title {
-    font-size: 0.82rem;
+    font-size: 0.8125rem;
   }
 
   .workflow-pipeline {
@@ -373,7 +373,7 @@
   }
 
   .lightbox-title {
-    font-size: clamp(1.08rem, 3.8vw, 1.25rem);
+    font-size: clamp(1.125rem, 3.8vw, 1.25rem);
   }
 
   .lightbox-body {
@@ -434,11 +434,11 @@
   }
 
   .lightbox-info-value {
-    font-size: 0.98rem;
+    font-size: 1rem;
   }
 
   .lightbox-info-desc {
-    font-size: 0.88rem;
+    font-size: 0.875rem;
     line-height: 1.6;
   }
 
@@ -473,14 +473,14 @@
   }
 
   .skill-tab-btn {
-    font-size: 0.78rem;
+    font-size: 0.8125rem;
     padding: 0.35rem 0.7rem;
     min-height: 36px;
   }
 
   /* Contact Section */
   .contact-lead-text {
-    font-size: 0.98rem;
+    font-size: 1rem;
     line-height: 1.65;
   }
 
@@ -495,7 +495,7 @@
 
   .form-input,
   .form-textarea {
-    font-size: 16px; /* Prevents auto-zoom on iOS Safari */
+    font-size: 1rem; /* Prevents auto-zoom on iOS Safari */
     padding: 0.8rem 1rem;
   }
 
@@ -514,7 +514,7 @@
     --header-height: 60px;
     --anchor-gap: 1.15rem;
     --header-offset: calc(var(--header-height) + var(--anchor-gap));
-    --section-padding: 3.25rem;
+    --section-padding: 3rem;
   }
 
   .container {
@@ -523,13 +523,13 @@
   }
 
   .site-logo {
-    font-size: 1.15rem;
+    font-size: 1.125rem;
   }
 
   .logo-badge {
     width: 32px;
     height: 32px;
-    font-size: 0.85rem;
+    font-size: 0.875rem;
   }
 
   /* Hero Section Stacking */
@@ -548,7 +548,7 @@
     width: 100%;
     justify-content: center;
     min-height: 48px;
-    font-size: 0.92rem;
+    font-size: 0.9375rem;
   }
 
   .hero-metrics {
@@ -574,7 +574,7 @@
   }
 
   .about-text-col {
-    font-size: 0.95rem;
+    font-size: 0.9375rem;
     line-height: 1.7;
   }
 
